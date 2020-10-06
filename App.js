@@ -1,7 +1,11 @@
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Platform, Text, View, Image, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as Sharing from 'expo-sharing'; 
+import uploadToAnonymousFilesAsync from 'anonymous-files'; 
 import reading from './assets/reading.png';
 import sharePhoto from './assets/sharePhoto.png';
 import largeTitle from './assets/largeTitle.png';
@@ -23,38 +27,61 @@ export default function App() {
       return;
     }
 
-    setSelectedImage({ localUri: pickerResult.uri});
+    // workaround for web sharing
+    if (Platform.OS === 'web') {
+      let remoteUri = await uploadToAnonymousFilesAsync(pickerResult.uri);
+      setSelectedImage({ localUri: pickerResult.uri, remoteUri });
+    } else {
+      setSelectedImage({ localUri: pickerResult.uri, remoteUri: null });
+    } 
   };
+
+  let openShareDialogAsync = async () => {
+    if (!(await Sharing.isAvailableAsync())) {
+      alert(`The image is available for sharing at: ${selectedImage.remoteUri}`);
+      return;
+    }
+
+    await Sharing.shareAsync(selectedImage.localUri);
+  }; 
 
   if(selectedImage !== null) {
     return (
-      <View style={styles.container}>
-        <Image
-          source={{ uri: selectedImage.localUri }}
-          style={styles.thumbnail}
-        />
-      </View>
+      // must wrap all code in navigation container
+      <NavigationContainer>
+        <View style={styles.container}>
+          <Image
+            source={{ uri: selectedImage.localUri }}
+            style={styles.thumbnail}
+          />
+          <TouchableOpacity onPress={openShareDialogAsync} style={styles.button}>
+            <Text style={styles.buttonText}>Share this photo</Text>
+          </TouchableOpacity>
+        </View>
+      </NavigationContainer>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Image source={largeTitle} style={styles.appLogo} />
-      <View style={styles.logoContainer}>
-        <Image source={reading} style={styles.logo} />
-        <Image source={sharePhoto} style={styles.logo} />
-      </View>
-      <Text style={styles.instructions}>
-        To share a photo from your phone with a friend, just press the button below!
-      </Text>
-      <StatusBar style="auto" />
+    <NavigationContainer>
+      <View style={styles.container}>
+        <Image source={largeTitle} style={styles.appLogo} />
+        <View style={styles.logoContainer}>
+          <Image source={reading} style={styles.logo} />
+          <Image source={sharePhoto} style={styles.logo} />
+        </View>
+        <Text style={styles.instructions}>
+          To share a photo from your phone with a friend, just press the button below!
+        </Text>
+        <StatusBar style="auto" />
 
-      <TouchableOpacity
-        onPress={openImagePickerAsync}
-        style={styles.button}>
-        <Text style={styles.buttonText}>Pick a photo</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          onPress={openImagePickerAsync}
+          style={styles.button}>
+          <Text style={styles.buttonText}>Pick a photo</Text>
+        </TouchableOpacity>
+      </View>
+    </NavigationContainer>
   );
 }
 
