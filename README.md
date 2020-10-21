@@ -9,7 +9,7 @@ Description:
 
 ## How to Start App
 
-###iOS
+### iOS
 In the root directory
 
 Install dependencies: npm install
@@ -20,13 +20,13 @@ Install Pods: pod install
 Install xcpretty: gem install xcpretty
 Launch: open Sample.xcworkspace
 
-###Android
+### Android
 
 You might need to do this to run it in Android Studio or on real device: adb reverse tcp:8081 tcp:8081
 And for the sample server: adb reverse tcp:3000 tcp:3000
 To run from command line try: react-native run-android
 
-###Server
+### Server
 
 There is a server that the app hits for data. The data is only stored in memory, but it should produce a more realistic environment.
 
