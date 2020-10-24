@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import reading from './assets/reading.png';
 import sharePhoto from './assets/sharePhoto.png';
-import largeTitle from './assets/largeTitle.png';
+import largeTitle from './assets/largeTitle.png'; 
 
 export default function App() {
   let openImagePickerAsync = async () => {
