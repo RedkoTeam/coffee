@@ -34,11 +34,32 @@ const styles = StyleSheet.create({
     flex: .25,
     flexDirection: 'row',
   },
+  authButton1: {
+    right: 90,
+    top: 20
+  },
+  authButton2: {
+    left: 90,
+    top: 20
+  },
+  appTitle: {
+    paddingBottom: 20
+  },
+  cardTitle: {
+    paddingTop: 15,
+    paddingBottom: 5
+  },
   circleContainer: {
     flex: .5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  circleL: {
+    left: 145
+  },
+  circleR: {
+    right: 145
   },
   cardContainer: {
     flex: 1,
@@ -46,6 +67,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     aspectRatio: 1,
+  },
+  cardL: {
+    position: 'absolute',
+    left: -200,
+    bottom: -150,
+  },
+  cardM: {
+    position: 'absolute',
+    left: -110,
+    bottom: -150,
+  },
+  cardR: {
+    position: 'absolute',
+    bottom: -150,
+    right: -200,
   },
   iconContainer: {
     flex: .5,
@@ -59,44 +95,60 @@ const styles = StyleSheet.create({
 function HomeScreen({navigation}) {
   return (
     <View style={styles.mainContainer}>
-      <Text>Home Screen</Text>
-      
       <View style={styles.auth}>
         <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-          <Image source={SignUpButton} />
+          <Image 
+            source={SignUpButton}
+            style={styles.authButton1}
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-          <Image source={SignInButton} />
+          <Image 
+            source={SignInButton} 
+            style={styles.authButton2}
+          />
         </TouchableOpacity>
       </View>
-
-      <View>
+      <View style={styles.appTitle}>
         <Image source={LargeTitleApp} />
       </View>
-
       <View style={styles.circleContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
-          <Image source={VirtualCoffee} />
+          <Image 
+            source={VirtualCoffee} 
+            style={styles.circleL}
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('PhotoReading')}>
-          <Image source={TakePhoto} />
+          <Image 
+            source={TakePhoto} 
+            style={styles.circleR}
+          />
         </TouchableOpacity>
       </View>
-
-      <View>
+      <View style={styles.cardTitle}>
         <Image source={PickCard} />
       </View>
-
       <View style={styles.cardContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
-          <Image source={LeftCard} />
+          <Image 
+            source={LeftCard}
+            style={styles.cardL}
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('PhotoReading')}>
-          <Image source={MiddleCard} />
+          <Image
+            source={RightCard}
+            style={styles.cardR}
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('PhotoReading')}>
-          <Image source={RightCard} />
+          <Image 
+            source={MiddleCard}
+            style={styles.cardM}
+          />
         </TouchableOpacity>
+        
       </View>
       
       <View style={styles.iconContainer}>
