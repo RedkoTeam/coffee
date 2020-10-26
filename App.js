@@ -1,80 +1,98 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import reading from './assets/reading.png';
-import sharePhoto from './assets/sharePhoto.png';
-import largeTitle from './assets/largeTitle.png'; 
 
-export default function App() {
-  let openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+import * as React from 'react';
+import { Button, View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    console.log(pickerResult);
-  }
-
+function HomeScreen({navigation}) {
   return (
-    <View style={styles.container}>
-      <Image source={largeTitle} style={styles.appLogo} />
-      <View style={styles.logoContainer}>
-        <Image source={reading} style={styles.logo} />
-        <Image source={sharePhoto} style={styles.logo} />
-      </View>
-      <Text style={styles.instructions}>
-        To share a photo from your phone with a friend, just press the button below!
-      </Text>
-      <StatusBar style="auto" />
-
-      <TouchableOpacity
-        onPress={openImagePickerAsync}
-        style={styles.button}>
-        <Text style={styles.buttonText}>Pick a photo</Text>
-      </TouchableOpacity>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+      <Button
+        title="Go to Favorites"
+        onPress={() => navigation.navigate('Favorites')}
+      />
+      <Button
+        title="Go to Shop"
+        onPress={() => navigation.navigate('Shop')}
+      />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#E5E5E5',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoContainer: {
-    flexDirection: "row",
-    padding: 20,
-  },
-  logo: {
-    width: 160,
-    height: 130,
-    marginHorizontal: 10,
-  },
-  appLogo: {
-    width: 320,
-    height: 38,
-    paddingBottom: 30
-  },
-  instructions: {
-    color: '#888',
-    fontSize: 18,
-    marginHorizontal: 15,
-  }, 
-  button: {
-    backgroundColor: "blue",
-    padding: 20,
-    borderRadius: 5,
-  },
-  buttonText: {
-    fontSize: 20,
-    color: '#fff',
-  }, 
+function FavoritesScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Favorites Screen</Text>
+    </View>
+  )
+}
 
-});
+function ShopScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Shop Screen</Text>
+    </View>
+  )
+}
 
+function VirtualCoffeeReadingScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Virtual Coffee Reading Screen</Text>
+    </View>
+  )
+}
+
+function VirtualLoadingScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Virtual Loading Screen</Text>
+    </View>
+  )
+}
+
+function PhotoReadingScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Photo Reading Screen</Text>
+    </View>
+  )
+}
+
+function SignUpScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Sign Up Screen</Text>
+    </View>
+  )
+}
+
+function SignInScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Sign In Screen</Text>
+    </View>
+  )
+}
+
+const Stack = createStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Favorites" component={FavoritesScreen} />
+        <Stack.Screen name="Virtual" component={VirtualCoffeeReadingScreen} />
+        <Stack.Screen name="VirtualLoading" component={VirtualLoadingScreen} />
+        <Stack.Screen name="PhotoReading" component={PhotoReadingScreen} />
+        <Stack.Screen name="Shop" component={ShopScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="SignIn" component={SignInScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default App;
