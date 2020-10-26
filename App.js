@@ -1,28 +1,51 @@
 
 import * as React from 'react';
-import { Button, View, Text, Image, TouchableOpacity, } from 'react-native';
+import { Button, View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import FavHeart from './assets/FortuneCoffeePNGassets/NavTargetFavorites.png';
+import ShopIcon from './assets/FortuneCoffeePNGassets/ShopIcon.png';
+import TakePhoto from './assets/FortuneCoffeePNGassets/TakePhoto.png';
+import VirtualCoffee from './assets/FortuneCoffeePNGassets/VirtualCoffee.png';
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: '#070631',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  circleContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 function HomeScreen({navigation}) {
   return (
-    <View style={{
-      flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:
-        '#070631' }}>
+    <View style={styles.mainContainer}>
       <Text>Home Screen</Text>
-      <TouchableOpacity>
-        <Image
-          source={FavHeart}
-          onPress={() => navigation.navigate('Favorites')}
-        />
+      <View style={styles.circleContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
+          <Image source={VirtualCoffee} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('PhotoReading')}>
+          <Image source={TakePhoto} />
+        </TouchableOpacity>
+
+      </View>
+
+      <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
+        <Image source={FavHeart}/>
       </TouchableOpacity>
-      
-      <Button
-        title="Go to Shop"
-        onPress={() => navigation.navigate('Shop')}
-      />
+  
+      <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
+        <Image source={ShopIcon}/>
+      </TouchableOpacity>
+  
     </View>
   );
 }
