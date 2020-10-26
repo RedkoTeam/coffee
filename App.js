@@ -113,15 +113,15 @@ function HomeScreen({navigation}) {
         <Image source={LargeTitleApp} />
       </View>
       <View style={styles.circleContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
-          <Image 
-            source={VirtualCoffee} 
-            style={styles.circleL}
-          />
-        </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('PhotoReading')}>
           <Image 
             source={TakePhoto} 
+            style={styles.circleL}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
+          <Image 
+            source={VirtualCoffee} 
             style={styles.circleR}
           />
         </TouchableOpacity>
