@@ -1,17 +1,24 @@
 
 import * as React from 'react';
-import { Button, View, Text } from 'react-native';
+import { Button, View, Text, Image, TouchableOpacity, } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import FavHeart from './assets/FortuneCoffeePNGassets/NavTargetFavorites.png';
+
 function HomeScreen({navigation}) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{
+      flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:
+        '#070631' }}>
       <Text>Home Screen</Text>
-      <Button
-        title="Go to Favorites"
-        onPress={() => navigation.navigate('Favorites')}
-      />
+      <TouchableOpacity>
+        <Image
+          source={FavHeart}
+          onPress={() => navigation.navigate('Favorites')}
+        />
+      </TouchableOpacity>
+      
       <Button
         title="Go to Shop"
         onPress={() => navigation.navigate('Shop')}
