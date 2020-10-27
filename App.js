@@ -22,6 +22,9 @@ import PickCard from './assets/FortuneCoffeePNGassets/PickCard.png';
 import RightCard from './assets/FortuneCoffeePNGassets/RightCard.png';
 import MiddleCard from './assets/FortuneCoffeePNGassets/MiddleCard.png';
 import LeftCard from './assets/FortuneCoffeePNGassets/LeftCard.png';
+import Love from './assets/FortuneCoffeePNGassets/Love.png';
+import Work from './assets/FortuneCoffeePNGassets/Work.png';
+import Wish from './assets/FortuneCoffeePNGassets/Wish.png';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -68,6 +71,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     aspectRatio: 1,
   },
+  cardTitleContainer: {
+    flex: .01,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    
+  },
   cardL: {
     position: 'absolute',
     left: -200,
@@ -82,6 +92,21 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: -150,
     right: -200,
+  },
+  love: {
+    position: 'absolute',
+    bottom: -50,
+    left: -160
+  },
+  wish: {
+    position: 'absolute',
+    bottom: -25,
+    left: -25
+  },
+  work: {
+    position: 'absolute',
+    bottom: -50,
+    right: -160
   },
   iconContainer: {
     flex: .5,
@@ -122,6 +147,26 @@ function HomeScreen({navigation}) {
       </View>
       <View style={styles.cardTitle}>
         <Image source={PickCard} />
+      </View>
+      <View style={styles.cardTitleContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
+          <Image
+            source={Love}
+            style={styles.love}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
+          <Image
+            source={Work}
+            style={styles.work}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
+          <Image
+            source={Wish}
+            style={styles.wish}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.cardContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
