@@ -96,17 +96,11 @@ function HomeScreen({navigation}) {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.auth}>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-          <Image 
-            source={SignUpButton}
-            style={styles.authButton1}
-          />
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.authButton1}>
+          <Image source={SignUpButton}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-          <Image 
-            source={SignInButton} 
-            style={styles.authButton2}
-          />
+        <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.authButton2}>
+          <Image source={SignInButton} />
         </TouchableOpacity>
       </View>
       <View style={styles.appTitle}>
