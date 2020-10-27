@@ -69,14 +69,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    aspectRatio: 1,
+    
   },
   cardTitleContainer: {
     flex: .01,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    
   },
   cardL: {
     position: 'absolute',
