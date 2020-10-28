@@ -89,13 +89,12 @@ const styles = StyleSheet.create({
   },
   homeIcon: {
     bottom: -10,
-    left: -3
+    left: -0
   },
   shopIcon: {
     bottom: -10,
     right: -130
   },
-  
 });
 
 ////////////////////
