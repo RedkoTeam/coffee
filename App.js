@@ -7,13 +7,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 ////////////////////
 // IMAGES & ICONS //
 ////////////////////
-import FavHeart from './assets/FortuneCoffeePNGassets/NavTargetFavorites.png';
-import HomeIcon from './assets/FortuneCoffeePNGassets/HomeIcon.png';
-import ShopIcon from './assets/FortuneCoffeePNGassets/ShopIcon.png';
+
 import TakePhoto from './assets/FortuneCoffeePNGassets/TakePhoto.png';
-import Home from './assets/FortuneCoffeePNGassets/Home.png';
-import Shop from './assets/FortuneCoffeePNGassets/Shop.png';
-import Favorites from './assets/FortuneCoffeePNGassets/Favorites.png';
+import Home from './assets/FortuneCoffeePNGassets/homeBoth.png';
+import Shop from './assets/FortuneCoffeePNGassets/shopBoth.png';
+import Favorites from './assets/FortuneCoffeePNGassets/favoritesBoth.png';
 import VirtualCoffee from './assets/FortuneCoffeePNGassets/VirtualCoffee.png';
 import SignInButton from './assets/FortuneCoffeePNGassets/SignInButton.png';
 import SignUpButton from './assets/FortuneCoffeePNGassets/SignUpButton.png';
@@ -85,6 +83,7 @@ const styles = StyleSheet.create({
   },
   cardL: {
     position: 'absolute',
+    flex: 1,
     left: -200,
     bottom: -150,
   },
@@ -100,25 +99,25 @@ const styles = StyleSheet.create({
   },
   love: {
     position: 'absolute',
-    bottom: -50,
+    bottom: -65,
     left: -160
   },
   wish: {
     position: 'absolute',
-    bottom: -25,
+    bottom: -35,
     left: -25
   },
   work: {
     position: 'absolute',
-    bottom: -50,
+    bottom: -65,
     right: -160
   },
-  iconContainer: {
-    flex: .5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  // iconContainer: {
+  //   flex: .5,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
   ellipse1: {
     position: 'absolute',
     bottom: -0,
@@ -128,6 +127,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: -0,
     left: 0
+  },
+  favIcon: {
+    bottom: -100,
+    left: -130
+  },
+  homeIcon: {
+    bottom: 30,
+    left: -3
+  },
+  shopIcon: {
+    bottom: 15,
+    right: -130
   },
   
 });
@@ -210,20 +221,17 @@ function HomeScreen({navigation}) {
       </View>
         <Image source={Ellipse1} style={styles.ellipse1} />
         <Image source={Ellipse2} style={styles.ellipse2} />
-      <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
-          <Image source={FavHeart}/>
-          <Image source={Favorites}/>
+      {/* <View style={styles.iconContainer}> */}
+      <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={styles.favIcon}>
+          <Image source={Favorites} onPress={() => navigation.navigate('Favorites')}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Image source={HomeIcon} />
-          <Image source={Home} />
+      <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.homeIcon}>
+          <Image source={Home} onPress={() => navigation.navigate('Home')}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
-          <Image source={ShopIcon}/>
+      <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={styles.shopIcon}>
           <Image source={Shop} />
         </TouchableOpacity>
-      </View>
+      {/* </View> */}
   
     </View>
   );
