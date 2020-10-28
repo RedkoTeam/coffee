@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 // IMAGES & ICONS //
 ////////////////////
 
+//HOMEPAGE//
 import TakePhoto from './assets/FortuneCoffeePNGassets/TakePhoto.png';
 import Home from './assets/FortuneCoffeePNGassets/homeBoth.png';
 import Shop from './assets/FortuneCoffeePNGassets/shopBoth.png';
@@ -17,16 +18,14 @@ import SignInButton from './assets/FortuneCoffeePNGassets/SignInButton.png';
 import SignUpButton from './assets/FortuneCoffeePNGassets/SignUpButton.png';
 import LargeTitleApp from './assets/FortuneCoffeePNGassets/LargeTitleApp.png';
 import PickCard from './assets/FortuneCoffeePNGassets/PickCard.png';
-// import RightCard from './assets/FortuneCoffeePNGassets/RightCard.png';
-// import MiddleCard from './assets/FortuneCoffeePNGassets/MiddleCard.png';
-// import LeftCard from './assets/FortuneCoffeePNGassets/LeftCard.png';
-// import Love from './assets/FortuneCoffeePNGassets/Love.png';
-// import Work from './assets/FortuneCoffeePNGassets/Work.png';
-// import Wish from './assets/FortuneCoffeePNGassets/Wish.png';
 import Cards from './assets/FortuneCoffeePNGassets/allCards.png';
 import Ellipse1 from './assets/FortuneCoffeePNGassets/Ellipse6.png';
 import Ellipse2 from './assets/FortuneCoffeePNGassets/Ellipse7.png';
-
+//SHOP PAGE// 
+import Products from './assets/FortuneCoffeePNGassets/Products.png';
+import TurkishCoffee from './assets/FortuneCoffeePNGassets/TurkishCoffee.png';
+import TurkishPot from './assets/FortuneCoffeePNGassets/TurkishPot.png';
+import TurkishCard from './assets/FortuneCoffeePNGassets/TurkishCard.png';
 ////////////////////
 // Styling  //
 ////////////////////
@@ -36,6 +35,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#070631',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  shopContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#070631',
   },
   authContainer: {
     flex: .25,
@@ -95,6 +99,9 @@ const styles = StyleSheet.create({
     bottom: -10,
     right: -130
   },
+  products: {
+    marginVertical: 90
+  },
 });
 
 ////////////////////
@@ -145,8 +152,6 @@ function HomeScreen({navigation}) {
   );
 }
 
-
-
 function FavoritesScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -157,9 +162,12 @@ function FavoritesScreen() {
 
 function ShopScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Shop Screen</Text>
-    </View>
+    <ScrollView contentContainerStyle={styles.shopContainer}>
+      <Image source={Products} style={styles.products} />
+      <Image source={TurkishCoffee} />
+      <Image source={TurkishPot} />
+      <Image source={TurkishCard} />
+    </ScrollView>
   )
 }
 
