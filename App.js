@@ -101,6 +101,8 @@ const styles = StyleSheet.create({
 ////////////////////
 // Screen Layouts //
 ////////////////////
+
+// Completed and Ready for code review
 function HomeScreen({navigation}) {
   return (
     <View style={styles.mainContainer}>
@@ -117,16 +119,10 @@ function HomeScreen({navigation}) {
       </View>
       <View style={styles.circleContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('PhotoReading')}>
-          <Image 
-            source={TakePhoto} 
-            style={styles.circleL}
-          />
+          <Image source={TakePhoto} style={styles.circleL} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
-          <Image 
-            source={VirtualCoffee} 
-            style={styles.circleR}
-          />
+          <Image source={VirtualCoffee} style={styles.circleR}/>
         </TouchableOpacity>
       </View>
       <View style={styles.cardTitle}>
@@ -135,21 +131,17 @@ function HomeScreen({navigation}) {
       <TouchableOpacity onPress={() => navigation.navigate('Virtual')} style={styles.cards}>
         <Image source={Cards} />
       </TouchableOpacity>
-
-        <Image source={Ellipse1} style={styles.ellipse1} />
-        <Image source={Ellipse2} style={styles.ellipse2} />
-
+      <Image source={Ellipse1} style={styles.ellipse1} />
+      <Image source={Ellipse2} style={styles.ellipse2} />
       <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={styles.favIcon}>
-          <Image source={Favorites} onPress={() => navigation.navigate('Favorites')}/>
+          <Image source={Favorites} />
         </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.homeIcon}>
-          <Image source={Home} onPress={() => navigation.navigate('Home')}/>
+          <Image source={Home} />
         </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={styles.shopIcon}>
           <Image source={Shop} />
         </TouchableOpacity>
-      
-  
     </View>
   );
 }
