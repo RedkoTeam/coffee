@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import { Button, View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -25,7 +25,12 @@ import LeftCard from './assets/FortuneCoffeePNGassets/LeftCard.png';
 import Love from './assets/FortuneCoffeePNGassets/Love.png';
 import Work from './assets/FortuneCoffeePNGassets/Work.png';
 import Wish from './assets/FortuneCoffeePNGassets/Wish.png';
+import Ellipse1 from './assets/FortuneCoffeePNGassets/Ellipse6.png';
+import Ellipse2 from './assets/FortuneCoffeePNGassets/Ellipse7.png';
 
+////////////////////
+// Styling  //
+////////////////////
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -33,20 +38,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  auth: {
+  authContainer: {
     flex: .25,
     flexDirection: 'row',
   },
   authButton1: {
     right: 90,
-    top: 20
+    top: 50
   },
   authButton2: {
     left: 90,
-    top: 20
+    top: 50,
   },
   appTitle: {
-    paddingBottom: 20
+    paddingBottom: 10,
+    paddingTop: 20,
   },
   cardTitle: {
     paddingTop: 15,
@@ -66,10 +72,10 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
+    zIndex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    
   },
   cardTitleContainer: {
     flex: .01,
@@ -113,13 +119,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  ellipse1: {
+    position: 'absolute',
+    bottom: -0,
+    left: 0
+  },
+  ellipse2: {
+    position: 'absolute',
+    bottom: -0,
+    left: 0
+  },
   
 });
 
+////////////////////
+// Screen Layouts //
+////////////////////
 function HomeScreen({navigation}) {
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.auth}>
+      <View style={styles.authContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.authButton1}>
           <Image source={SignUpButton}/>
         </TouchableOpacity>
@@ -167,7 +186,9 @@ function HomeScreen({navigation}) {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.cardContainer}>
+
+      {/* TODO: onPress currently not working on anyting with position absolute. Find fix/workaround */}
+      <View style={styles.cardContainer} >
         <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
           <Image 
             source={LeftCard}
@@ -186,9 +207,9 @@ function HomeScreen({navigation}) {
             style={styles.cardM}
           />
         </TouchableOpacity>
-        
       </View>
-      
+        <Image source={Ellipse1} style={styles.ellipse1} />
+        <Image source={Ellipse2} style={styles.ellipse2} />
       <View style={styles.iconContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
           <Image source={FavHeart}/>
@@ -207,6 +228,8 @@ function HomeScreen({navigation}) {
     </View>
   );
 }
+
+
 
 function FavoritesScreen() {
   return (
@@ -264,12 +287,19 @@ function SignInScreen() {
   )
 }
 
+////////////////////
+// Navigation Stack //
+////////////////////
 const Stack = createStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false
+        }}
+      >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Favorites" component={FavoritesScreen} />
         <Stack.Screen name="Virtual" component={VirtualCoffeeReadingScreen} />
