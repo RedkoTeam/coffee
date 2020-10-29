@@ -160,6 +160,7 @@ function FavoritesScreen() {
   )
 }
 
+// Mostly done. Still need back button and add onPress with href to shopify site
 function ShopScreen() {
   return (
     <ScrollView contentContainerStyle={styles.shopContainer}>
