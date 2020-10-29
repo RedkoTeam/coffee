@@ -17,7 +17,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.redko.fortune_coffee",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "package": "com.redko.fortune_coffee",
