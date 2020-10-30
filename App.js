@@ -27,12 +27,12 @@ import TurkishCoffee from './assets/FortuneCoffeePNGassets/TurkishCoffee.png';
 import TurkishPot from './assets/FortuneCoffeePNGassets/TurkishPot.png';
 import TurkishCard from './assets/FortuneCoffeePNGassets/TurkishCard.png';
 // LOGIN PAGE //
-import facebookTitle from './assets/Group6793.png';
-import googleTitle from './assets/Group6805.png';
-import login from './assets/Group6799.png';
-import backgroundPicture from './assets/Union-1.png'
+import facebookTitle from './assets/FortuneCoffeePNGassets/ContinueFacebook.png';
+import googleTitle from './assets/FortuneCoffeePNGassets/ContinueGoogle.png';
+import login from './assets/FortuneCoffeePNGassets/LogInButton.png';
+import backgroundPicture from './assets/FortuneCoffeePNGassets/backgroundPicture.png'
 // SIGNUP PAGE //
-import signin from './assets/Group6799-1.png';
+import signin from './assets/FortuneCoffeePNGassets/signin.png';
 
 ////////////////////
 // Styling  //
