@@ -28,7 +28,12 @@
     "it": "^1.1.1",
     "nvm": "0.0.4",
     "pods": "^2.0.0",
-    "react-native-safe-area-context": "3.1.4"
+    "react-native-safe-area-context": "3.1.4",
+    "js-yaml": ">=3.13.1",
+    "lodash": ">=4.17.19",
+    "node-fetch": ">=2.6.1",
+    "underscore.string": ">=3.3.5"
+
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
