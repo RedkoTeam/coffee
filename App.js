@@ -1,6 +1,6 @@
 
-import * as React from 'react';
-import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -33,6 +33,21 @@ import login from './assets/FortuneCoffeePNGassets/LogInButton.png';
 import backgroundPicture from './assets/FortuneCoffeePNGassets/backgroundPicture.png'
 // SIGNUP PAGE //
 import signin from './assets/FortuneCoffeePNGassets/signin.png';
+// READING ANIMATION PAGE //
+import coffee from './assets/FortuneCoffeePNGassets/readingAnimationPage/coffee.png';
+import readingCoffee from './assets/FortuneCoffeePNGassets/readingAnimationPage/readingCoffee.png';
+import readingAnimationBackground from './assets/FortuneCoffeePNGassets/readingAnimationPage/readingAnimationBackground.png';
+// VIRTUAL COFFEE READING PAGE //
+import backgroundOne from './assets/FortuneCoffeePNGassets/virtualPage/backgroundOne.png';
+import backgroundTwo from './assets/FortuneCoffeePNGassets/virtualPage/backgroundTwo.png';
+import backgroundThree from './assets/FortuneCoffeePNGassets/virtualPage/backgroundThree.png';
+import backgroundFour from './assets/FortuneCoffeePNGassets/virtualPage/backgroundFour.png';
+import backgroundFive from './assets/FortuneCoffeePNGassets/virtualPage/backgroundFive.png';
+import coffee_v from './assets/FortuneCoffeePNGassets/virtualPage/coffee_v.png';
+import dontWantToWaitText from './assets/FortuneCoffeePNGassets/virtualPage/dontWantToWait.png';
+import getCrystalsButton from './assets/FortuneCoffeePNGassets/virtualPage/getCrystalsButton.png';
+import pysicReadingText from './assets/FortuneCoffeePNGassets/virtualPage/ourPysicReading.png';
+import tapToDrinkText from './assets/FortuneCoffeePNGassets/virtualPage/tapToDrink.png';
 
 ////////////////////
 // Styling  //
@@ -189,6 +204,30 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 2
   },
+  readingAnimationBackground: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '60%',
+    opacity: 0.8
+  },
+  readingCoffeeImage: {
+    top: 0,
+  },
+  virtualContainer: {
+    flex: 1,
+    backgroundColor: '#070631',
+  },
+  virtualOne: {
+    flex: 1,
+    resizeMode:'cover',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '60%',
+    opacity: 0.7,
+
+  }
 });
 
 ////////////////////
@@ -196,6 +235,7 @@ const styles = StyleSheet.create({
 ////////////////////
 
 // Completed and Ready for code review
+//ReadingAnimation back to PhotoReading 
 function HomeScreen({navigation}) {
   return (
     <View style={styles.mainContainer}>
@@ -211,10 +251,10 @@ function HomeScreen({navigation}) {
         <Image source={LargeTitleApp} />
       </View>
       <View style={styles.circleContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('PhotoReading')}>
+        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}> 
           <Image source={TakePhoto} style={styles.circleL} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
+        <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
           <Image source={VirtualCoffee} style={styles.circleR}/>
         </TouchableOpacity>
       </View>
@@ -261,11 +301,88 @@ function ShopScreen() {
 
 function VirtualCoffeeReadingScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Virtual Coffee Reading Screen</Text>
+    <View style={styles.virtualContainer}>
+      <Text> Hello </Text>
     </View>
   )
 }
+
+function VirtualOne(){
+  return (
+    <View style={styles.virtualContainer}>
+      <ImageBackground source={ backgroundOne } style={ styles.virtualOne }>
+        <Image source={ tapToDrinkText } />
+        <TouchableOpacity onClick={ () => navigation.navigate('VirtualFive')}>
+          <Text>ONE </Text> 
+          <Image source={ coffee_v } />
+        </TouchableOpacity>
+      </ImageBackground>
+    </View>
+  )
+}
+
+function VirtualTwo(){
+  return (
+    <View style={styles.virtualContainer}>
+      <ImageBackground source={ backgroundTwo } style={ styles.virtualOne }>
+        <Image source={ tapToDrinkText } />
+        <TouchableOpacity onClick={ () => navigation.navigate('VirtualThree')}>
+          <Text> TWO </Text>
+          <Image source={ coffee_v } />
+        </TouchableOpacity>
+      </ImageBackground>
+    </View>
+  )
+}
+
+function VirtualThree(){
+  return (
+    <View style={styles.virtualContainer}>
+      <ImageBackground source={ backgroundThree } style={ styles.virtualOne }>
+        <Image source={ tapToDrinkText } />
+        <TouchableOpacity onClick={ () => navigation.navigate('VirtualFour')}>
+          <Image source={ coffee_v } />
+        </TouchableOpacity>
+      </ImageBackground>
+    </View>
+  )
+}
+
+function VirtualFour(){
+  return (
+    <View style={styles.virtualContainer}>
+      <ImageBackground source={ backgroundFour } style={ styles.virtualOne }>
+        <Image source={ tapToDrinkText } />
+        <TouchableOpacity onClick={ () => navigation.navigate('VirtualFive')}>
+          <Image source={ coffee_v } />
+        </TouchableOpacity>
+      </ImageBackground>
+    </View>
+  )
+}
+
+function VirtualFive({navigation}){
+  return (
+    <View style={styles.virtualContainer}>
+      <ImageBackground source={ backgroundFive } style={ styles.virtualOne }>
+        <Image source={ pysicReadingText } />
+        <Image source={ dontWantToWaitText } />
+        <TouchableOpacity onClick={ () => navigation.navigate('getCrystals')}>
+          <Image source={ getCrystalsButton } />
+        </TouchableOpacity>
+      </ImageBackground>
+    </View>
+  )
+}
+
+function GetCrystals(){
+  return(
+    <View style={styles.virtualContainer}>
+      <Text> get crystals Page</Text>
+    </View>
+  )
+}
+
 
 function VirtualLoadingScreen() {
   return (
@@ -384,6 +501,60 @@ function SignInScreen() {
   )
 }
 
+function ReadingAnimationScreen({navigation}){
+  const rotateValueHolder = useRef(new Animated.Value(0)).current;
+
+  const startImageRotationFunction = () => {
+    rotateValueHolder.setValue(0);
+    Animated.loop(
+      Animated.timing(rotateValueHolder, 
+                      { toValue: 1,
+                        easing: Easing.linear, 
+                        duration: 4000,
+                        useNativeDriver: true,
+                    }),
+                      {
+                        iterations: 1
+                      }
+                      ).start();
+    navigation.navigate('Reading');
+  };
+
+  const RotateData = rotateValueHolder.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+  
+  return(
+    <View style={styles.mainContainer}>
+      <ImageBackground source={ readingAnimationBackground } style={ styles.readingAnimationBackground }>
+        <Image source={ readingCoffee } style={ styles.readingCoffeeImage } />
+        <Animated.View>
+          <TouchableOpacity onPress={ startImageRotationFunction }>
+            <Animated.Image style={ {
+                                    width: 200,
+                                    height: 200,
+                                    transform: [ { rotate: RotateData } ]
+                                  } }
+                    source={coffee} 
+                    
+            />
+          </TouchableOpacity>
+        </Animated.View>
+      </ImageBackground>
+    </View>
+  )
+}
+
+function Reading(){
+  return(
+    <View style={styles.container}>
+      <Text>Welcome to Reading Screen</Text>
+    </View>
+  )
+}
+
+
 ////////////////////
 // Navigation Stack //
 ////////////////////
@@ -400,11 +571,19 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Favorites" component={FavoritesScreen} />
         <Stack.Screen name="Virtual" component={VirtualCoffeeReadingScreen} />
+        <Stack.Screen name="VirtualOne" component={VirtualOne} />
+        <Stack.Screen name="VirtualTwo" component={VirtualTwo} /> 
+        <Stack.Screen name="VirtualThree" component={VirtualThree} />
+        <Stack.Screen name="VirtualFour" component={VirtualFour} />
+        <Stack.Screen name="VirtualFive" component={VirtualFive} />
+        <Stack.Screen name="GetCrystals" component={GetCrystals} />
         <Stack.Screen name="VirtualLoading" component={VirtualLoadingScreen} />
         <Stack.Screen name="PhotoReading" component={PhotoReadingScreen} />
         <Stack.Screen name="Shop" component={ShopScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
+        <Stack.Screen name="ReadingAnimation" component={ReadingAnimationScreen} />
+        <Stack.Screen name="Reading" component={Reading} />
       </Stack.Navigator>
     </NavigationContainer>
   );
