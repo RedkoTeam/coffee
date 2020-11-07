@@ -386,33 +386,6 @@ function VirtualLoadingScreen() {
   )
 }
 
-function ModalScreen() {
-  const [isModalVisible, setModalVisible] = useState(false);
-  const toggleModal = () => { 
-    setModalVisible(!isModalVisible);
-  };
-  state = {
-    open: true,
-    toggle: false
-  };
-  toggleImage = () => {
-    this.setState(state => ({ open: !state.open}))
-  }
-  return (
-    <View style={styles.modalContainer}>
-      <Text>hi</Text>
-      <Button title="Show modal" onPress={toggleModal} />
-      <Modal isVisible={isModalVisible}>
-        <View style = {styles.modalStyle}>
-          <Text style = {styles.tapCard}>Tap card to flip</Text>
-          <Button title="Hide modal" onPress={toggleModal} />
-          <Image source={card} style={styles.cardStyle} />
-        </View>
-      </Modal>
-    </View>
-  );
-}
-
 function PhotoReadingScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -468,7 +441,6 @@ function SignUpScreen() {
           </TouchableOpacity>
         </Text>
       </ImageBackground>
-
     </View>
   )
 }
@@ -543,7 +515,6 @@ function App() {
         <Stack.Screen name="Shop" component={ShopScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="Modal" component={ModalScreen} />
         <Stack.Screen name="Subscription" component={SubscriptionScreen} />
       </Stack.Navigator>
     </NavigationContainer>
