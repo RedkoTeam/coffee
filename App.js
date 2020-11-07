@@ -33,6 +33,22 @@ import login from './assets/FortuneCoffeePNGassets/LogInButton.png';
 import backgroundPicture from './assets/FortuneCoffeePNGassets/backgroundPicture.png'
 // SIGNUP PAGE //
 import signin from './assets/FortuneCoffeePNGassets/signin.png';
+// SUBSCRIPTION PAGE //
+import sub1 from './assets/FortuneCoffeePNGassets/subscription1.png';
+import sub2 from './assets/FortuneCoffeePNGassets/subscription2.png';
+import sub3 from './assets/FortuneCoffeePNGassets/subscription3.png';
+import sub4 from './assets/FortuneCoffeePNGassets/subscription4.png';
+import subscriptionDescription from './assets/FortuneCoffeePNGassets/subscriptionDescription.png';
+
+// Fortune Page //
+import Modal from 'react-native-modal';
+import card from './assets/FortuneCoffeePNGassets/MiddleCard-1.png';
+import card2 from './assets/FortuneCoffeePNGassets/MiddleCard-2.png';
+import { useState } from 'react';
+// GET CRYSTAL PAGE //
+import crystalBackground from './assets/FortuneCoffeePNGassets/crystalBackground.png';
+import getCrystals from './assets/FortuneCoffeePNGassets/getCrystals.png';
+import xButton from './assets/FortuneCoffeePNGassets/bi_x.png';
 
 ////////////////////
 // Styling  //
@@ -52,6 +68,31 @@ const styles = StyleSheet.create({
   authContainer: {
     flex: .25,
     flexDirection: 'row',
+  },
+  getCrystalContainer: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tapCard: {
+    color: '#FFF',
+    fontSize: 40,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  cardStyle: {
+    width: 250,
+    height: 500,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 60
   },
   authButton1: {
     right: 90,
@@ -132,6 +173,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 40
   },
+  getCrystalImage: {
+    width: 300,
+    height: 38,
+    paddingBottom: 50,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 40,
+    marginTop: 290
+  },
   instructions: {
     color: '#888',
     fontSize: 18,
@@ -170,6 +221,12 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 5,
   },
+  xbutton: {
+    padding: 20,
+    borderRadius: 5,
+    marginLeft: 280,
+    marginTop: 7
+  },
   buttonText: {
     fontSize: 20,
     color: '#fff',
@@ -189,6 +246,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 2
   },
+  crystalBackground: {
+    flex:1,
+    width: 350,
+    height: 400,
+    justifyContent: "center",
+    marginHorizontal: 12,
+    marginBottom: 450
+  }
 });
 
 ////////////////////
@@ -197,6 +262,17 @@ const styles = StyleSheet.create({
 
 // Completed and Ready for code review
 function HomeScreen({navigation}) {
+  const [isModalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => { 
+    setModalVisible(!isModalVisible);
+  };
+  state = {
+    open: true,
+    toggle: false
+  };
+  toggleImage = () => {
+    this.setState(state => ({ open: !state.open}))
+  }
   return (
     <View style={styles.mainContainer}>
       <View style={styles.authContainer}>
@@ -221,9 +297,25 @@ function HomeScreen({navigation}) {
       <View style={styles.cardTitle}>
         <Image source={PickCard} />
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Virtual')} style={styles.cards}>
-        <Image source={Cards} />
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity onPress={toggleModal} style={styles.cards}>
+          <Image source={Cards} />
+          <Modal isVisible={isModalVisible}>
+            <View style = {styles.modalStyle}>
+              <ImageBackground source={crystalBackground} style={styles.crystalBackground}>
+                <View style={styles.getCrystalContainer}>
+                  <TouchableOpacity onPress={toggleModal}>
+                    <Image source={xButton} style={styles.xbutton} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPressIn={toggleModal} onPress={() => navigation.navigate('Subscription')}>
+                    <Image source={getCrystals} style={styles.getCrystalImage} />
+                  </TouchableOpacity>
+                </View>
+              </ImageBackground>
+            </View>
+          </Modal>
+        </TouchableOpacity>
+      </View>
       <Image source={Ellipse1} style={styles.ellipse1} />
       <Image source={Ellipse2} style={styles.ellipse2} />
       <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={styles.favIcon}>
@@ -243,6 +335,25 @@ function FavoritesScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Favorites Screen</Text>
+    </View>
+  )
+}
+
+function SubscriptionScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <TouchableOpacity>
+        <Image source={sub1} />
+      </TouchableOpacity>
+      <TouchableOpacity>
+       <Image source={sub2} />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Image source={sub3} />
+      </TouchableOpacity>
+      <TouchableOpacity>
+      <Image source={sub4} />
+      </TouchableOpacity>
     </View>
   )
 }
@@ -273,6 +384,33 @@ function VirtualLoadingScreen() {
       <Text>Virtual Loading Screen</Text>
     </View>
   )
+}
+
+function ModalScreen() {
+  const [isModalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => { 
+    setModalVisible(!isModalVisible);
+  };
+  state = {
+    open: true,
+    toggle: false
+  };
+  toggleImage = () => {
+    this.setState(state => ({ open: !state.open}))
+  }
+  return (
+    <View style={styles.modalContainer}>
+      <Text>hi</Text>
+      <Button title="Show modal" onPress={toggleModal} />
+      <Modal isVisible={isModalVisible}>
+        <View style = {styles.modalStyle}>
+          <Text style = {styles.tapCard}>Tap card to flip</Text>
+          <Button title="Hide modal" onPress={toggleModal} />
+          <Image source={card} style={styles.cardStyle} />
+        </View>
+      </Modal>
+    </View>
+  );
 }
 
 function PhotoReadingScreen() {
@@ -405,6 +543,8 @@ function App() {
         <Stack.Screen name="Shop" component={ShopScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
+        <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="Subscription" component={SubscriptionScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
