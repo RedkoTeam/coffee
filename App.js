@@ -1,6 +1,6 @@
 
-import React, { useRef, useEffect } from 'react';
-import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing } from 'react-native';
+import React, { useRef, useEffect, useState, Componenet } from 'react';
+import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -48,6 +48,7 @@ import dontWantToWaitText from './assets/FortuneCoffeePNGassets/virtualPage/dont
 import getCrystalsButton from './assets/FortuneCoffeePNGassets/virtualPage/getCrystalsButton.png';
 import pysicReadingText from './assets/FortuneCoffeePNGassets/virtualPage/ourPysicReading.png';
 import tapToDrinkText from './assets/FortuneCoffeePNGassets/virtualPage/tapToDrink.png';
+import { create } from 'react-test-renderer';
 
 ////////////////////
 // Styling  //
@@ -251,10 +252,10 @@ function HomeScreen({navigation}) {
         <Image source={LargeTitleApp} />
       </View>
       <View style={styles.circleContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}> 
+        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimationStack')}> 
           <Image source={TakePhoto} style={styles.circleL} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
+        <TouchableOpacity onPress={() => navigation.navigate('VirtualStack')}>
           <Image source={VirtualCoffee} style={styles.circleR}/>
         </TouchableOpacity>
       </View>
@@ -307,13 +308,13 @@ function VirtualCoffeeReadingScreen() {
   )
 }
 
-function VirtualOne(){
+function VirtualOne({navigation}){
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={ backgroundOne } style={ styles.virtualOne }>
         <Image source={ tapToDrinkText } />
-        <TouchableOpacity onClick={ () => navigation.navigate('VirtualFive')}>
-          <Text>ONE </Text> 
+        <TouchableOpacity onClick={ () => navigation.navigate('VirtualTwo')}>
+          <Text style={{color:'white'}}> 1 </Text> 
           <Image source={ coffee_v } />
         </TouchableOpacity>
       </ImageBackground>
@@ -321,13 +322,14 @@ function VirtualOne(){
   )
 }
 
-function VirtualTwo(){
+
+function VirtualTwo({navigation}){
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={ backgroundTwo } style={ styles.virtualOne }>
         <Image source={ tapToDrinkText } />
         <TouchableOpacity onClick={ () => navigation.navigate('VirtualThree')}>
-          <Text> TWO </Text>
+          <Text style={{color:'white'}}> 2 </Text> 
           <Image source={ coffee_v } />
         </TouchableOpacity>
       </ImageBackground>
@@ -502,44 +504,46 @@ function SignInScreen() {
 }
 
 function ReadingAnimationScreen({navigation}){
+
   const rotateValueHolder = useRef(new Animated.Value(0)).current;
+
 
   const startImageRotationFunction = () => {
     rotateValueHolder.setValue(0);
     Animated.loop(
       Animated.timing(rotateValueHolder, 
                       { toValue: 1,
-                        easing: Easing.linear, 
-                        duration: 4000,
-                        useNativeDriver: true,
+                        easing: Easing.quad, 
+                        duration: 3000,
+                        useNativeDriver: false,
                     }),
                       {
                         iterations: 1
                       }
                       ).start();
-    navigation.navigate('Reading');
   };
 
   const RotateData = rotateValueHolder.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
+    outputRange: ['-45deg', '180deg'],
   });
   
+  useEffect(startImageRotationFunction);
+  InteractionManager.runAfterInteractions(() => navigation.navigate("Reading"));
+
   return(
     <View style={styles.mainContainer}>
       <ImageBackground source={ readingAnimationBackground } style={ styles.readingAnimationBackground }>
         <Image source={ readingCoffee } style={ styles.readingCoffeeImage } />
         <Animated.View>
-          <TouchableOpacity onPress={ startImageRotationFunction }>
-            <Animated.Image style={ {
-                                    width: 200,
-                                    height: 200,
-                                    transform: [ { rotate: RotateData } ]
-                                  } }
-                    source={coffee} 
-                    
-            />
-          </TouchableOpacity>
+          <Animated.Image style={ {
+                                  width: 200,
+                                  height: 200,
+                                  transform: [ { rotate: RotateData } ]
+                                } }
+                  source={coffee} 
+                  
+          />
         </Animated.View>
       </ImageBackground>
     </View>
@@ -559,30 +563,67 @@ function Reading(){
 // Navigation Stack //
 ////////////////////
 const Stack = createStackNavigator();
+const vStack = createStackNavigator();
+const vStackTwo = createStackNavigator();
+const raStack = createStackNavigator();
+
+function VirtualStackTwo(){
+  return (
+    <vStackTwo.Navigator>
+      <vStackTwo.Screen name="GetCrystals" component={GetCrystals} />
+    </vStackTwo.Navigator>
+  )
+}
+
+
+function VirtualStack(){
+  return (
+    <vStack.Navigator>
+      <vStack.Screen name="VirtualOne" component={VirtualOne} />
+      <vStack.Screen name="VirtualStackTwo" component={VirtualStackTwo} />
+      <vStack.Screen name="VirtualTwo" component={VirtualTwo} />
+    </vStack.Navigator>
+  );
+}
+
+function ReadingAnimationStack() {
+  return (
+    <raStack.Navigator>
+      <raStack.Screen name="ReadingAnimation" component={ReadingAnimationScreen} />
+      <raStack.Screen name="Read" component={Reading} />
+    </raStack.Navigator>
+  )
+}
+
+//<NavigationContainer>
+//<virtualStack.Navigator>
+//<virtualStack.Screen name="VirtualOne" component={VirtualOne} />
+//<virtualStack.Screen name="VirtualTwo" component={VirtualTwo} /> 
+//<virtualStack.Screen name="VirtualThree" component={VirtualThree} />
+//<virtualStack.Screen name="VirtualFour" component={VirtualFour} />
+//<virtualStack.Screen name="VirtualFive" component={VirtualFive} />
+//</virtualStack.Navigator>
+//</NavigationContainer>
 
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false
+          headerShown: true
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Favorites" component={FavoritesScreen} />
         <Stack.Screen name="Virtual" component={VirtualCoffeeReadingScreen} />
-        <Stack.Screen name="VirtualOne" component={VirtualOne} />
-        <Stack.Screen name="VirtualTwo" component={VirtualTwo} /> 
-        <Stack.Screen name="VirtualThree" component={VirtualThree} />
-        <Stack.Screen name="VirtualFour" component={VirtualFour} />
-        <Stack.Screen name="VirtualFive" component={VirtualFive} />
+        <Stack.Screen name="VirtualStack" component={VirtualStack} />
         <Stack.Screen name="GetCrystals" component={GetCrystals} />
         <Stack.Screen name="VirtualLoading" component={VirtualLoadingScreen} />
         <Stack.Screen name="PhotoReading" component={PhotoReadingScreen} />
         <Stack.Screen name="Shop" component={ShopScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="ReadingAnimation" component={ReadingAnimationScreen} />
+        <Stack.Screen name="ReadingAnimationStack" component={ReadingAnimationStack} />
         <Stack.Screen name="Reading" component={Reading} />
       </Stack.Navigator>
     </NavigationContainer>
