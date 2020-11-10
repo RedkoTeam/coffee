@@ -42,6 +42,7 @@ import subscriptionDescription from './assets/FortuneCoffeePNGassets/subscriptio
 
 // Fortune Page //
 import Modal from 'react-native-modal';
+import FlipCard from 'react-native-flip-card';
 import card from './assets/FortuneCoffeePNGassets/MiddleCard-1.png';
 import card2 from './assets/FortuneCoffeePNGassets/MiddleCard-2.png';
 import { useState } from 'react';
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 40,
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   cardStyle: {
     width: 250,
@@ -268,7 +269,7 @@ function HomeScreen({navigation}) {
   };
   state = {
     open: true,
-    toggle: false
+    open2: true,
   };
   toggleImage = () => {
     this.setState(state => ({ open: !state.open}))
@@ -297,6 +298,32 @@ function HomeScreen({navigation}) {
       <View style={styles.cardTitle}>
         <Image source={PickCard} />
       </View>
+      {/*
+      <View>
+      <Button title="Show modal" onPress={toggleModal} />
+        <Modal isVisible={isModalVisible}>
+          <View style = {styles.modalStyle}>
+            <Text style = {styles.tapCard}>Tap card to flip</Text>
+            <Button title="Hide modal" onPress={toggleModal} />
+            <View style={{marginBottom:500}}>
+              <FlipCard
+                flipHorizontal={true}
+                flipVertical={false}>
+                <View style={styles.face, {marginBottom: 400}}>
+                  <Text>The Face</Text>
+                  <Image source={card} style={styles.cardStyle} />
+                </View>
+                <View>
+                  <Text>The Back</Text>
+                  <Image source={card} style={styles.cardStyle} />
+                </View>
+              </FlipCard>
+            </View>
+          </View>
+        </Modal>
+      </View>
+      */}
+
       <View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
@@ -374,6 +401,14 @@ function VirtualCoffeeReadingScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Virtual Coffee Reading Screen</Text>
+    </View>
+  )
+}
+
+function FortuneModal() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Fortune Modal</Text>
     </View>
   )
 }
@@ -516,6 +551,7 @@ function App() {
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="Subscription" component={SubscriptionScreen} />
+        <Stack.Screen name="Fortune" component={FortuneModal} />
       </Stack.Navigator>
     </NavigationContainer>
   );
