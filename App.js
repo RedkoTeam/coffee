@@ -39,6 +39,8 @@ import sub2 from './assets/FortuneCoffeePNGassets/subscription2.png';
 import sub3 from './assets/FortuneCoffeePNGassets/subscription3.png';
 import sub4 from './assets/FortuneCoffeePNGassets/subscription4.png';
 import subscriptionDescription from './assets/FortuneCoffeePNGassets/subscriptionDescription.png';
+import subBackgorund1 from './assets/FortuneCoffeePNGassets/Vector.png';
+import subBackgorund2 from './assets/FortuneCoffeePNGassets/Vector-3.png';
 
 // Fortune Page //
 import Modal from 'react-native-modal';
@@ -254,7 +256,36 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginHorizontal: 12,
     marginBottom: 450
-  }
+  },
+  subBackgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    padding: 2
+  },
+  subButton1: {
+    width: 390,
+    height: 110,
+    borderRadius: 30,
+    marginHorizontal: 1,
+    marginTop: 30
+  },
+  subButton2: {
+    width: 390,
+    height: 110,
+  },
+  ellipse3: {
+    position: 'absolute',
+    bottom: -10,
+    left: 0,
+    marginBottom: 20
+  },
+  ellipse4: {
+    position: 'absolute',
+    bottom: -10,
+    left: 0,
+    marginBottom: 20
+  },
 });
 
 ////////////////////
@@ -346,14 +377,14 @@ function HomeScreen({navigation}) {
       <Image source={Ellipse1} style={styles.ellipse1} />
       <Image source={Ellipse2} style={styles.ellipse2} />
       <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={styles.favIcon}>
-          <Image source={Favorites} />
-        </TouchableOpacity>
+        <Image source={Favorites} />
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.homeIcon}>
-          <Image source={Home} />
-        </TouchableOpacity>
+        <Image source={Home} />
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={styles.shopIcon}>
-          <Image source={Shop} />
-        </TouchableOpacity>
+        <Image source={Shop} />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -368,19 +399,33 @@ function FavoritesScreen() {
 
 function SubscriptionScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <TouchableOpacity>
-        <Image source={sub1} />
-      </TouchableOpacity>
-      <TouchableOpacity>
-       <Image source={sub2} />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Image source={sub3} />
-      </TouchableOpacity>
-      <TouchableOpacity>
-      <Image source={sub4} />
-      </TouchableOpacity>
+    <View style={styles.mainContainer}>
+      {/*<ImageBackground source={subBackgorund1} style={styles.subBackgroundImage}>*/}
+        <Image source={subscriptionDescription} style={{marginTop: 60}}/>
+        <TouchableOpacity>
+          <Image source={sub1} style={styles.subButton1}/>
+        </TouchableOpacity>
+        <TouchableOpacity>
+        <Image source={sub2} style={styles.subButton2} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image source={sub3} style={styles.subButton2}/>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image source={sub4} style={styles.subButton2}/>
+        </TouchableOpacity>
+        <Image source={Ellipse1} style={styles.ellipse3} />
+        <Image source={Ellipse2} style={styles.ellipse4} />
+        <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom: -94, left:-130}}>
+          <Image source={Favorites} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{top: -20, left: -0}}>
+          <Image source={Home} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={{top: -20,right: -130}}>
+          <Image source={Shop} />
+        </TouchableOpacity>
+      {/*</ImageBackground>*/}
     </View>
   )
 }
