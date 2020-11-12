@@ -222,6 +222,39 @@ const styles = StyleSheet.create({
     width:'100%',
     opacity: 0.7,
   },
+  flexInRows: {
+    flex: 0.5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width:'100%',
+    padding: 12,
+  },
+  flexInRowsCoffee: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    width:'100%',
+    padding: 12,
+    alignItems:'flex-end',
+  },
+  readingTableContainer: {
+    flex: 1, 
+    width:'100%',
+    alignItems:'stretch',
+    padding: 20
+  },
+  helloUserTextContainer: {
+    fontSize:35,
+    fontStyle:'normal',
+    fontWeight:'bold',
+    color:'#FFFFFF',
+    textShadowColor: 'rgba(47, 145, 211, 0.76)',
+    textShadowOffset: {
+      width:2,
+      height:2
+    },
+    textShadowRadius:1
+  }
 });
 
 ////////////////////
@@ -567,9 +600,42 @@ function ReadingAnimationScreen({navigation}){
 }
 
 function Reading(){
+  const navigation = useNavigation();
+  var userName = 'user';
   return(
-    <View style={styles.container}>
-      <Text>Welcome to Reading Screen</Text>
+    <View style={styles.virtualContainer}>
+      <ImageBackground source={ readingBackground } style={styles.virtualOne}>
+        <View style={styles.flexInRows}>
+          <TouchableOpacity onPress={()=>navigation.popToTop()}>
+            <Image source={ backButton } />
+          </TouchableOpacity>
+          <Image source={ user } />
+        </View>
+        <View style={styles.flexInRowsCoffee}>
+          <TouchableOpacity onPress={()=> console.log("SAVED")}>
+            <Image source={ saveButton } />
+          </TouchableOpacity>
+          <View>
+            <Text style={styles.helloUserTextContainer}> Hello {userName} </Text>
+            <Image source={ coffeeImg } />
+          </View>
+          <TouchableOpacity onPress={ () => console.log("SHARE")}>
+            <Image source={ shareButton } style={{alignSelf:'flex-end'}}/>
+          </TouchableOpacity>
+        </View>
+        <View style={ styles.readingTableContainer }>
+          <Image source={ yourPresent } style={{marginBottom:12}}/>
+          <ScrollView>
+            <Text> TABLE TO BE ATTACHED  </Text>
+          </ScrollView>
+        </View>
+        <View style={ styles.readingTableContainer }>
+          <Image source= { whatHappen } />
+          <ScrollView>
+            <Text> TABLE TO BE ATTACHED  </Text>
+          </ScrollView>
+        </View>
+      </ImageBackground>
     </View>
   )
 }
@@ -579,27 +645,6 @@ function Reading(){
 // Navigation Stack //
 ////////////////////
 const Stack = createStackNavigator();
-const raStack = createStackNavigator();
-
-function ReadingAnimationStack() {
-  return (
-    <raStack.Navigator screenOptions={{ headerShown: true }}>
-      <raStack.Screen name="ReadingAnimation" component={ReadingAnimationScreen} />
-      <raStack.Screen name="Read" component={Reading} />
-    </raStack.Navigator>
-  )
-}
-
-//<NavigationContainer>
-//<virtualStack.Navigator>
-//<virtualStack.Screen name="VirtualOne" component={VirtualOne} />
-//<virtualStack.Screen name="VirtualTwo" component={VirtualTwo} /> 
-//<virtualStack.Screen name="VirtualThree" component={VirtualThree} />
-//<virtualStack.Screen name="VirtualFour" component={VirtualFour} />
-//<virtualStack.Screen name="VirtualFive" component={VirtualFive} />
-//</virtualStack.Navigator>
-//</NavigationContainer>
-
 
 function App() {
   const forFade = ({ current }) => ({ cardStyle: { opacity: current.progress }});
