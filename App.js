@@ -1,7 +1,7 @@
 
 import React, { useRef, useEffect, useState, Componenet } from 'react';
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 ////////////////////
@@ -10,17 +10,16 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 //HOMEPAGE//
 import TakePhoto from './assets/FortuneCoffeePNGassets/TakePhoto.png';
-import Home from './assets/FortuneCoffeePNGassets/homeBoth.png';
-import Shop from './assets/FortuneCoffeePNGassets/shopBoth.png';
-import Favorites from './assets/FortuneCoffeePNGassets/favoritesBoth.png';
+import Home from './assets/FortuneCoffeePNGassets/home.png';
+import Shop from './assets/FortuneCoffeePNGassets/shop.png';
+import Favorites from './assets/FortuneCoffeePNGassets/favorites.png';
 import VirtualCoffee from './assets/FortuneCoffeePNGassets/VirtualCoffee.png';
 import SignInButton from './assets/FortuneCoffeePNGassets/SignInButton.png';
 import SignUpButton from './assets/FortuneCoffeePNGassets/SignUpButton.png';
 import LargeTitleApp from './assets/FortuneCoffeePNGassets/LargeTitleApp.png';
 import PickCard from './assets/FortuneCoffeePNGassets/PickCard.png';
 import Cards from './assets/FortuneCoffeePNGassets/allCards.png';
-import Ellipse1 from './assets/FortuneCoffeePNGassets/Ellipse6.png';
-import Ellipse2 from './assets/FortuneCoffeePNGassets/Ellipse7.png';
+import Ellipse1 from './assets/FortuneCoffeePNGassets/ellipse.png';
 //SHOP PAGE// 
 import Products from './assets/FortuneCoffeePNGassets/Products.png';
 import TurkishCoffee from './assets/FortuneCoffeePNGassets/TurkishCoffee.png';
@@ -48,7 +47,16 @@ import dontWantToWaitText from './assets/FortuneCoffeePNGassets/virtualPage/dont
 import getCrystalsButton from './assets/FortuneCoffeePNGassets/virtualPage/getCrystalsButton.png';
 import pysicReadingText from './assets/FortuneCoffeePNGassets/virtualPage/ourPysicReading.png';
 import tapToDrinkText from './assets/FortuneCoffeePNGassets/virtualPage/tapToDrink.png';
-import { create } from 'react-test-renderer';
+
+// READING PAGE //
+import backButton from './assets/FortuneCoffeePNGassets/reading/backButton.png';
+import coffeeImg from './assets/FortuneCoffeePNGassets/reading/coffee.png';
+import readingBackground from './assets/FortuneCoffeePNGassets/reading/readingBackground.png';
+import saveButton from './assets/FortuneCoffeePNGassets/reading/saveButton.png';
+import shareButton from './assets/FortuneCoffeePNGassets/reading/shareButton.png';
+import user from './assets/FortuneCoffeePNGassets/reading/user.png';
+import whatHappen from './assets/FortuneCoffeePNGassets/reading/whatHappen.png';
+import yourPresent from './assets/FortuneCoffeePNGassets/reading/yourPresent.png';
 
 ////////////////////
 // Styling  //
@@ -101,27 +109,10 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     bottom: -20,
   },
-  ellipse1: {
+  ellipse: {
     position: 'absolute',
-    bottom: -0,
-    left: 0
-  },
-  ellipse2: {
-    position: 'absolute',
-    bottom: -0,
-    left: 0
-  },
-  favIcon: {
-    bottom: -124,
-    left: -130
-  },
-  homeIcon: {
-    bottom: -10,
-    left: -0
-  },
-  shopIcon: {
-    bottom: -10,
-    right: -130
+    bottom: 0,
+    width: '100%'
   },
   products: {
     marginVertical: 90
@@ -211,6 +202,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: '60%',
+    width:'100%',
     opacity: 0.8
   },
   readingCoffeeImage: {
@@ -219,17 +211,22 @@ const styles = StyleSheet.create({
   virtualContainer: {
     flex: 1,
     backgroundColor: '#070631',
+    width:'100%'
+
   },
   virtualOne: {
     flex: 1,
     resizeMode:'cover',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '60%',
+    width:'100%',
     opacity: 0.7,
-
-  }
+  },
 });
+
+////////////////////
+//   Navigation   //
+////////////////////
 
 ////////////////////
 // Screen Layouts //
@@ -252,10 +249,10 @@ function HomeScreen({navigation}) {
         <Image source={LargeTitleApp} />
       </View>
       <View style={styles.circleContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimationStack')}> 
+        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}> 
           <Image source={TakePhoto} style={styles.circleL} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('VirtualStack')}>
+        <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
           <Image source={VirtualCoffee} style={styles.circleR}/>
         </TouchableOpacity>
       </View>
@@ -265,19 +262,29 @@ function HomeScreen({navigation}) {
       <TouchableOpacity onPress={() => navigation.navigate('Virtual')} style={styles.cards}>
         <Image source={Cards} />
       </TouchableOpacity>
-      <Image source={Ellipse1} style={styles.ellipse1} />
-      <Image source={Ellipse2} style={styles.ellipse2} />
-      <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={styles.favIcon}>
-          <Image source={Favorites} />
-        </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.homeIcon}>
-          <Image source={Home} />
-        </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={styles.shopIcon}>
-          <Image source={Shop} />
-        </TouchableOpacity>
+      <NavBar />
     </View>
   );
+}
+
+function NavBar(){
+  const navigation = useNavigation();
+  return(
+    <View style={{flex:1, alignItems:'center', alignContent:'center'}}>
+      <Image source={Ellipse1} style={styles.ellipse} />
+      <View style={{flexDirection:'row', width:'80%', justifyContent: 'space-between', position:'absolute', bottom: 0, paddingBottom:10}}>
+        <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
+            <Image source={Favorites}/>
+          </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Image source={Home} style={{bottom:'80%'}}/>
+          </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
+            <Image source={Shop} />
+        </TouchableOpacity>
+      </View>
+    </View>
+  )
 }
 
 function FavoritesScreen() {
@@ -308,13 +315,13 @@ function VirtualCoffeeReadingScreen() {
   )
 }
 
-function VirtualOne({navigation}){
-  return (
+function VirtualOne(){
+  const navigation = useNavigation();
+  return(
     <View style={styles.virtualContainer}>
       <ImageBackground source={ backgroundOne } style={ styles.virtualOne }>
         <Image source={ tapToDrinkText } />
-        <TouchableOpacity onClick={ () => navigation.navigate('VirtualTwo')}>
-          <Text style={{color:'white'}}> 1 </Text> 
+        <TouchableOpacity onPress={() => navigation.navigate('VirtualTwo')}>
           <Image source={ coffee_v } />
         </TouchableOpacity>
       </ImageBackground>
@@ -323,13 +330,15 @@ function VirtualOne({navigation}){
 }
 
 
-function VirtualTwo({navigation}){
+
+
+function VirtualTwo(){
+  const navigation = useNavigation();
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={ backgroundTwo } style={ styles.virtualOne }>
         <Image source={ tapToDrinkText } />
-        <TouchableOpacity onClick={ () => navigation.navigate('VirtualThree')}>
-          <Text style={{color:'white'}}> 2 </Text> 
+        <TouchableOpacity onPress={ () => navigation.navigate('VirtualThree')}>
           <Image source={ coffee_v } />
         </TouchableOpacity>
       </ImageBackground>
@@ -338,11 +347,12 @@ function VirtualTwo({navigation}){
 }
 
 function VirtualThree(){
+  const navigation = useNavigation();
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={ backgroundThree } style={ styles.virtualOne }>
         <Image source={ tapToDrinkText } />
-        <TouchableOpacity onClick={ () => navigation.navigate('VirtualFour')}>
+        <TouchableOpacity onPress={ () => navigation.navigate('VirtualFour')}>
           <Image source={ coffee_v } />
         </TouchableOpacity>
       </ImageBackground>
@@ -351,11 +361,12 @@ function VirtualThree(){
 }
 
 function VirtualFour(){
+  const navigation = useNavigation();
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={ backgroundFour } style={ styles.virtualOne }>
         <Image source={ tapToDrinkText } />
-        <TouchableOpacity onClick={ () => navigation.navigate('VirtualFive')}>
+        <TouchableOpacity onPress={ () => navigation.navigate('VirtualFive')}>
           <Image source={ coffee_v } />
         </TouchableOpacity>
       </ImageBackground>
@@ -363,19 +374,24 @@ function VirtualFour(){
   )
 }
 
-function VirtualFive({navigation}){
-  return (
+function VirtualFive(){
+  const navigation = useNavigation();
+  return(
     <View style={styles.virtualContainer}>
-      <ImageBackground source={ backgroundFive } style={ styles.virtualOne }>
-        <Image source={ pysicReadingText } />
-        <Image source={ dontWantToWaitText } />
-        <TouchableOpacity onClick={ () => navigation.navigate('getCrystals')}>
+      <ImageBackground source={backgroundFive} style={ styles.virtualOne }>
+        <Image source={ pysicReadingText } style={{ margin: '40%'}}/>
+        <Image source={ dontWantToWaitText } style={{ marginBottom:10 }} />
+        <TouchableOpacity onPress={ () => navigation.navigate('GetCrystals')}>
           <Image source={ getCrystalsButton } />
         </TouchableOpacity>
+        <NavBar/>
       </ImageBackground>
     </View>
   )
+
 }
+
+
 
 function GetCrystals(){
   return(
@@ -563,32 +579,11 @@ function Reading(){
 // Navigation Stack //
 ////////////////////
 const Stack = createStackNavigator();
-const vStack = createStackNavigator();
-const vStackTwo = createStackNavigator();
 const raStack = createStackNavigator();
-
-function VirtualStackTwo(){
-  return (
-    <vStackTwo.Navigator>
-      <vStackTwo.Screen name="GetCrystals" component={GetCrystals} />
-    </vStackTwo.Navigator>
-  )
-}
-
-
-function VirtualStack(){
-  return (
-    <vStack.Navigator>
-      <vStack.Screen name="VirtualOne" component={VirtualOne} />
-      <vStack.Screen name="VirtualStackTwo" component={VirtualStackTwo} />
-      <vStack.Screen name="VirtualTwo" component={VirtualTwo} />
-    </vStack.Navigator>
-  );
-}
 
 function ReadingAnimationStack() {
   return (
-    <raStack.Navigator>
+    <raStack.Navigator screenOptions={{ headerShown: true }}>
       <raStack.Screen name="ReadingAnimation" component={ReadingAnimationScreen} />
       <raStack.Screen name="Read" component={Reading} />
     </raStack.Navigator>
@@ -605,7 +600,9 @@ function ReadingAnimationStack() {
 //</virtualStack.Navigator>
 //</NavigationContainer>
 
+
 function App() {
+  const forFade = ({ current }) => ({ cardStyle: { opacity: current.progress }});
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -615,15 +612,19 @@ function App() {
       >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Favorites" component={FavoritesScreen} />
+        <Stack.Screen name="Shop" component={ShopScreen} />
         <Stack.Screen name="Virtual" component={VirtualCoffeeReadingScreen} />
-        <Stack.Screen name="VirtualStack" component={VirtualStack} />
-        <Stack.Screen name="GetCrystals" component={GetCrystals} />
+        <Stack.Screen name="VirtualOne" component={VirtualOne} options={{ cardStyleInterpolator:forFade}} />
+        <Stack.Screen name="VirtualTwo" component={VirtualTwo} options={{ cardStyleInterpolator:forFade}}/>
+        <Stack.Screen name="VirtualThree" component={VirtualThree} options={{ cardStyleInterpolator:forFade}}/>
+        <Stack.Screen name="VirtualFour" component={VirtualFour} options={{ cardStyleInterpolator:forFade}}/>
+        <Stack.Screen name="VirtualFive" component={VirtualFive} options={{ cardStyleInterpolator:forFade}}/>
+        <Stack.Screen name="GetCrystals" component={GetCrystals} options={{ cardStyleInterpolator:forFade}}/>
         <Stack.Screen name="VirtualLoading" component={VirtualLoadingScreen} />
         <Stack.Screen name="PhotoReading" component={PhotoReadingScreen} />
-        <Stack.Screen name="Shop" component={ShopScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="ReadingAnimationStack" component={ReadingAnimationStack} />
+        <Stack.Screen name="ReadingAnimation" component={ReadingAnimationScreen} />
         <Stack.Screen name="Reading" component={Reading} />
       </Stack.Navigator>
     </NavigationContainer>
