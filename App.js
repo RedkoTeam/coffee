@@ -227,6 +227,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width:'100%',
+    paddingTop: '10%',
     padding: 12,
   },
   flexInRowsCoffee: {
@@ -234,7 +235,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width:'100%',
-    padding: 12,
     alignItems:'flex-end',
   },
   readingTableContainer: {
@@ -617,7 +617,7 @@ function Reading(){
           </TouchableOpacity>
           <View>
             <Text style={styles.helloUserTextContainer}> Hello {userName} </Text>
-            <Image source={ coffeeImg } />
+            <Image source={ coffeeImg } style={{marginTop:20}}/>
           </View>
           <TouchableOpacity onPress={ () => console.log("SHARE")}>
             <Image source={ shareButton } style={{alignSelf:'flex-end'}}/>
@@ -652,7 +652,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: true
+          headerShown: false
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
