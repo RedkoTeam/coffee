@@ -4,6 +4,11 @@ import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import * as firebase from 'firebase';
+import { firebaseConfig } from './config';
+
+firebase.initializeApp(firebaseConfig)
+
 ////////////////////
 // IMAGES & ICONS //
 ////////////////////
@@ -192,11 +197,26 @@ const styles = StyleSheet.create({
 });
 
 ////////////////////
+// Helper Functions //
+////////////////////
+checkIfLoggedIn = () => {
+  firebase.auth().onAuthStateChanged(user => {
+    if(user) {
+      this.props.navigate.navigate('Dashboard');
+    } else {
+      this.props.navigation.navigate('SignIn')
+    }
+  })
+}
+
+
+////////////////////
 // Screen Layouts //
 ////////////////////
 
 // Completed and Ready for code review
 function HomeScreen({navigation}) {
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.authContainer}>
