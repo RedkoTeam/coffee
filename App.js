@@ -11,10 +11,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as firebase from 'firebase';
 import { firebaseConfig } from './config';
 
+//checks to see if app is already initialized before running again
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
-
 
 ////////////////////
 // IMAGES & ICONS //
@@ -218,7 +218,6 @@ checkIfLoggedIn = () => {
   })
 }
 
-
 ////////////////////
 // Screen Layouts //
 ////////////////////
@@ -312,15 +311,10 @@ function PhotoReadingScreen() {
   )
 }
 
-
-
-
-
 function SignUpScreen() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  
 
   return (
     <View style={styles.container}>
@@ -372,7 +366,6 @@ function SignUpScreen() {
           </TouchableOpacity>
         </Text>
       </ImageBackground>
-
     </View>
   )
   async function SignUp() {

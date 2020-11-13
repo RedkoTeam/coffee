@@ -1,4 +1,4 @@
-// Not using currently but may use in future. Do not delete
+// If we want to use firestore instead of realtime database
 
 import app from 'firebase/app'
 import 'firebase/auth'
@@ -46,8 +46,29 @@ class Firebase {
             .catch(error => console.log(error))
     }
 
+    // app.auth().currentUser.uid correct way to get current user's uid
+    
+    // for updating gem plans 
+    addOptions = (options) => {
+        console.log(app.auth().currentUser.uid)
+        this.db.collection('users').doc(app.auth().currentUser.uid).update({
+            plan: options,
+        })
+    }
+    getInformation = () => {
+        const docRef = this.db.collection("users").doc(app.auth().currentUser.uid);
 
-
+        docRef.get().then(function (doc) {
+            if (doc.exists) {
+                console.log("Document data:", doc.data());
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function (error) {
+            console.log("Error getting document:", error);
+        });
+    }
 
     isInitialized = () => {
         return new Promise(resolve => {
