@@ -21,10 +21,21 @@ import PickCard from './assets/FortuneCoffeePNGassets/PickCard.png';
 import Cards from './assets/FortuneCoffeePNGassets/allCards.png';
 import Ellipse1 from './assets/FortuneCoffeePNGassets/ellipse.png';
 //SHOP PAGE// 
-import Products from './assets/FortuneCoffeePNGassets/Products.png';
-import TurkishCoffee from './assets/FortuneCoffeePNGassets/TurkishCoffee.png';
-import TurkishPot from './assets/FortuneCoffeePNGassets/TurkishPot.png';
-import TurkishCard from './assets/FortuneCoffeePNGassets/TurkishCard.png';
+import shop from './assets/FortuneCoffeePNGassets/shopPage/Shop.png';
+import galaxy from './assets/FortuneCoffeePNGassets/shopPage/galaxy.png';
+import originalPhoto from './assets/FortuneCoffeePNGassets/shopPage/originalPhoto.png';
+import originalBuyButton from './assets/FortuneCoffeePNGassets/shopPage/originalBuyButton.png';
+import coconutPhoto from './assets/FortuneCoffeePNGassets/shopPage/coconutPhoto.png';
+import coconutButton from './assets/FortuneCoffeePNGassets/shopPage/coconutBuyButton.png';
+import coffeeCaramelPhoto from './assets/FortuneCoffeePNGassets/shopPage/coffeeCaramelPhoto.png';
+import coffeeCaramelButton from './assets/FortuneCoffeePNGassets/shopPage/coffeeCaramelButton.png';
+import hazelnutPhoto from './assets/FortuneCoffeePNGassets/shopPage/hazelnutPhoto.png';
+import hazelnutButton from './assets/FortuneCoffeePNGassets/shopPage/hazelnutButton.png';
+import coffeeChocolatePhoto from './assets/FortuneCoffeePNGassets/shopPage/coffeeChocolatePhoto.png';
+import coffeeChocolateButton from './assets/FortuneCoffeePNGassets/shopPage/coffeeChocolateButton.png';
+import strawberryPhoto from './assets/FortuneCoffeePNGassets/shopPage/strawberryPhoto.png';
+import strawberryButton from './assets/FortuneCoffeePNGassets/shopPage/strawberryButton.png';
+
 // LOGIN PAGE //
 import facebookTitle from './assets/FortuneCoffeePNGassets/ContinueFacebook.png';
 import googleTitle from './assets/FortuneCoffeePNGassets/ContinueGoogle.png';
@@ -113,9 +124,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%'
-  },
-  products: {
-    marginVertical: 90
   },
   container: {
     flex: 1,
@@ -254,6 +262,19 @@ const styles = StyleSheet.create({
       height:2
     },
     textShadowRadius:1
+  },
+  coffeeImageDimension: {
+    width: 370,
+    height: 550,
+    resizeMode: 'contain', 
+  },
+  coffeeBuyButton: {
+    width: 310,
+    height: 40,
+    resizeMode:'contain',
+    position: 'absolute',
+    bottom: 25,
+    left: 35, 
   }
 });
 
@@ -328,14 +349,63 @@ function FavoritesScreen() {
   )
 }
 
+let ShopDatabase = [
+  {
+    name: 'OriginalCoffee',
+    img: originalPhoto,
+    buyButton: originalBuyButton 
+  },
+  {
+    name: 'CoconutCoffee',
+    img: coconutPhoto,
+    buyButton: coconutButton
+  },
+  {
+    name: 'StrawberryCoffee',
+    img: strawberryPhoto,
+    buyButton: strawberryButton
+  },
+  {
+    name: 'HazelnutCoffee',
+    img: hazelnutPhoto,
+    buyButton: hazelnutButton
+  },
+  {
+    name: 'CoffeeCaramel',
+    img: coffeeCaramelPhoto,
+    buyButton: coffeeCaramelButton
+  },
+  {
+    name: 'CoffeeChocolate',
+    img: coffeeChocolatePhoto,
+    buyButton: coffeeChocolateButton
+  }
+]
+
 // Mostly done. Still need back button and add onPress with href to shopify site
 function ShopScreen() {
+  const navigation = useNavigation();
   return (
     <ScrollView contentContainerStyle={styles.shopContainer}>
-      <Image source={Products} style={styles.products} />
-      <Image source={TurkishCoffee} />
-      <Image source={TurkishPot} />
-      <Image source={TurkishCard} />
+      <Image source={ galaxy } style={{position:'absolute', width:'100%', height:'100%'}} />
+      <View style={ styles.flexInRows }>
+        <TouchableOpacity onPress={()=>navigation.popToTop()} >
+          <Image source={backButton} />
+        </TouchableOpacity>
+        <Image source={shop} style={{ position:'absolute', alignSelf:'center', right:'47%', bottom:'5%'}} />
+      </View>
+      {
+        ShopDatabase.map((item, index) =>{
+          return(
+            <View key={index} style={{padding:30}}>
+              <Image source={item.img} style={styles.coffeeImageDimension} />
+              <TouchableOpacity onPress={()=>{console.log(item.name)}}>
+               <Image source={item.buyButton} style={styles.coffeeBuyButton} />
+              </TouchableOpacity>
+            </View>
+          )
+        })
+      }
     </ScrollView>
   )
 }
