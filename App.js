@@ -310,16 +310,7 @@ function PhotoReadingScreen() {
   )
 }
 
-async function SignUp(email, password) {
-  try {
-    await firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(user => {
-        console.log(user)
-      })
-  } catch (error) {
-    console.log(error.toString(error))
-  }
-}
+
 
 
 
@@ -353,15 +344,14 @@ function SignUpScreen() {
           label="Email"
           placeholder="   Email address"
           placeholderTextColor='#DCDCDC'
-          // onChange={e => setEmail(e.target.value)}
-          value={email}
+          // value={email}
           onChangeText={email => setEmail(email)}
         />
         <TextInput style={styles.textBox}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
-          value={password}
+          // value={password}
           onChangeText={password => setPassword(password)}
         />
         <TextInput style={styles.textBox}
@@ -371,7 +361,8 @@ function SignUpScreen() {
         />
         <StatusBar style="auto" />
         <TouchableOpacity >
-          <Image source={signin} style={styles.buttonImage} onPress={() => SignUp(email, password), console.log(password)} />
+          <Image source={signin} style={styles.buttonImage} onPress={SignUp(email, password)} />
+          {/* <Image source={signin} style={styles.buttonImage} onPress={() => SignUp(email, password), console.log(password)} /> */}
         </TouchableOpacity>
         <Text style={styles.underSignup}>
           Already have an account?
@@ -383,6 +374,16 @@ function SignUpScreen() {
 
     </View>
   )
+  async function SignUp(email, password) {
+    try {
+      await firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(user => {
+          console.log(user)
+        })
+    } catch (error) {
+      console.log(error.toString(error))
+    }
+  }
 }
 
 
