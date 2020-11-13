@@ -319,6 +319,7 @@ function SignUpScreen() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   
+
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
@@ -344,14 +345,12 @@ function SignUpScreen() {
           label="Email"
           placeholder="   Email address"
           placeholderTextColor='#DCDCDC'
-          // value={email}
           onChangeText={email => setEmail(email)}
         />
         <TextInput style={styles.textBox}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
-          // value={password}
           onChangeText={password => setPassword(password)}
         />
         <TextInput style={styles.textBox}
@@ -360,9 +359,9 @@ function SignUpScreen() {
           placeholderTextColor='#DCDCDC'
         />
         <StatusBar style="auto" />
-        <TouchableOpacity >
-          <Image source={signin} style={styles.buttonImage} onPress={SignUp(email, password)} />
-          {/* <Image source={signin} style={styles.buttonImage} onPress={() => SignUp(email, password), console.log(password)} /> */}
+        <TouchableOpacity onPress={() => {SignUp(email, password)}}>
+          <Image source={signin} style={styles.buttonImage}  />
+  
         </TouchableOpacity>
         <Text style={styles.underSignup}>
           Already have an account?
@@ -374,7 +373,7 @@ function SignUpScreen() {
 
     </View>
   )
-  async function SignUp(email, password) {
+  async function SignUp() {
     try {
       await firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(user => {

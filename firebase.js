@@ -1,3 +1,5 @@
+// Not using currently but may use in future. Do not delete
+
 import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firebase-firestore'
