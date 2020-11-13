@@ -24,9 +24,9 @@ if (!firebase.apps.length) {
 
 //HOMEPAGE//
 import TakePhoto from './assets/FortuneCoffeePNGassets/TakePhoto.png';
-import Home from './assets/FortuneCoffeePNGassets/home.png';
-import Shop from './assets/FortuneCoffeePNGassets/shop.png';
-import Favorites from './assets/FortuneCoffeePNGassets/favorites.png';
+import Home from './assets/FortuneCoffeePNGassets/homeBoth.png';
+import Shop from './assets/FortuneCoffeePNGassets/shopBoth.png';
+import Favorites from './assets/FortuneCoffeePNGassets/favoritesBoth.png';
 import VirtualCoffee from './assets/FortuneCoffeePNGassets/VirtualCoffee.png';
 import SignInButton from './assets/FortuneCoffeePNGassets/SignInButton.png';
 import SignUpButton from './assets/FortuneCoffeePNGassets/SignUpButton.png';
