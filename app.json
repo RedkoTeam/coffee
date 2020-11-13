@@ -18,7 +18,6 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.redko.fortune_coffee"
     },
     "android": {
       "package": "com.redko.fortune_coffee",

@@ -1,8 +1,22 @@
 
+
 import React, { useRef, useEffect, useState, Componenet } from 'react';
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
+
 import { createStackNavigator } from '@react-navigation/stack';
+
+
+////////////////////
+// Firebase //
+////////////////////
+import * as firebase from 'firebase';
+import { firebaseConfig } from './config';
+
+//checks to see if app is already initialized before running again
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig)
+}
 
 ////////////////////
 // IMAGES & ICONS //
@@ -279,8 +293,20 @@ const styles = StyleSheet.create({
 });
 
 ////////////////////
-//   Navigation   //
+// Helper Functions //
 ////////////////////
+
+// logic for checking if user is logged in for main screen
+checkIfLoggedIn = () => {
+  firebase.auth().onAuthStateChanged(user => {
+    if(user) {
+      this.props.navigation.navigate('Dashboard');
+    } else {
+      this.props.navigation.navigate('SignIn')
+    }
+  })
+}
+
 
 ////////////////////
 // Screen Layouts //
@@ -289,6 +315,7 @@ const styles = StyleSheet.create({
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
 function HomeScreen({navigation}) {
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.authContainer}>
@@ -522,6 +549,10 @@ function PhotoReadingScreen() {
 }
 
 function SignUpScreen() {
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
@@ -542,15 +573,18 @@ function SignUpScreen() {
         <Text style={styles.underFacebook}>
           OR SIGN UP WITH EMAIL
         </Text>
+
         <TextInput style={styles.textBox}
           label="Email"
           placeholder="   Email address"
           placeholderTextColor='#DCDCDC'
+          onChangeText={email => setEmail(email)}
         />
         <TextInput style={styles.textBox}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
+          onChangeText={password => setPassword(password)}
         />
         <TextInput style={styles.textBox}
           label="Re-enter Password"
@@ -558,8 +592,9 @@ function SignUpScreen() {
           placeholderTextColor='#DCDCDC'
         />
         <StatusBar style="auto" />
-        <TouchableOpacity onPress={() => console.log('Sign up pressed')}>
-          <Image source={signin} style={styles.buttonImage} />
+        <TouchableOpacity onPress={() => {SignUp(email, password)}}>
+          <Image source={signin} style={styles.buttonImage}  />
+  
         </TouchableOpacity>
         <Text style={styles.underSignup}>
           Already have an account?
@@ -568,12 +603,24 @@ function SignUpScreen() {
           </TouchableOpacity>
         </Text>
       </ImageBackground>
-
     </View>
   )
+  async function SignUp() {
+    try {
+      await firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(user => {
+          console.log(user)
+        })
+    } catch (error) {
+      console.log(error.toString(error))
+    }
+  }
 }
 
+
+
 function SignInScreen() {
+
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
