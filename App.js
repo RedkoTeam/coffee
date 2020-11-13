@@ -1,13 +1,20 @@
 
-import * as React from 'react';
+import React, {useState} from 'react'
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+
+////////////////////
+// Firebase //
+////////////////////
 import * as firebase from 'firebase';
 import { firebaseConfig } from './config';
 
-firebase.initializeApp(firebaseConfig)
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig)
+}
+
 
 ////////////////////
 // IMAGES & ICONS //
@@ -202,7 +209,7 @@ const styles = StyleSheet.create({
 checkIfLoggedIn = () => {
   firebase.auth().onAuthStateChanged(user => {
     if(user) {
-      this.props.navigate.navigate('Dashboard');
+      this.props.navigation.navigate('Dashboard');
     } else {
       this.props.navigation.navigate('SignIn')
     }
@@ -303,7 +310,24 @@ function PhotoReadingScreen() {
   )
 }
 
+async function SignUp(email, password) {
+  try {
+    await firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(user => {
+        console.log(user)
+      })
+  } catch (error) {
+    console.log(error.toString(error))
+  }
+}
+
+
+
 function SignUpScreen() {
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
@@ -324,15 +348,21 @@ function SignUpScreen() {
         <Text style={styles.underFacebook}>
           OR SIGN UP WITH EMAIL
         </Text>
+
         <TextInput style={styles.textBox}
           label="Email"
           placeholder="   Email address"
           placeholderTextColor='#DCDCDC'
+          // onChange={e => setEmail(e.target.value)}
+          value={email}
+          onChangeText={email => setEmail(email)}
         />
         <TextInput style={styles.textBox}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
+          value={password}
+          onChangeText={password => setPassword(password)}
         />
         <TextInput style={styles.textBox}
           label="Re-enter Password"
@@ -340,8 +370,8 @@ function SignUpScreen() {
           placeholderTextColor='#DCDCDC'
         />
         <StatusBar style="auto" />
-        <TouchableOpacity onPress={() => console.log('Sign up pressed')}>
-          <Image source={signin} style={styles.buttonImage} />
+        <TouchableOpacity >
+          <Image source={signin} style={styles.buttonImage} onPress={() => SignUp(email, password), console.log(password)} />
         </TouchableOpacity>
         <Text style={styles.underSignup}>
           Already have an account?
@@ -355,7 +385,10 @@ function SignUpScreen() {
   )
 }
 
+
+
 function SignInScreen() {
+
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
