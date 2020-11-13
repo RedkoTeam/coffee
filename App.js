@@ -206,6 +206,8 @@ const styles = StyleSheet.create({
 ////////////////////
 // Helper Functions //
 ////////////////////
+
+// logic for checking if user is logged in for main screen
 checkIfLoggedIn = () => {
   firebase.auth().onAuthStateChanged(user => {
     if(user) {
