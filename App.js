@@ -53,6 +53,20 @@ import crystalBackground from './assets/FortuneCoffeePNGassets/crystalBackground
 import getCrystals from './assets/FortuneCoffeePNGassets/getCrystals.png';
 import xButton from './assets/FortuneCoffeePNGassets/bi_x.png';
 
+//Virtual Coffee Reading Page //
+'use strict';
+import {Component} from 'react';
+import {AppRegistry, Dimensions} from 'react-native';
+import {RNCamera as Camera} from 'react-native-camera';
+
+//Saved Fortunes //
+
+//Profile //
+import profileImage from './assets/FortuneCoffeePNGassets/Profile.png';
+import skipImage from './assets/FortuneCoffeePNGassets/Skip.png';
+import continueImage from './assets/FortuneCoffeePNGassets/Continue.png';
+import { Input } from 'react-native-elements';
+
 ////////////////////
 // Styling  //
 ////////////////////
@@ -286,6 +300,40 @@ const styles = StyleSheet.create({
     left: 0,
     marginBottom: 20
   },
+  cameraContainer: {
+    flex: 1,
+  },
+  cameraPreview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  capture: {
+    flex: 0,
+    backgroundColor : '#fff',
+    borderRadius: 5,
+    color: '#000',
+    padding: 10,
+    margin: 40,
+  },
+  textBox2: {
+    margin: 15,
+    height: 60,
+    width: 70,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
+    marginHorizontal: 40
+  },
+  textBox3: {
+    margin: 15,
+    height: 60,
+    width: 100,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
+    marginHorizontal: 40
+  },
 });
 
 ////////////////////
@@ -308,10 +356,10 @@ function HomeScreen({navigation}) {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.authContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.authButton1}>
+        <TouchableOpacity onPress={() => navigation.navigate('SavedFortunes')} style={styles.authButton1}>
           <Image source={SignUpButton}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.authButton2}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.authButton2}>
           <Image source={SignInButton} />
         </TouchableOpacity>
       </View>
@@ -329,7 +377,7 @@ function HomeScreen({navigation}) {
       <View style={styles.cardTitle}>
         <Image source={PickCard} />
       </View>
-      {/*
+      
       <View>
       <Button title="Show modal" onPress={toggleModal} />
         <Modal isVisible={isModalVisible}>
@@ -353,8 +401,9 @@ function HomeScreen({navigation}) {
           </View>
         </Modal>
       </View>
-      */}
+      
 
+      
       <View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
@@ -374,6 +423,8 @@ function HomeScreen({navigation}) {
           </Modal>
         </TouchableOpacity>
       </View>
+
+      
       <Image source={Ellipse1} style={styles.ellipse1} />
       <Image source={Ellipse2} style={styles.ellipse2} />
       <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={styles.favIcon}>
@@ -385,7 +436,7 @@ function HomeScreen({navigation}) {
       <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={styles.shopIcon}>
         <Image source={Shop} />
       </TouchableOpacity>
-    </View>
+      </View>
   );
 }
 
@@ -443,11 +494,20 @@ function ShopScreen() {
 }
 
 function VirtualCoffeeReadingScreen() {
+  <View><Text>Virtual Coffee Reading Screen</Text></View>
+  {/*takePicture = () => {
+    const options = {};
+    this.camera.capture({metadata: options})
+      .then((data) => console.log(data))
+      .catch(err => console.error(err));
+  }
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Virtual Coffee Reading Screen</Text>
+      <Camera  ref={cam => {this.camera = cam}}  style={styles.preview}  aspect={Camera.constants.Aspect.fill}>  
+        <Text style={styles.capture} onPress={this.takePicture.bind(this)}> [CAPTURE]  </Text>
+      </Camera>
     </View>
-  )
+  )*/}
 }
 
 function FortuneModal() {
@@ -525,6 +585,79 @@ function SignUpScreen() {
   )
 }
 
+function SavedFortunes() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 230}}>SavedFortunes</Text>
+      <TextInput style={styles.textBox}
+          label="Enter name here"
+          placeholder="   Enter name here"
+          placeholderTextColor='#DCDCDC'
+      />
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 190}}>Relationship Status</Text>
+      <TextInput style={styles.textBox}
+          label="Enter relationship status here"
+          placeholder="   Enter relationship status here"
+          placeholderTextColor='#DCDCDC'
+      />
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 110}}>Enter employment status here</Text>
+      <TextInput style={styles.textBox}
+          label="Enter employment status here"
+          placeholder="   Enter employment status here"
+          placeholderTextColor='#DCDCDC'
+      />
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 280}}>Birthday</Text>
+      <TextInput style={styles.textBox}
+          label="Enter employment status here"
+          placeholder="   Enter employment status here"
+          placeholderTextColor='#DCDCDC'
+      />
+
+      <TouchableOpacity onPress={() => console.log('log in pressed')}>
+      <Image source={continueImage} />
+      </TouchableOpacity>
+      <Text></Text>
+      <Text></Text>
+      <TouchableOpacity onPress={() => console.log('log in pressed')}>
+      <Image source={skipImage} />
+      </TouchableOpacity>
+    </View>
+  )
+}
+
+function Profile() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
+      <Image source={profileImage} />
+      <Input placeholder="Name" >
+      </Input>  
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 240}}>Relationship Status</Text>
+      <Input placeholder="Username" >
+      </Input>
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 240}}>Relationship Status</Text>
+      <Input placeholder="First name" >
+      </Input> 
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 240}}>Relationship Status</Text>
+      <Input placeholder="Last Name" >
+      </Input>  
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 240}}>Relationship Status</Text>
+      <Input placeholder="Date of Birth" >
+      </Input>  
+      <Image source={Ellipse1} style={styles.ellipse1} />
+      <Image source={Ellipse2} style={styles.ellipse2} />
+      <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom:-195,left: -130}}>
+        <Image source={Favorites} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{top: 80,left: -0}}>
+        <Image source={Home} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={{top: 80,right: -130}}>
+        <Image source={Shop} />
+      </TouchableOpacity>
+    </View>
+  )
+}
+
 function SignInScreen() {
   return (
     <View style={styles.container}>
@@ -564,7 +697,7 @@ function SignInScreen() {
         <Text style={styles.underSignup}>
           Forgot Password?{"\n"}
           Create a new
-          <TouchableOpacity onPress={() => console.log('account pressed')}>
+          <TouchableOpacity onPress={() => navigation.navigate('SavedFortunes')}>
             <Text style={styles.login}> account</Text>
           </TouchableOpacity>
         </Text>
@@ -597,6 +730,8 @@ function App() {
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="Subscription" component={SubscriptionScreen} />
         <Stack.Screen name="Fortune" component={FortuneModal} />
+        <Stack.Screen name="SavedFortunes" component={SavedFortunes} />
+        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
