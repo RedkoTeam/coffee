@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 ////////////////////
@@ -66,6 +66,9 @@ import profileImage from './assets/FortuneCoffeePNGassets/Profile.png';
 import skipImage from './assets/FortuneCoffeePNGassets/Skip.png';
 import continueImage from './assets/FortuneCoffeePNGassets/Continue.png';
 import { Input } from 'react-native-elements';
+import profile_bg from './assets/FortuneCoffeePNGassets/Profile_bg.png';
+import backButton from './assets/backButton.png';
+import pencil from './assets/pencil.png';
 
 ////////////////////
 // Styling  //
@@ -356,10 +359,10 @@ function HomeScreen({navigation}) {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.authContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('SavedFortunes')} style={styles.authButton1}>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.authButton1}>
           <Image source={SignUpButton}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.authButton2}>
+        <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.authButton2}>
           <Image source={SignInButton} />
         </TouchableOpacity>
       </View>
@@ -449,6 +452,7 @@ function FavoritesScreen() {
 }
 
 function SubscriptionScreen() {
+  const navigation = useNavigation();
   return (
     <View style={styles.mainContainer}>
       {/*<ImageBackground source={subBackgorund1} style={styles.subBackgroundImage}>*/}
@@ -494,8 +498,7 @@ function ShopScreen() {
 }
 
 function VirtualCoffeeReadingScreen() {
-  <View><Text>Virtual Coffee Reading Screen</Text></View>
-  {/*takePicture = () => {
+  takePicture = () => {
     const options = {};
     this.camera.capture({metadata: options})
       .then((data) => console.log(data))
@@ -507,7 +510,7 @@ function VirtualCoffeeReadingScreen() {
         <Text style={styles.capture} onPress={this.takePicture.bind(this)}> [CAPTURE]  </Text>
       </Camera>
     </View>
-  )*/}
+  )
 }
 
 function FortuneModal() {
@@ -535,9 +538,13 @@ function PhotoReadingScreen() {
 }
 
 function SignUpScreen() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Image source={backButton} style={{marginLeft: 50, marginBottom: 10}}/>
+        </TouchableOpacity>
         <Text style={styles.title}>
           fortune coffee
         </Text>
@@ -576,7 +583,7 @@ function SignUpScreen() {
         </TouchableOpacity>
         <Text style={styles.underSignup}>
           Already have an account?
-          <TouchableOpacity onPress={() => console.log('log in pressed')}>
+          <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
             <Text style={styles.login}> Login</Text>
           </TouchableOpacity>
         </Text>
@@ -588,25 +595,28 @@ function SignUpScreen() {
 function SavedFortunes() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 230}}>SavedFortunes</Text>
+      <TouchableOpacity>
+        <Image source={backButton} style={{marginRight: 300, marginBottom: 40}}/>
+      </TouchableOpacity>
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 230, marginTop: 20}}>SavedFortunes</Text>
       <TextInput style={styles.textBox}
           label="Enter name here"
           placeholder="   Enter name here"
           placeholderTextColor='#DCDCDC'
       />
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 190}}>Relationship Status</Text>
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 190, marginTop: 20}}>Relationship Status</Text>
       <TextInput style={styles.textBox}
           label="Enter relationship status here"
           placeholder="   Enter relationship status here"
           placeholderTextColor='#DCDCDC'
       />
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 110}}>Enter employment status here</Text>
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20}}>Enter employment status here</Text>
       <TextInput style={styles.textBox}
           label="Enter employment status here"
           placeholder="   Enter employment status here"
           placeholderTextColor='#DCDCDC'
       />
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 280}}>Birthday</Text>
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 280, marginTop: 20}}>Birthday</Text>
       <TextInput style={styles.textBox}
           label="Enter employment status here"
           placeholder="   Enter employment status here"
@@ -614,7 +624,7 @@ function SavedFortunes() {
       />
 
       <TouchableOpacity onPress={() => console.log('log in pressed')}>
-      <Image source={continueImage} />
+      <Image source={continueImage} style={{marginTop: 20}}/>
       </TouchableOpacity>
       <Text></Text>
       <Text></Text>
@@ -627,41 +637,51 @@ function SavedFortunes() {
 
 function Profile() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
-      <Image source={profileImage} />
-      <Input placeholder="Name" >
-      </Input>  
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 240}}>Relationship Status</Text>
-      <Input placeholder="Username" >
-      </Input>
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 240}}>Relationship Status</Text>
-      <Input placeholder="First name" >
-      </Input> 
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 240}}>Relationship Status</Text>
-      <Input placeholder="Last Name" >
-      </Input>  
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 240}}>Relationship Status</Text>
-      <Input placeholder="Date of Birth" >
-      </Input>  
-      <Image source={Ellipse1} style={styles.ellipse1} />
-      <Image source={Ellipse2} style={styles.ellipse2} />
-      <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom:-195,left: -130}}>
-        <Image source={Favorites} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{top: 80,left: -0}}>
-        <Image source={Home} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={{top: 80,right: -130}}>
-        <Image source={Shop} />
-      </TouchableOpacity>
-    </View>
+    <ImageBackground source={profile_bg} style={styles.subBackgroundImage}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <TouchableOpacity>
+          <Image source={backButton} style={{marginRight: 330}}/>
+        </TouchableOpacity>
+        <Image source={profileImage} />
+        <Input placeholder="Name" >
+        {/*<Image source={pencil} />*/}
+        </Input>  
+        <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>Username</Text>
+        <Input placeholder="Username" >
+        </Input>
+        <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>First name</Text>
+        <Input placeholder="First name" >
+        </Input> 
+        <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>Last Name</Text>
+        <Input placeholder="Last Name" >
+        </Input>  
+        <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 285}}>Date of Birth</Text>
+        <Input placeholder="Date of Birth" >
+        </Input>  
+        <Image source={Ellipse1} style={styles.ellipse1} />
+        <Image source={Ellipse2} style={styles.ellipse2} />
+        <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom:-175,left: -130}}>
+          <Image source={Favorites} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{top: 60,left: -0}}>
+          <Image source={Home} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={{top: 60,right: -130}}>
+          <Image source={Shop} />
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   )
 }
 
 function SignInScreen() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Image source={backButton} style={{marginLeft: 50, marginBottom: 10}}/>
+        </TouchableOpacity>
         <Text style={styles.title}>
           fortune coffee
         </Text>
@@ -691,16 +711,17 @@ function SignInScreen() {
         <Text>
         </Text>
         <StatusBar style="auto" />
-        <TouchableOpacity onPress={() => console.log('Sign up pressed')}>
+        <TouchableOpacity onPress={() => console.log('Log in pressed')}>
           <Image source={login} style={styles.buttonImage} />
         </TouchableOpacity>
         <Text style={styles.underSignup}>
           Forgot Password?{"\n"}
           Create a new
-          <TouchableOpacity onPress={() => navigation.navigate('SavedFortunes')}>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
             <Text style={styles.login}> account</Text>
           </TouchableOpacity>
         </Text>
+        <Text style={{marginBottom: 100}}></Text>
       </ImageBackground>
 
     </View>
