@@ -1,4 +1,4 @@
-
+import './fixtimerbug';
 
 import React, { useRef, useEffect, useState, Componenet } from 'react';
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
@@ -6,18 +6,26 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
+// import firebase from './components/firebase'
 
 ////////////////////
 // Firebase //
 ////////////////////
 import * as firebase from 'firebase';
+import 'firebase/auth'
+import 'firebase/firebase-firestore'
 import { firebaseConfig } from './config';
+
 
 //checks to see if app is already initialized before running again
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
 
+// error 
+// firebase.initializeApp(firebaseConfig)
+
+const db = firebase.firestore();
 ////////////////////
 // IMAGES & ICONS //
 ////////////////////
@@ -605,15 +613,43 @@ function SignUpScreen() {
       </ImageBackground>
     </View>
   )
-  async function SignUp() {
-    try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(user => {
-          console.log(user)
+  
+  // working for firebase.js
+  // async function SignUp() {
+  //   try {
+  //     await firebase.register(email, password)
+  //       .then(user => {
+  //         console.log(user)
+  //       })
+  //   } catch (error) {
+  //     console.log(error.toString(error))
+  //   }
+  // }
+
+  // working for config.js
+  // async function SignUp() {
+  //   try {
+  //     await firebase.auth().createUserWithEmailAndPassword(email, password)
+  //       .then(data => {
+  //         return db.collection('users').doc(data.user.uid).set({
+  //           email: email,
+
+  //         })
+          
+  //       })
+  //   } catch (error) {
+  //     console.log(error.toString(error))
+  //   }
+  // }
+
+  function SignUp() {
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(data => {
+          return db.collection('users').doc(data.user.uid).set({
+            email: email,
+          })
+            .catch(error => console.log(error))
         })
-    } catch (error) {
-      console.log(error.toString(error))
-    }
   }
 }
 
