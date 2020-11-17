@@ -15,6 +15,18 @@ const firebaseConfig = {
     measurementId: "G-KE4PJMB3J5"
 };
 
+  // working for firebase.js
+  // async function SignUp() {
+  //   try {
+  //     await firebase.register(email, password)
+  //       .then(user => {
+  //         console.log(user)
+  //       })
+  //   } catch (error) {
+  //     console.log(error.toString(error))
+  //   }
+  // }
+
 class Firebase {
     constructor() {
         

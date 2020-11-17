@@ -323,7 +323,6 @@ checkIfLoggedIn = () => {
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
 function HomeScreen({navigation}) {
-
   return (
     <View style={styles.mainContainer}>
       <View style={styles.authContainer}>
@@ -355,6 +354,36 @@ function HomeScreen({navigation}) {
     </View>
   );
 }
+
+function HomeScreenLoggedIn({ navigation }) {
+  return (
+    <View style={styles.mainContainer}>
+      
+      <View style={styles.appTitle}>
+        <Image source={LargeTitleApp} />
+      </View>
+      <View style={styles.circleContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}>
+          <Image source={TakePhoto} style={styles.circleL} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
+          <Image source={VirtualCoffee} style={styles.circleR} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.cardTitle}>
+        <Image source={PickCard} />
+      </View>
+      <TouchableOpacity onPress={() => navigation.navigate('Virtual')} style={styles.cards}>
+        <Image source={Cards} />
+      </TouchableOpacity>
+      <NavBar />
+    </View>
+  );
+}
+
+
+
+
 
 function NavBar(){
   const navigation = useNavigation();
@@ -556,7 +585,7 @@ function PhotoReadingScreen() {
   )
 }
 
-function SignUpScreen() {
+function SignUpScreen({ navigation }) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -600,7 +629,7 @@ function SignUpScreen() {
           placeholderTextColor='#DCDCDC'
         />
         <StatusBar style="auto" />
-        <TouchableOpacity onPress={() => {SignUp(email, password)}}>
+        <TouchableOpacity onPress={() => { SignUp(email, password), navigation.navigate('HomeLoggedIn')} }>
           <Image source={signin} style={styles.buttonImage}  />
   
         </TouchableOpacity>
@@ -614,48 +643,22 @@ function SignUpScreen() {
     </View>
   )
   
-  // working for firebase.js
-  // async function SignUp() {
-  //   try {
-  //     await firebase.register(email, password)
-  //       .then(user => {
-  //         console.log(user)
-  //       })
-  //   } catch (error) {
-  //     console.log(error.toString(error))
-  //   }
-  // }
-
   // working for config.js
-  // async function SignUp() {
-  //   try {
-  //     await firebase.auth().createUserWithEmailAndPassword(email, password)
-  //       .then(data => {
-  //         return db.collection('users').doc(data.user.uid).set({
-  //           email: email,
-
-  //         })
-          
-  //       })
-  //   } catch (error) {
-  //     console.log(error.toString(error))
-  //   }
-  // }
-
   function SignUp() {
       firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(data => {
           return db.collection('users').doc(data.user.uid).set({
-            email: email,
+            userName: email,
           })
             .catch(error => console.log(error))
         })
   }
 }
 
+function SignInScreen({ navigation }) {
 
-
-function SignInScreen() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   return (
     <View style={styles.container}>
@@ -680,16 +683,18 @@ function SignInScreen() {
           label="Email"
           placeholder="   Email address"
           placeholderTextColor='#DCDCDC'
+          onChangeText={email => setEmail(email)}
         />
         <TextInput style={styles.textBox}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
+          onChangeText={password => setPassword(password)}
         />
         <Text>
         </Text>
         <StatusBar style="auto" />
-        <TouchableOpacity onPress={() => console.log('Sign up pressed')}>
+        <TouchableOpacity onPress={() => { onLogin(email, password) } }>
           <Image source={login} style={styles.buttonImage} />
         </TouchableOpacity>
         <Text style={styles.underSignup}>
@@ -703,6 +708,10 @@ function SignInScreen() {
 
     </View>
   )
+  function onLogin () {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    navigation.navigate('HomeLoggedIn')
+  }
 }
 
 function ReadingAnimationScreen({navigation}){
@@ -809,6 +818,7 @@ function App() {
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="HomeLoggedIn" component={HomeScreenLoggedIn} />
         <Stack.Screen name="Favorites" component={FavoritesScreen} />
         <Stack.Screen name="Shop" component={ShopScreen} />
         <Stack.Screen name="Virtual" component={VirtualCoffeeReadingScreen} />
