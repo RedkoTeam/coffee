@@ -23,7 +23,6 @@
     "node-fetch": ">=2.6.1",
     "nvm": "0.0.4",
     "pods": "^2.0.0",
-    "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "~0.63.3",
     "react-native-camera": "^3.40.0",
@@ -42,6 +41,8 @@
     "@babel/core": "~7.9.0",
     "babel-jest": "~25.2.6",
     "jest": "~25.2.6",
+    "react": "^17.0.0",
+    "react-native-vector-icons": "^7.1.0",
     "react-test-renderer": "~16.13.1"
   },
   "private": true,
