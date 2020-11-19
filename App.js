@@ -69,6 +69,7 @@ import { Input } from 'react-native-elements';
 import profile_bg from './assets/FortuneCoffeePNGassets/Profile_bg.png';
 import backButton from './assets/backButton.png';
 import pencil from './assets/pencil.png';
+import pageButton from './assets/pageButton.png';
 
 ////////////////////
 // Styling  //
@@ -337,6 +338,28 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     marginHorizontal: 40
   },
+  savedFortuneTextBox: {
+    height: 60,
+    width: 360,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.4)",
+  },
+  savedFortuneTextBox2: {
+    height: 60,
+    width: 70,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.4)",
+  },
+  savedFortuneTextBox3: {
+    height: 60,
+    width: 90,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.4)",
+    marginRight: 130
+  },
 });
 
 ////////////////////
@@ -359,10 +382,10 @@ function HomeScreen({navigation}) {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.authContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.authButton1}>
+        <TouchableOpacity onPress={() => navigation.navigate('SavedFortunes')} style={styles.authButton1}>
           <Image source={SignUpButton}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.authButton2}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.authButton2}>
           <Image source={SignInButton} />
         </TouchableOpacity>
       </View>
@@ -586,38 +609,62 @@ function SignUpScreen() {
 }
 
 function SavedFortunes() {
+  const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
-      <TouchableOpacity>
-        <Image source={backButton} style={{marginRight: 300, marginBottom: 40}}/>
-      </TouchableOpacity>
+      <View style={styles.authContainer}>
+        <TouchableOpacity>
+          <Image source={backButton} style={{marginRight: 200}}/>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+          <Image source={SignInButton} style={{marginTop:13}}/>
+        </TouchableOpacity>
+      </View>
       <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 230, marginTop: 20}}>SavedFortunes</Text>
-      <TextInput style={styles.textBox}
-          label="Enter name here"
-          placeholder="   Enter name here"
+      <TextInput style={styles.savedFortuneTextBox}
+          label="Name"
+          placeholder="                                   Enter name here"
           placeholderTextColor='#DCDCDC'
       />
       <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 190, marginTop: 20}}>Relationship Status</Text>
-      <TextInput style={styles.textBox}
-          label="Enter relationship status here"
-          placeholder="   Enter relationship status here"
+      <TextInput style={styles.savedFortuneTextBox}
+          label="Relationship Status"
+          placeholder="                       Enter relationship status here"
           placeholderTextColor='#DCDCDC'
       />
       <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20}}>Enter employment status here</Text>
-      <TextInput style={styles.textBox}
-          label="Enter employment status here"
-          placeholder="   Enter employment status here"
+      <TextInput style={styles.savedFortuneTextBox}
+          label="EmploymentStatus"
+          placeholder="                   Enter employment status here"
+          placeholderTextColor='#DCDCDC'
+      />
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20}}>Enter employment status here</Text>
+      <TextInput style={styles.savedFortuneTextBox}
+          label="Gender"
+          placeholder="                       Enter gender here"
           placeholderTextColor='#DCDCDC'
       />
       <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 280, marginTop: 20}}>Birthday</Text>
-      <TextInput style={styles.textBox}
-          label="Enter employment status here"
-          placeholder="   Enter employment status here"
+      <View style={styles.authContainer}>
+        <TextInput style={styles.savedFortuneTextBox2}
+          label="Month"
+          placeholder="      00"
           placeholderTextColor='#DCDCDC'
-      />
+        />
+        <TextInput style={styles.savedFortuneTextBox2}
+          label="Day"
+          placeholder="      00"
+          placeholderTextColor='#DCDCDC'
+        />
+        <TextInput style={styles.savedFortuneTextBox3}
+          label="Year"
+          placeholder="      00"
+          placeholderTextColor='#DCDCDC'
+        />
+      </View>
 
       <TouchableOpacity onPress={() => console.log('log in pressed')}>
-      <Image source={continueImage} style={{marginTop: 20}}/>
+      <Image source={continueImage} style={{marginTop: 0}}/>
       </TouchableOpacity>
       <Text></Text>
       <Text></Text>
@@ -632,9 +679,15 @@ function Profile() {
   return (
     <ImageBackground source={profile_bg} style={styles.subBackgroundImage}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <TouchableOpacity>
-          <Image source={backButton} style={{marginRight: 330}}/>
-        </TouchableOpacity>
+        <View style={styles.authContainer}>
+          <TouchableOpacity style={styles.authButton1}>
+            <Image source={backButton} style={{marginRight: 80}}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.authButton2}>
+            <Image source={pageButton} />
+          </TouchableOpacity>
+        </View>
+        <Text style={{marginBottom: 30}}></Text>
         <Image source={profileImage} />
         <Input placeholder="Name" >
         {/*<Image source={pencil} />*/}
