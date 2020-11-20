@@ -1,9 +1,7 @@
-
-
+import * as React from 'react';
 import React, { useRef, useEffect, useState, Componenet } from 'react';
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-
 import { createStackNavigator } from '@react-navigation/stack';
 
 
@@ -83,6 +81,48 @@ import user from './assets/FortuneCoffeePNGassets/reading/user.png';
 import whatHappen from './assets/FortuneCoffeePNGassets/reading/whatHappen.png';
 import yourPresent from './assets/FortuneCoffeePNGassets/reading/yourPresent.png';
 
+// SUBSCRIPTION PAGE //
+import sub1 from './assets/FortuneCoffeePNGassets/subscription1.png';
+import sub2 from './assets/FortuneCoffeePNGassets/subscription2.png';
+import sub3 from './assets/FortuneCoffeePNGassets/subscription3.png';
+import sub4 from './assets/FortuneCoffeePNGassets/subscription4.png';
+import subscriptionDescription from './assets/FortuneCoffeePNGassets/subscriptionDescription.png';
+import subBackgorund1 from './assets/FortuneCoffeePNGassets/Vector.png';
+import subBackgorund2 from './assets/FortuneCoffeePNGassets/Vector-3.png';
+
+// Fortune Page //
+import Modal from 'react-native-modal';
+import FlipCard from 'react-native-flip-card';
+import card from './assets/FortuneCoffeePNGassets/MiddleCard-1.png';
+import card2 from './assets/FortuneCoffeePNGassets/MiddleCard-2.png';
+import { useState } from 'react';
+// GET CRYSTAL PAGE //
+import crystalBackground from './assets/FortuneCoffeePNGassets/crystalBackground.png';
+import getCrystals from './assets/FortuneCoffeePNGassets/getCrystals.png';
+import xButton from './assets/FortuneCoffeePNGassets/bi_x.png';
+
+//TAKE PHOTO //
+'use strict';
+import {Component} from 'react';
+import {AppRegistry, Dimensions} from 'react-native';
+import {RNCamera} from 'react-native-camera';
+import useAVirtualCoffee from './assets/useAVirtualCoffee.png';
+import virtualImage from './assets/virtualImage.png';
+import submitPhoto from './assets/submitPhoto.png';
+import photoGallery from './assets/photoGallery.png';
+
+//Saved Fortunes //
+
+//Profile //
+import profileImage from './assets/FortuneCoffeePNGassets/Profile.png';
+import skipImage from './assets/FortuneCoffeePNGassets/Skip.png';
+import continueImage from './assets/FortuneCoffeePNGassets/Continue.png';
+import { Input } from 'react-native-elements';
+import profile_bg from './assets/FortuneCoffeePNGassets/Profile_bg.png';
+import backButton from './assets/backButton.png';
+import pencil from './assets/pencil.png';
+import pageButton from './assets/pageButton.png';
+
 ////////////////////
 // Styling  //
 ////////////////////
@@ -101,6 +141,31 @@ const styles = StyleSheet.create({
   authContainer: {
     flex: .25,
     flexDirection: 'row',
+  },
+  getCrystalContainer: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tapCard: {
+    color: '#FFF',
+    fontSize: 40,
+    textAlign: 'center',
+    fontWeight: 'bold'
+  },
+  cardStyle: {
+    width: 250,
+    height: 500,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 60
   },
   authButton1: {
     right: 90,
@@ -161,6 +226,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 40
   },
+  getCrystalImage: {
+    width: 300,
+    height: 38,
+    paddingBottom: 50,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 40,
+    marginTop: 290
+  },
   instructions: {
     color: '#888',
     fontSize: 18,
@@ -198,6 +273,12 @@ const styles = StyleSheet.create({
     backgroundColor: "blue",
     padding: 20,
     borderRadius: 5,
+  },
+  xbutton: {
+    padding: 20,
+    borderRadius: 5,
+    marginLeft: 280,
+    marginTop: 7
   },
   buttonText: {
     fontSize: 20,
@@ -289,7 +370,100 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 25,
     left: 35, 
-  }
+  },
+  crystalBackground: {
+    flex:1,
+    width: 350,
+    height: 400,
+    justifyContent: "center",
+    marginHorizontal: 12,
+    marginBottom: 450
+  },
+  subBackgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    padding: 2
+  },
+  subButton1: {
+    width: 390,
+    height: 110,
+    borderRadius: 30,
+    marginHorizontal: 1,
+    marginTop: 30
+  },
+  subButton2: {
+    width: 390,
+    height: 110,
+  },
+  ellipse3: {
+    position: 'absolute',
+    bottom: -10,
+    left: 0,
+    marginBottom: 20
+  },
+  ellipse4: {
+    position: 'absolute',
+    bottom: -10,
+    left: 0,
+    marginBottom: 20
+  },
+  cameraContainer: {
+    flex: 1,
+  },
+  cameraPreview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  capture: {
+    flex: 0,
+    backgroundColor : '#fff',
+    borderRadius: 5,
+    color: '#000',
+    padding: 10,
+    margin: 40,
+  },
+  textBox2: {
+    margin: 15,
+    height: 60,
+    width: 70,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
+    marginHorizontal: 40
+  },
+  textBox3: {
+    margin: 15,
+    height: 60,
+    width: 100,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
+    marginHorizontal: 40
+  },
+  savedFortuneTextBox: {
+    height: 60,
+    width: 360,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.4)",
+  },
+  savedFortuneTextBox2: {
+    height: 60,
+    width: 70,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.4)",
+  },
+  savedFortuneTextBox3: {
+    height: 60,
+    width: 90,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.4)",
+    marginRight: 130
+  },
 });
 
 ////////////////////
@@ -315,7 +489,17 @@ checkIfLoggedIn = () => {
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
 function HomeScreen({navigation}) {
-
+  const [isModalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => { 
+    setModalVisible(!isModalVisible);
+  };
+  state = {
+    open: true,
+    open2: true,
+  };
+  toggleImage = () => {
+    this.setState(state => ({ open: !state.open}))
+  }
   return (
     <View style={styles.mainContainer}>
       <View style={styles.authContainer}>
@@ -344,7 +528,60 @@ function HomeScreen({navigation}) {
         <Image source={Cards} />
       </TouchableOpacity>
       <NavBar />
-    </View>
+      <View>
+      <Button title="Show modal" onPress={toggleModal} />
+        <Modal isVisible={isModalVisible}>
+          <View style = {styles.modalStyle}>
+            <Text style = {styles.tapCard}>Tap card to flip</Text>
+            <Button title="Hide modal" onPress={toggleModal} />
+            <View style={{marginBottom:500}}>
+              <FlipCard
+                flipHorizontal={true}
+                flipVertical={false}>
+                <View style={styles.face, {marginBottom: 400}}>
+                  <Text>The Face</Text>
+                  <Image source={card} style={styles.cardStyle} />
+                </View>
+                <View>
+                  <Text>The Back</Text>
+                  <Image source={card} style={styles.cardStyle} />
+                </View>
+              </FlipCard>
+            </View>
+          </View>
+        </Modal>
+      </View>
+      <View>
+        <TouchableOpacity onPress={toggleModal} style={styles.cards}>
+          <Image source={Cards} />
+          <Modal isVisible={isModalVisible}>
+            <View style = {styles.modalStyle}>
+              <ImageBackground source={crystalBackground} style={styles.crystalBackground}>
+                <View style={styles.getCrystalContainer}>
+                  <TouchableOpacity onPress={toggleModal}>
+                    <Image source={xButton} style={styles.xbutton} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPressIn={toggleModal} onPress={() => navigation.navigate('Subscription')}>
+                    <Image source={getCrystals} style={styles.getCrystalImage} />
+                  </TouchableOpacity>
+                </View>
+              </ImageBackground>
+            </View>
+          </Modal>
+        </TouchableOpacity>
+      </View>
+      <Image source={Ellipse1} style={styles.ellipse1} />
+      <Image source={Ellipse2} style={styles.ellipse2} />
+      <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={styles.favIcon}>
+        <Image source={Favorites} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.homeIcon}>
+        <Image source={Home} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={styles.shopIcon}>
+        <Image source={Shop} />
+      </TouchableOpacity>
+      </View>
   );
 }
 
@@ -409,6 +646,40 @@ let ShopDatabase = [
   }
 ]
 
+function SubscriptionScreen() {
+  const navigation = useNavigation();
+  return (
+    <View style={styles.mainContainer}>
+      {/*<ImageBackground source={subBackgorund1} style={styles.subBackgroundImage}>*/}
+        <Image source={subscriptionDescription} style={{marginTop: 60}}/>
+        <TouchableOpacity>
+          <Image source={sub1} style={styles.subButton1}/>
+        </TouchableOpacity>
+        <TouchableOpacity>
+        <Image source={sub2} style={styles.subButton2} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image source={sub3} style={styles.subButton2}/>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image source={sub4} style={styles.subButton2}/>
+        </TouchableOpacity>
+        <Image source={Ellipse1} style={styles.ellipse3} />
+        <Image source={Ellipse2} style={styles.ellipse4} />
+        <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom: -94, left:-130}}>
+          <Image source={Favorites} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{top: -20, left: -0}}>
+          <Image source={Home} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={{top: -20,right: -130}}>
+          <Image source={Shop} />
+        </TouchableOpacity>
+      {/*</ImageBackground>*/}
+    </View>
+  )
+}
+
 // Mostly done. Still need back button and add onPress with href to shopify site
 function ShopScreen() {
   const navigation = useNavigation();
@@ -438,9 +709,38 @@ function ShopScreen() {
 }
 
 function VirtualCoffeeReadingScreen() {
+  const navigation = useNavigation();
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
+        <View style={styles.authContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Image source={backButton} style={{marginRight: 160}}/>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image source={useAVirtualCoffee} style={{marginTop:13}}/>
+          </TouchableOpacity>
+        </View>
+      {/*<RNCamera ref={ref => {this.camera = ref;}} style={{flex: 1, width: '100%'}}>
+      </RNCamera>
+      */}
+      <Image source={virtualImage} />
+      <TouchableOpacity>
+        <Image source={submitPhoto} style={{marginTop:30}}/>
+      </TouchableOpacity>
+      <TouchableOpacity>
+      <Image source={photoGallery} style={{marginTop:30}} />
+      </TouchableOpacity>
+    </View>
+  )
+}
+
+function FortuneModal() {
   return (
     <View style={styles.virtualContainer}>
       <Text> Hello </Text>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Fortune Modal</Text>
+    </View>
     </View>
   )
 }
@@ -458,8 +758,6 @@ function VirtualOne(){
     </View>
   )
 }
-
-
 
 
 function VirtualTwo(){
@@ -549,13 +847,15 @@ function PhotoReadingScreen() {
 }
 
 function SignUpScreen() {
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Image source={backButton} style={{marginLeft: 50, marginBottom: 10}}/>
+        </TouchableOpacity>
         <Text style={styles.title}>
           fortune coffee
         </Text>
@@ -598,11 +898,78 @@ function SignUpScreen() {
         </TouchableOpacity>
         <Text style={styles.underSignup}>
           Already have an account?
-          <TouchableOpacity onPress={() => console.log('log in pressed')}>
+          <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
             <Text style={styles.login}> Login</Text>
           </TouchableOpacity>
         </Text>
       </ImageBackground>
+    </View>
+  )
+}
+
+function SavedFortunes() {
+  const navigation = useNavigation();
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
+      <View style={styles.authContainer}>
+        <TouchableOpacity>
+          <Image source={backButton} style={{marginRight: 200}}/>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+          <Image source={SignInButton} style={{marginTop:13}}/>
+        </TouchableOpacity>
+      </View>
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 230, marginTop: 20}}>SavedFortunes</Text>
+      <TextInput style={styles.savedFortuneTextBox}
+          label="Name"
+          placeholder="                                   Enter name here"
+          placeholderTextColor='#DCDCDC'
+      />
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 190, marginTop: 20}}>Relationship Status</Text>
+      <TextInput style={styles.savedFortuneTextBox}
+          label="Relationship Status"
+          placeholder="                       Enter relationship status here"
+          placeholderTextColor='#DCDCDC'
+      />
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20}}>Enter employment status here</Text>
+      <TextInput style={styles.savedFortuneTextBox}
+          label="EmploymentStatus"
+          placeholder="                   Enter employment status here"
+          placeholderTextColor='#DCDCDC'
+      />
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20}}>Enter employment status here</Text>
+      <TextInput style={styles.savedFortuneTextBox}
+          label="Gender"
+          placeholder="                       Enter gender here"
+          placeholderTextColor='#DCDCDC'
+      />
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 280, marginTop: 20}}>Birthday</Text>
+      <View style={styles.authContainer}>
+        <TextInput style={styles.savedFortuneTextBox2}
+          label="Month"
+          placeholder="      00"
+          placeholderTextColor='#DCDCDC'
+        />
+        <TextInput style={styles.savedFortuneTextBox2}
+          label="Day"
+          placeholder="      00"
+          placeholderTextColor='#DCDCDC'
+        />
+        <TextInput style={styles.savedFortuneTextBox3}
+          label="Year"
+          placeholder="      00"
+          placeholderTextColor='#DCDCDC'
+        />
+      </View>
+
+      <TouchableOpacity onPress={() => console.log('log in pressed')}>
+      <Image source={continueImage} style={{marginTop: 0}}/>
+      </TouchableOpacity>
+      <Text></Text>
+      <Text></Text>
+      <TouchableOpacity onPress={() => console.log('log in pressed')}>
+      <Image source={skipImage} />
+      </TouchableOpacity>
     </View>
   )
   async function SignUp() {
@@ -618,12 +985,59 @@ function SignUpScreen() {
 }
 
 
+function Profile() {
+  return (
+    <ImageBackground source={profile_bg} style={styles.subBackgroundImage}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={styles.authContainer}>
+          <TouchableOpacity style={styles.authButton1}>
+            <Image source={backButton} style={{marginRight: 80}}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.authButton2}>
+            <Image source={pageButton} />
+          </TouchableOpacity>
+        </View>
+        <Text style={{marginBottom: 30}}></Text>
+        <Image source={profileImage} />
+        <Input placeholder="Name" >
+        {/*<Image source={pencil} />*/}
+        </Input>  
+        <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>Username</Text>
+        <Input placeholder="Username" >
+        </Input>
+        <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>First name</Text>
+        <Input placeholder="First name" >
+        </Input> 
+        <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>Last Name</Text>
+        <Input placeholder="Last Name" >
+        </Input>  
+        <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 285}}>Date of Birth</Text>
+        <Input placeholder="Date of Birth" >
+        </Input>  
+        <Image source={Ellipse1} style={styles.ellipse1} />
+        <Image source={Ellipse2} style={styles.ellipse2} />
+        <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom:-175,left: -130}}>
+          <Image source={Favorites} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{top: 60,left: -0}}>
+          <Image source={Home} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={{top: 60,right: -130}}>
+          <Image source={Shop} />
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
+  )
+}
 
 function SignInScreen() {
-
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Image source={backButton} style={{marginLeft: 50, marginBottom: 10}}/>
+        </TouchableOpacity>
         <Text style={styles.title}>
           fortune coffee
         </Text>
@@ -653,16 +1067,17 @@ function SignInScreen() {
         <Text>
         </Text>
         <StatusBar style="auto" />
-        <TouchableOpacity onPress={() => console.log('Sign up pressed')}>
+        <TouchableOpacity onPress={() => console.log('Log in pressed')}>
           <Image source={login} style={styles.buttonImage} />
         </TouchableOpacity>
         <Text style={styles.underSignup}>
           Forgot Password?{"\n"}
           Create a new
-          <TouchableOpacity onPress={() => console.log('account pressed')}>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
             <Text style={styles.login}> account</Text>
           </TouchableOpacity>
         </Text>
+        <Text style={{marginBottom: 100}}></Text>
       </ImageBackground>
 
     </View>
@@ -670,10 +1085,7 @@ function SignInScreen() {
 }
 
 function ReadingAnimationScreen({navigation}){
-
   const rotateValueHolder = useRef(new Animated.Value(0)).current;
-
-
   const startImageRotationFunction = () => {
     rotateValueHolder.setValue(0);
     Animated.loop(
@@ -788,6 +1200,10 @@ function App() {
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="ReadingAnimation" component={ReadingAnimationScreen} />
         <Stack.Screen name="Reading" component={Reading} />
+        <Stack.Screen name="Subscription" component={SubscriptionScreen} />
+        <Stack.Screen name="Fortune" component={FortuneModal} />
+        <Stack.Screen name="SavedFortunes" component={SavedFortunes} />
+        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
