@@ -1,10 +1,8 @@
 
-import * as React from 'react';
+import React, { useRef, useEffect, useState, Componenet } from 'react';
 
 import './fixtimerbug';
 
-
-import React, { useRef, useEffect, useState, Componenet } from 'react';
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -38,6 +36,7 @@ import TakePhoto from './assets/FortuneCoffeePNGassets/TakePhoto.png';
 import Home from './assets/FortuneCoffeePNGassets/homeBoth.png';
 import Shop from './assets/FortuneCoffeePNGassets/shopBoth.png';
 import Favorites from './assets/FortuneCoffeePNGassets/favoritesBoth.png';
+
 import VirtualCoffee from './assets/FortuneCoffeePNGassets/VirtualCoffee.png';
 import SignInButton from './assets/FortuneCoffeePNGassets/SignInButton.png';
 import SignUpButton from './assets/FortuneCoffeePNGassets/SignUpButton.png';
@@ -45,6 +44,7 @@ import LargeTitleApp from './assets/FortuneCoffeePNGassets/LargeTitleApp.png';
 import PickCard from './assets/FortuneCoffeePNGassets/PickCard.png';
 import Cards from './assets/FortuneCoffeePNGassets/allCards.png';
 import Ellipse1 from './assets/FortuneCoffeePNGassets/ellipse.png';
+
 //SHOP PAGE// 
 import shop from './assets/FortuneCoffeePNGassets/shopPage/Shop.png';
 import galaxy from './assets/FortuneCoffeePNGassets/shopPage/galaxy.png';
@@ -108,7 +108,6 @@ import Modal from 'react-native-modal';
 import FlipCard from 'react-native-flip-card';
 import card from './assets/FortuneCoffeePNGassets/MiddleCard-1.png';
 import card2 from './assets/FortuneCoffeePNGassets/MiddleCard-2.png';
-import { useState } from 'react';
 // GET CRYSTAL PAGE //
 import crystalBackground from './assets/FortuneCoffeePNGassets/crystalBackground.png';
 import getCrystals from './assets/FortuneCoffeePNGassets/getCrystals.png';
@@ -132,7 +131,6 @@ import skipImage from './assets/FortuneCoffeePNGassets/Skip.png';
 import continueImage from './assets/FortuneCoffeePNGassets/Continue.png';
 import { Input } from 'react-native-elements';
 import profile_bg from './assets/FortuneCoffeePNGassets/Profile_bg.png';
-import backButton from './assets/backButton.png';
 import pencil from './assets/pencil.png';
 import pageButton from './assets/pageButton.png';
 
@@ -494,7 +492,6 @@ checkIfLoggedIn = () => {
   })
 }
 
-
 ////////////////////
 // Screen Layouts //
 ////////////////////
@@ -542,7 +539,6 @@ function HomeScreen({navigation}) {
       <TouchableOpacity onPress={() => navigation.navigate('Virtual')} style={styles.cards}>
         <Image source={Cards} />
       </TouchableOpacity>
-      <NavBar />
       <View>
       <Button title="Show modal" onPress={toggleModal} />
         <Modal isVisible={isModalVisible}>
@@ -585,17 +581,7 @@ function HomeScreen({navigation}) {
           </Modal>
         </TouchableOpacity>
       </View>
-      <Image source={Ellipse1} style={styles.ellipse1} />
-      <Image source={Ellipse2} style={styles.ellipse2} />
-      <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={styles.favIcon}>
-        <Image source={Favorites} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.homeIcon}>
-        <Image source={Home} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={styles.shopIcon}>
-        <Image source={Shop} />
-      </TouchableOpacity>
+      <NavBar />
       </View>
   );
 }
@@ -710,7 +696,7 @@ function SubscriptionScreen() {
           <Image source={sub4} style={styles.subButton2}/>
         </TouchableOpacity>
         <Image source={Ellipse1} style={styles.ellipse3} />
-        <Image source={Ellipse2} style={styles.ellipse4} />
+        {/* <Image source={Ellipse2} style={styles.ellipse4} /> */}
         <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom: -94, left:-130}}>
           <Image source={Favorites} />
         </TouchableOpacity>
@@ -896,7 +882,7 @@ function SignUpScreen({ navigation }) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
@@ -1020,11 +1006,11 @@ function SavedFortunes() {
       </TouchableOpacity>
     </View>
   )
-  async function SignUp() {
-    try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(user => {
-          console.log(user)
+  // async function SignUp() {
+  //   try {
+  //     await firebase.auth().createUserWithEmailAndPassword(email, password)
+  //       .then(user => {
+  //         console.log(user)
 
   
   // working for config.js
@@ -1040,10 +1026,11 @@ function SavedFortunes() {
   }
 }
 
-function SignInScreen({ navigation }) {
+// function SignInScreen({ navigation }) {
 
+// TODO need to hook this up to a button after signed in
 
-function Profile() {
+  function Profile({ navigation }) {
   return (
     <ImageBackground source={profile_bg} style={styles.subBackgroundImage}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -1073,7 +1060,7 @@ function Profile() {
         <Input placeholder="Date of Birth" >
         </Input>  
         <Image source={Ellipse1} style={styles.ellipse1} />
-        <Image source={Ellipse2} style={styles.ellipse2} />
+        {/* <Image source={Ellipse2} style={styles.ellipse2} /> */}
         <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom:-175,left: -130}}>
           <Image source={Favorites} />
         </TouchableOpacity>

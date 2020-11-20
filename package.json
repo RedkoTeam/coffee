@@ -11,33 +11,17 @@
     "@react-navigation/native": "^5.7.5",
     "@react-navigation/stack": "^5.9.2",
     "anonymous-files": "^1.0.1",
-<<<<<<< HEAD
-    "auth": "0.0.9",
     "expo": "~39.0.2",
-    "expo-facebook": "~9.0.0",
-    "expo-google-sign-in": "~8.3.0",
-=======
-    "expo": "~39.0.2",
->>>>>>> takaRedko
     "expo-image-picker": "~9.1.0",
     "expo-sharing": "~8.4.1",
     "expo-splash-screen": "~0.6.2",
     "expo-status-bar": "~1.0.2",
     "expo-updates": "~0.3.2",
-<<<<<<< HEAD
     "firebase": "^8.0.2",
     "it": "^1.1.1",
     "nvm": "0.0.4",
     "pods": "^2.0.0",
     "react": "16.13.1",
-=======
-    "it": "^1.1.1",
-    "js-yaml": ">=3.13.1",
-    "lodash": ">=4.17.19",
-    "node-fetch": ">=2.6.1",
-    "nvm": "0.0.4",
-    "pods": "^2.0.0",
->>>>>>> takaRedko
     "react-dom": "16.13.1",
     "react-native": "~0.63.3",
     "react-native-camera": "^3.40.0",
@@ -52,11 +36,6 @@
 
     "react-native-web": "~0.13.12",
     "underscore.string": ">=3.3.5"
-<<<<<<< HEAD
-
-
-=======
->>>>>>> takaRedko
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
