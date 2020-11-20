@@ -1,30 +1,43 @@
+
 import * as React from 'react';
+
+import './fixtimerbug';
+
+
 import React, { useRef, useEffect, useState, Componenet } from 'react';
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+// import firebase from './components/firebase'
 
 ////////////////////
 // Firebase //
 ////////////////////
 import * as firebase from 'firebase';
+import 'firebase/auth'
+import 'firebase/firebase-firestore'
 import { firebaseConfig } from './config';
+
 
 //checks to see if app is already initialized before running again
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
 
+// error 
+// firebase.initializeApp(firebaseConfig)
+
+const db = firebase.firestore();
 ////////////////////
 // IMAGES & ICONS //
 ////////////////////
 
 //HOMEPAGE//
 import TakePhoto from './assets/FortuneCoffeePNGassets/TakePhoto.png';
-import Home from './assets/FortuneCoffeePNGassets/home.png';
-import Shop from './assets/FortuneCoffeePNGassets/shop.png';
-import Favorites from './assets/FortuneCoffeePNGassets/favorites.png';
+import Home from './assets/FortuneCoffeePNGassets/homeBoth.png';
+import Shop from './assets/FortuneCoffeePNGassets/shopBoth.png';
+import Favorites from './assets/FortuneCoffeePNGassets/favoritesBoth.png';
 import VirtualCoffee from './assets/FortuneCoffeePNGassets/VirtualCoffee.png';
 import SignInButton from './assets/FortuneCoffeePNGassets/SignInButton.png';
 import SignUpButton from './assets/FortuneCoffeePNGassets/SignUpButton.png';
@@ -489,6 +502,7 @@ checkIfLoggedIn = () => {
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
 function HomeScreen({navigation}) {
+
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => { 
     setModalVisible(!isModalVisible);
@@ -500,6 +514,7 @@ function HomeScreen({navigation}) {
   toggleImage = () => {
     this.setState(state => ({ open: !state.open}))
   }
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.authContainer}>
@@ -584,6 +599,36 @@ function HomeScreen({navigation}) {
       </View>
   );
 }
+
+function HomeScreenLoggedIn({ navigation }) {
+  return (
+    <View style={styles.mainContainer}>
+      
+      <View style={styles.appTitle}>
+        <Image source={LargeTitleApp} />
+      </View>
+      <View style={styles.circleContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}>
+          <Image source={TakePhoto} style={styles.circleL} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
+          <Image source={VirtualCoffee} style={styles.circleR} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.cardTitle}>
+        <Image source={PickCard} />
+      </View>
+      <TouchableOpacity onPress={() => navigation.navigate('Virtual')} style={styles.cards}>
+        <Image source={Cards} />
+      </TouchableOpacity>
+      <NavBar />
+    </View>
+  );
+}
+
+
+
+
 
 function NavBar(){
   const navigation = useNavigation();
@@ -846,7 +891,9 @@ function PhotoReadingScreen() {
   )
 }
 
-function SignUpScreen() {
+
+function SignUpScreen({ navigation }) {
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigation = useNavigation();
@@ -892,7 +939,7 @@ function SignUpScreen() {
           placeholderTextColor='#DCDCDC'
         />
         <StatusBar style="auto" />
-        <TouchableOpacity onPress={() => {SignUp(email, password)}}>
+        <TouchableOpacity onPress={() => { SignUp(email, password), navigation.navigate('HomeLoggedIn')} }>
           <Image source={signin} style={styles.buttonImage}  />
   
         </TouchableOpacity>
@@ -905,6 +952,7 @@ function SignUpScreen() {
       </ImageBackground>
     </View>
   )
+
 }
 
 function SavedFortunes() {
@@ -977,12 +1025,22 @@ function SavedFortunes() {
       await firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(user => {
           console.log(user)
+
+  
+  // working for config.js
+  function SignUp() {
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(data => {
+          return db.collection('users').doc(data.user.uid).set({
+            userName: email,
+          })
+            .catch(error => console.log(error))
+
         })
-    } catch (error) {
-      console.log(error.toString(error))
-    }
   }
 }
+
+function SignInScreen({ navigation }) {
 
 
 function Profile() {
@@ -1032,6 +1090,10 @@ function Profile() {
 
 function SignInScreen() {
   const navigation = useNavigation();
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
@@ -1058,16 +1120,20 @@ function SignInScreen() {
           label="Email"
           placeholder="   Email address"
           placeholderTextColor='#DCDCDC'
+          onChangeText={email => setEmail(email)}
         />
         <TextInput style={styles.textBox}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
+          onChangeText={password => setPassword(password)}
         />
         <Text>
         </Text>
         <StatusBar style="auto" />
-        <TouchableOpacity onPress={() => console.log('Log in pressed')}>
+
+        <TouchableOpacity onPress={() => { onLogin(email, password) } }>
+
           <Image source={login} style={styles.buttonImage} />
         </TouchableOpacity>
         <Text style={styles.underSignup}>
@@ -1082,6 +1148,10 @@ function SignInScreen() {
 
     </View>
   )
+  function onLogin () {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    navigation.navigate('HomeLoggedIn')
+  }
 }
 
 function ReadingAnimationScreen({navigation}){
@@ -1185,6 +1255,7 @@ function App() {
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="HomeLoggedIn" component={HomeScreenLoggedIn} />
         <Stack.Screen name="Favorites" component={FavoritesScreen} />
         <Stack.Screen name="Shop" component={ShopScreen} />
         <Stack.Screen name="Virtual" component={VirtualCoffeeReadingScreen} />
