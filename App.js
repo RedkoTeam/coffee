@@ -500,17 +500,17 @@ checkIfLoggedIn = () => {
 //ReadingAnimation back to PhotoReading 
 function HomeScreen({navigation}) {
 
-  const [isModalVisible, setModalVisible] = useState(false);
-  const toggleModal = () => { 
-    setModalVisible(!isModalVisible);
-  };
-  state = {
-    open: true,
-    open2: true,
-  };
-  toggleImage = () => {
-    this.setState(state => ({ open: !state.open}))
-  }
+  // const [isModalVisible, setModalVisible] = useState(false);
+  // const toggleModal = () => { 
+  //   setModalVisible(!isModalVisible);
+  // };
+  // state = {
+  //   open: true,
+  //   open2: true,
+  // };
+  // toggleImage = () => {
+  //   this.setState(state => ({ open: !state.open}))
+  // }
 
   return (
     <View style={styles.mainContainer}>
@@ -540,7 +540,7 @@ function HomeScreen({navigation}) {
         <Image source={Cards} />
       </TouchableOpacity>
       <View>
-      <Button title="Show modal" onPress={toggleModal} />
+      {/* <Button title="Show modal" onPress={toggleModal} />
         <Modal isVisible={isModalVisible}>
           <View style = {styles.modalStyle}>
             <Text style = {styles.tapCard}>Tap card to flip</Text>
@@ -579,7 +579,7 @@ function HomeScreen({navigation}) {
               </ImageBackground>
             </View>
           </Modal>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <NavBar />
       </View>
