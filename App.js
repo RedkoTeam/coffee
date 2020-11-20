@@ -58,6 +58,10 @@ import xButton from './assets/FortuneCoffeePNGassets/bi_x.png';
 import {Component} from 'react';
 import {AppRegistry, Dimensions} from 'react-native';
 import {RNCamera} from 'react-native-camera';
+import useAVirtualCoffee from './assets/useAVirtualCoffee.png';
+import virtualImage from './assets/virtualImage.png';
+import submitPhoto from './assets/submitPhoto.png';
+import photoGallery from './assets/photoGallery.png';
 
 //Saved Fortunes //
 
@@ -521,10 +525,27 @@ function ShopScreen() {
 }
 
 function VirtualCoffeeReadingScreen() {
+  const navigation = useNavigation();
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <RNCamera ref={ref => {this.camera = ref;}} style={{flex: 1, width: '100%'}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
+        <View style={styles.authContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Image source={backButton} style={{marginRight: 160}}/>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image source={useAVirtualCoffee} style={{marginTop:13}}/>
+          </TouchableOpacity>
+        </View>
+      {/*<RNCamera ref={ref => {this.camera = ref;}} style={{flex: 1, width: '100%'}}>
       </RNCamera>
+      */}
+      <Image source={virtualImage} />
+      <TouchableOpacity>
+        <Image source={submitPhoto} style={{marginTop:30}}/>
+      </TouchableOpacity>
+      <TouchableOpacity>
+      <Image source={photoGallery} style={{marginTop:30}} />
+      </TouchableOpacity>
     </View>
   )
 }
