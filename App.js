@@ -613,9 +613,6 @@ function HomeScreenLoggedIn({ navigation }) {
 }
 
 
-
-
-
 function NavBar(){
   const navigation = useNavigation();
   return(
