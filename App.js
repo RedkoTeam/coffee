@@ -2,6 +2,7 @@
 import React, { useRef, useEffect, useState, Componenet } from 'react';
 
 import './fixtimerbug';
+import {fortunesArray} from './fortunesArray';
 
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -526,7 +527,7 @@ function HomeScreen({navigation}) {
         <Image source={LargeTitleApp} />
       </View>
       <View style={styles.circleContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}> 
+        <TouchableOpacity onPress={() => {navigation.navigate('ReadingAnimation')}}> 
           <Image source={TakePhoto} style={styles.circleL} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
@@ -584,6 +585,13 @@ function HomeScreen({navigation}) {
       <NavBar />
       </View>
   );
+  function getRandomFortune () {
+    let random = Math.floor((Math.random() * fortunesArray.length))
+    console.log(random);
+    let randomFortune = fortunesArray[random];
+    console.log(randomFortune);
+    // console.log(fortunesArray[2])
+  }
 }
 
 function HomeScreenLoggedIn({ navigation }) {
@@ -935,7 +943,18 @@ function SignUpScreen({ navigation }) {
       </ImageBackground>
     </View>
   )
+  // working for config.js
+  function SignUp() {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(data => {
+        return db.collection('users').doc(data.user.uid).set({
+          userName: email,
+          subscriptionLevel: 0,
+        })
+          .catch(error => console.log(error))
 
+      })
+  }
 }
 
 function SavedFortunes() {
@@ -1003,27 +1022,10 @@ function SavedFortunes() {
       </TouchableOpacity>
     </View>
   )
-  // async function SignUp() {
-  //   try {
-  //     await firebase.auth().createUserWithEmailAndPassword(email, password)
-  //       .then(user => {
-  //         console.log(user)
-
   
-  // working for config.js
-  function SignUp() {
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(data => {
-          return db.collection('users').doc(data.user.uid).set({
-            userName: email,
-          })
-            .catch(error => console.log(error))
-
-        })
-  }
 }
 
-// function SignInScreen({ navigation }) {
+
 
 // TODO need to hook this up to a button after signed in
 
@@ -1185,11 +1187,18 @@ function ReadingAnimationScreen({navigation}){
 function Reading(){
   const navigation = useNavigation();
   var userName = 'user';
+
+  const [randomFortune, setRandomFortune] = useState('')
+
+  useEffect(() => {
+    setRandomFortune(getRandomFortune())
+  })
+
   return(
     <View style={styles.virtualContainer}>
       <ImageBackground source={ readingBackground } style={styles.virtualOne}>
         <View style={styles.flexInRows}>
-          <TouchableOpacity onPress={()=>navigation.popToTop()}>
+          <TouchableOpacity onPress={() => navigation.popToTop()}>
             <Image source={ backButton } />
           </TouchableOpacity>
           <Image source={ user } />
@@ -1209,7 +1218,7 @@ function Reading(){
         <View style={ styles.readingTableContainer }>
           <Image source={ yourPresent } style={{marginBottom:12}}/>
           <ScrollView>
-            <Text> TABLE TO BE ATTACHED  </Text>
+            <Text> {randomFortune}  </Text>
           </ScrollView>
         </View>
         <View style={ styles.readingTableContainer }>
@@ -1221,6 +1230,13 @@ function Reading(){
       </ImageBackground>
     </View>
   )
+  function getRandomFortune(props) {
+    let random = Math.floor((Math.random() * fortunesArray.length))
+    console.log(random);
+    let fortune = fortunesArray[random];
+    console.log(fortune);
+    // console.log(fortunesArray[2])
+  }
 }
 
 
