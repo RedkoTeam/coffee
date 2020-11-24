@@ -15,11 +15,23 @@ const firebaseConfig = {
     measurementId: "G-KE4PJMB3J5"
 };
 
+  // working for firebase.js
+  // async function SignUp() {
+  //   try {
+  //     await firebase.register(email, password)
+  //       .then(user => {
+  //         console.log(user)
+  //       })
+  //   } catch (error) {
+  //     console.log(error.toString(error))
+  //   }
+  // }
+
 class Firebase {
     constructor() {
-        if (!firebase.apps.length) {
+        
         app.initializeApp(firebaseConfig)
-        }
+        
         // Firebase APIs //
         this.auth = app.auth()
         this.db = app.firestore()
@@ -38,10 +50,7 @@ class Firebase {
     register = (email, password) => {
         this.auth.createUserWithEmailAndPassword(email, password)
             .then(data => {
-                return this.db.collection('users').doc(data.user.uid).set({
-                    UserName: email,
-                    
-                })
+                return this.db.collection('users').doc(data.user.uid)
             })
             .catch(error => console.log(error))
     }
@@ -55,6 +64,8 @@ class Firebase {
             plan: options,
         })
     }
+
+    
     getInformation = () => {
         const docRef = this.db.collection("users").doc(app.auth().currentUser.uid);
 
