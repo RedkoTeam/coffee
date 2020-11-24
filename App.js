@@ -430,7 +430,7 @@ function FavoritesScreen() {
                     <Image source={etcButton} style={{right:50}}/>
                 </View>
                 <View style={{position:'absolute', top:150, left: 60, width:'90%'}}>
-                  <Text style={{fontSize:17}}>{item.fortune}</Text>
+                  <Text style={{fontSize:17}, fontStyles.defaultFont}>{item.fortune}</Text>
                 </View>
               </View>
             )
