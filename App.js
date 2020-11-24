@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState, Componenet } from 'react';
 
 import './fixtimerbug';
 
-import { Modal, Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
+import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -104,7 +104,7 @@ import subBackgorund1 from './assets/FortuneCoffeePNGassets/Vector.png';
 import subBackgorund2 from './assets/FortuneCoffeePNGassets/Vector-3.png';
 
 // Fortune Page //
-//import Modal from 'react-native-modal';
+import Modal from 'react-native-modal';
 import FlipCard from 'react-native-flip-card';
 import card from './assets/FortuneCoffeePNGassets/MiddleCard-1.png';
 import card2 from './assets/FortuneCoffeePNGassets/MiddleCard-2.png';
@@ -500,17 +500,17 @@ checkIfLoggedIn = () => {
 //ReadingAnimation back to PhotoReading 
 function HomeScreen({navigation}) {
 
-  // const [isModalVisible, setModalVisible] = useState(false);
-  // const toggleModal = () => { 
-  //   setModalVisible(!isModalVisible);
-  // };
-  // state = {
-  //   open: true,
-  //   open2: true,
-  // };
-  // toggleImage = () => {
-  //   this.setState(state => ({ open: !state.open}))
-  // }
+  const [isModalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => { 
+    setModalVisible(!isModalVisible);
+  };
+  state = {
+    open: true,
+    open2: true,
+  };
+  toggleImage = () => {
+    this.setState(state => ({ open: !state.open}))
+  }
 
   return (
     <View style={styles.mainContainer}>
@@ -540,7 +540,7 @@ function HomeScreen({navigation}) {
         <Image source={Cards} />
       </TouchableOpacity>
       <View>
-      {/* <Button title="Show modal" onPress={toggleModal} />
+        <Button title="Show modal" onPress={toggleModal} />
         <Modal isVisible={isModalVisible}>
           <View style = {styles.modalStyle}>
             <Text style = {styles.tapCard}>Tap card to flip</Text>
@@ -579,7 +579,7 @@ function HomeScreen({navigation}) {
               </ImageBackground>
             </View>
           </Modal>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
       <NavBar />
       </View>
