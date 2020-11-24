@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState, Componenet } from 'react';
 
 import './fixtimerbug';
 
-import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
+import { Modal, Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -104,7 +104,7 @@ import subBackgorund1 from './assets/FortuneCoffeePNGassets/Vector.png';
 import subBackgorund2 from './assets/FortuneCoffeePNGassets/Vector-3.png';
 
 // Fortune Page //
-import Modal from 'react-native-modal';
+//import Modal from 'react-native-modal';
 import FlipCard from 'react-native-flip-card';
 import card from './assets/FortuneCoffeePNGassets/MiddleCard-1.png';
 import card2 from './assets/FortuneCoffeePNGassets/MiddleCard-2.png';
