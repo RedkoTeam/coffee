@@ -1190,9 +1190,9 @@ function Reading(){
 
   const [randomFortune, setRandomFortune] = useState('')
 
-  useEffect(() => {
-    setRandomFortune(getRandomFortune())
-  })
+  // useEffect(() => {
+  //   setRandomFortune(getRandomFortune())
+  // })
 
   return(
     <View style={styles.virtualContainer}>
@@ -1218,19 +1218,26 @@ function Reading(){
         <View style={ styles.readingTableContainer }>
           <Image source={ yourPresent } style={{marginBottom:12}}/>
           <ScrollView>
-            <Text> {randomFortune}  </Text>
+            <Button 
+            onPress={ () => {
+              setRandomFortune(getRandomFortune)
+            }}
+            title='Click to view Fortune!'>
+              
+            </Button>
+           
           </ScrollView>
         </View>
         <View style={ styles.readingTableContainer }>
           <Image source= { whatHappen } />
           <ScrollView>
-            <Text> TABLE TO BE ATTACHED  </Text>
+            <Text> {randomFortune}  </Text>
           </ScrollView>
         </View>
       </ImageBackground>
     </View>
   )
-  function getRandomFortune(props) {
+  function getRandomFortune() {
     let random = Math.floor((Math.random() * fortunesArray.length))
     console.log(random);
     let fortune = fortunesArray[random];
