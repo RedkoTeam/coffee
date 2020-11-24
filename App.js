@@ -30,7 +30,7 @@ import Favorites from './assets/FortuneCoffeePNGassets/favorites.png';
 import VirtualCoffee from './assets/FortuneCoffeePNGassets/VirtualCoffee.png';
 import SignInButton from './assets/FortuneCoffeePNGassets/SignInButton.png';
 import SignUpButton from './assets/FortuneCoffeePNGassets/SignUpButton.png';
-import LargeTitleApp from './assets/FortuneCoffeePNGassets/LargeTitleApp.png';
+import LargeTitleApp from './assets/FortuneCoffeePNGassets/FortuneCoffeeTitle.png';
 import PickCard from './assets/FortuneCoffeePNGassets/PickCard.png';
 import Cards from './assets/FortuneCoffeePNGassets/allCards.png';
 import Ellipse1 from './assets/FortuneCoffeePNGassets/ellipse.png';
@@ -83,9 +83,24 @@ import user from './assets/FortuneCoffeePNGassets/reading/user.png';
 import whatHappen from './assets/FortuneCoffeePNGassets/reading/whatHappen.png';
 import yourPresent from './assets/FortuneCoffeePNGassets/reading/yourPresent.png';
 
+// FAVORITES PAGE //
+// galaxy
+// backButton
+import fortuneBox from './assets/FortuneCoffeePNGassets/savedFortunes/Box.png';
+import etcButton from './assets/FortuneCoffeePNGassets/savedFortunes/etcButton.png';
+import savedFortunesTitle from './assets/FortuneCoffeePNGassets/savedFortunes/savedFortuneTitle.png';
+
+
+
 ////////////////////
 // Styling  //
 ////////////////////
+
+const fontStyles = {
+  defaultFont: {
+    fontFamily: "Montserrat-Regular"
+  }
+}
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -97,6 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#070631',
+    flexGrow: 1
   },
   authContainer: {
     flex: .25,
@@ -289,6 +305,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 25,
     left: 35, 
+  },
+  shopBackgroundContainer: {
+    position:'absolute', 
+    width:'100%', 
+    height:'100%'
+  },
+  shopScreenTitle: {
+    position:'absolute', 
+    alignSelf:'center', 
+    right:'47%', 
+    bottom:'5%'
   }
 });
 
@@ -368,10 +395,58 @@ function NavBar(){
   )
 }
 
+let favoriteDatabase = [
+  {
+    date: 'October 13, 2020',
+    fortune: 'This is your fortune. This is your fortune. This is your fortune. This is your fortune. This is your fortune.'
+  },
+  {
+    date: 'October 13, 2020',
+    fortune: 'This is your fortune. This is your fortune. This is your fortune. This is your fortune. This is your fortune.'
+  },
+
+
+]
+
 function FavoritesScreen() {
+  const navigation = useNavigation();
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Favorites Screen</Text>
+    <View style={{flexGrow:1, justifyContent:'space-between'}}>
+      <ScrollView contentContainerStyle={styles.shopContainer}>
+        <View style={{flexDirection:'row', width:'100%', position: 'relative', left:0, top:75, marginBottom: 65}} >
+          <TouchableOpacity onPress={()=>navigation.popToTop()} >
+            <Image source={backButton} />
+          </TouchableOpacity>
+            <Image source={savedFortunesTitle} style={{position:'absolute', alignSelf:'center', right:'28%', bottom:'5%'}} />
+        </View>
+        <Image source={ galaxy } style={styles.shopBackgroundContainer} />
+        {
+          favoriteDatabase.map((item, index) => {
+            return(
+              <View key={index} style={{padding:30}}>
+                <Image source={fortuneBox} />
+                <View style={{flexDirection:'row', position: 'absolute', bottom:500, right:0, alignItems:'center', padding:12}}>
+                  <Text style={{color:'white', fontWeight:'bold', fontSize: 21, right: 75}}>{item.date}</Text>
+                    <Image source={etcButton} style={{right:50}}/>
+                </View>
+                <View style={{position:'absolute', top:150, left: 60, width:'90%'}}>
+                  <Text style={{fontSize:17}}>{item.fortune}</Text>
+                </View>
+              </View>
+            )
+          })
+        }
+      </ScrollView>
+    </View>
+  )
+}
+
+function ReadMore(){
+  return(
+    <View style={{flex:1, backgroundColor:'#070631'}}>
+      <Text>
+        Hello
+      </Text>
     </View>
   )
 }
@@ -414,12 +489,12 @@ function ShopScreen() {
   const navigation = useNavigation();
   return (
     <ScrollView contentContainerStyle={styles.shopContainer}>
-      <Image source={ galaxy } style={{position:'absolute', width:'100%', height:'100%'}} />
+      <Image source={ galaxy } style={styles.shopBackgroundContainer} />
       <View style={ styles.flexInRows }>
         <TouchableOpacity onPress={()=>navigation.popToTop()} >
           <Image source={backButton} />
         </TouchableOpacity>
-        <Image source={shop} style={{ position:'absolute', alignSelf:'center', right:'47%', bottom:'5%'}} />
+        <Image source={shop} style={styles.shopScreenTitle} />
       </View>
       {
         ShopDatabase.map((item, index) =>{
@@ -637,7 +712,7 @@ function SignInScreen() {
         <TouchableOpacity onPress={() => console.log('facebook pressed')}>
           <Image source={facebookTitle} style={styles.buttonImage} />
         </TouchableOpacity>
-        <Text style={styles.underFacebook}>
+        <Text style={styles.underFacebook, fontStyles.defaultFont}>
           OR LOG IN WITH EMAIL
         </Text>
         <TextInput style={styles.textBox}
@@ -769,7 +844,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false
+          headerShown: true
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
@@ -788,6 +863,7 @@ function App() {
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="ReadingAnimation" component={ReadingAnimationScreen} />
         <Stack.Screen name="Reading" component={Reading} />
+        <Stack.Screen name="ReadMore" component={ReadMore} />
       </Stack.Navigator>
     </NavigationContainer>
   );
