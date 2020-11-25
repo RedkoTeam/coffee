@@ -1216,14 +1216,14 @@ function Reading(){
           </TouchableOpacity>
         </View>
         <View style={ styles.readingTableContainer }>
-          <Image source={ yourPresent } style={{marginBottom:12}}/>
+          {/* <Image source={ yourPresent } style={{marginBottom:12}}/> */}
           <ScrollView>
             <Button 
             onPress={ () => {
               setRandomFortune(getRandomFortune)
             }}
-            title='Click to view Fortune!'>
-              
+            title='Click to view Fortune!'
+            >
             </Button>
            
           </ScrollView>
@@ -1242,6 +1242,7 @@ function Reading(){
     console.log(random);
     let fortune = fortunesArray[random];
     console.log(fortune);
+    return fortune;
     // console.log(fortunesArray[2])
   }
 }
