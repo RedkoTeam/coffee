@@ -585,13 +585,6 @@ function HomeScreen({navigation}) {
       <NavBar />
       </View>
   );
-  function getRandomFortune () {
-    let random = Math.floor((Math.random() * fortunesArray.length))
-    console.log(random);
-    let randomFortune = fortunesArray[random];
-    console.log(randomFortune);
-    // console.log(fortunesArray[2])
-  }
 }
 
 function HomeScreenLoggedIn({ navigation }) {
@@ -1204,7 +1197,7 @@ function Reading(){
           <Image source={ user } />
         </View>
         <View style={styles.flexInRowsCoffee}>
-          <TouchableOpacity onPress={()=> console.log("SAVED")}>
+          <TouchableOpacity onPress={() => onSave()}>
             <Image source={ saveButton } />
           </TouchableOpacity>
           <View>
@@ -1244,6 +1237,13 @@ function Reading(){
     console.log(fortune);
     return fortune;
     // console.log(fortunesArray[2])
+  }
+
+  function onSave() {
+    db.collection('users').doc(firebase.auth().currentUser.uid).update({
+      favorites: firebase.firestore.FieldValue.arrayUnion(...[randomFortune])
+    })
+    navigation.navigate('Favorites')
   }
 }
 
