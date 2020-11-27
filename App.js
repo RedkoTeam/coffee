@@ -115,6 +115,7 @@ import xButton from './assets/FortuneCoffeePNGassets/bi_x.png';
 
 //TAKE PHOTO //
 'use strict';
+import * as ImagePicker from 'expo-image-picker';
 import {Component} from 'react';
 import {AppRegistry, Dimensions} from 'react-native';
 import {RNCamera} from 'react-native-camera';
@@ -398,7 +399,7 @@ const styles = StyleSheet.create({
   },
   subButton1: {
     width: 390,
-    height: 110,
+    height: 130,
     borderRadius: 30,
     marginHorizontal: 1,
     marginTop: 30
@@ -526,7 +527,7 @@ function HomeScreen({navigation}) {
         <Image source={LargeTitleApp} />
       </View>
       <View style={styles.circleContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}> 
+        <TouchableOpacity onPress={() => navigation.navigate('Virtual')}> 
           <Image source={TakePhoto} style={styles.circleL} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
@@ -536,10 +537,8 @@ function HomeScreen({navigation}) {
       <View style={styles.cardTitle}>
         <Image source={PickCard} />
       </View>
-      
-      <Button title="camera screen" onPress={() => navigation.navigate('Virtual')} />
 
-      <View>
+      {/* <View>
        <Button title="Show modal" onPress={toggleModal} />
         <Modal isVisible={isModalVisible}>
           <View style = {styles.modalStyle}>
@@ -561,7 +560,7 @@ function HomeScreen({navigation}) {
             </View>
           </View>
         </Modal>
-      </View>
+      </View> */}
       <View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
@@ -740,6 +739,17 @@ function ShopScreen() {
 }
 
 function VirtualCoffeeReadingScreen() {
+  let openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    console.log(pickerResult);
+  }
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
@@ -755,10 +765,10 @@ function VirtualCoffeeReadingScreen() {
       </RNCamera>
       */}
       <Image source={virtualImage} />
-      <TouchableOpacity>
-        <Image source={submitPhoto} style={{marginTop:30}}/>
+      <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}>
+        <Image source={submitPhoto} style={{marginTop:30}} />
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={openImagePickerAsync}>
       <Image source={photoGallery} style={{marginTop:30}} />
       </TouchableOpacity>
     </View>
@@ -840,7 +850,7 @@ function VirtualFive(){
       <ImageBackground source={backgroundFive} style={ styles.virtualOne }>
         <Image source={ pysicReadingText } style={{ margin: '40%'}}/>
         <Image source={ dontWantToWaitText } style={{ marginBottom:10 }} />
-        <TouchableOpacity onPress={ () => navigation.navigate('GetCrystals')}>
+        <TouchableOpacity onPress={ () => navigation.navigate('Subscription')}>
           <Image source={ getCrystalsButton } />
         </TouchableOpacity>
         <NavBar/>
