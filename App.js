@@ -1029,17 +1029,6 @@ function SignUpScreen({ navigation }) {
   }
 }
 
-// ADDED
-function SignUp() {
-  firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(data => {
-      return db.collection('users').doc(data.user.uid).set({
-        userName: email,
-        subscriptionLevel: 0,
-      })
-        .catch(error => console.log(error))
-    })
-}
 
 function SavedFortunes() {
   const navigation = useNavigation();
@@ -1275,10 +1264,7 @@ function Reading({route}){
   const navigation = useNavigation();
   var userName = 'user';
 
-
   const [randomFortune, setRandomFortune] = useState('');
-
-
   return(
     <View style={styles.virtualContainer}>
       <ImageBackground source={ readingBackground } style={styles.virtualOne}>
@@ -1304,12 +1290,11 @@ function Reading({route}){
           </TouchableOpacity>
         </View>
         <View style={ styles.readingTableContainer }>
+          <Image source={ yourFortune } style={{marginBottom:12}}/>
+        <ScrollView>
+           <Text> {route.params.randFortune}  </Text>
 
-//           <Image source={ yourFortune } style={{marginBottom:12}}/>
-//           <ScrollView>
-//             <Text> {route.params.randFortune}  </Text>
-
-          {/* <Image source={ yourPresent } style={{marginBottom:12}}/> */}
+          {/* <Image source={ yourPresent } style={{marginBottom:12}}/>
           <ScrollView>
             {/* copy and paste */}
             <Button 
@@ -1323,7 +1308,7 @@ function Reading({route}){
           </ScrollView>
         </View>
         <View style={ styles.readingTableContainer }>
-          <Image source= { whatHappen } />
+          
           <ScrollView>
             {/* copy and paste */}
             <Text> {randomFortune}  </Text>
@@ -1361,13 +1346,6 @@ function getRandomFortune() {
   return fortune;
   // console.log(fortunesArray[2])
 }
-// ADDED
-function onSave() {
-  db.collection('users').doc(firebase.auth().currentUser.uid).update({
-    favorites: firebase.firestore.FieldValue.arrayUnion(...[randomFortune])
-  })
-  navigation.navigate('Favorites')
-}
 // end copy paste
 
 
@@ -1385,7 +1363,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: true
+          headerShown: false
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
