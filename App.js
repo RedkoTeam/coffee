@@ -5,7 +5,7 @@ import './fixtimerbug';
 
 import {fortunesArray} from './fortunesArray';
 
-import { Modal, Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
+import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -113,7 +113,7 @@ import subBackgorund1 from './assets/FortuneCoffeePNGassets/Vector.png';
 import subBackgorund2 from './assets/FortuneCoffeePNGassets/Vector-3.png';
 
 // Fortune Page //
-//import Modal from 'react-native-modal';
+import Modal from 'react-native-modal';
 import FlipCard from 'react-native-flip-card';
 import card from './assets/FortuneCoffeePNGassets/MiddleCard-1.png';
 import card2 from './assets/FortuneCoffeePNGassets/MiddleCard-2.png';
@@ -525,25 +525,25 @@ const styles = StyleSheet.create({
 
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
-function HomeScreen({navigation}) {
+function HomeScreen({ navigation }) {
 
-  // const [isModalVisible, setModalVisible] = useState(false);
-  // const toggleModal = () => { 
-  //   setModalVisible(!isModalVisible);
-  // };
-  // state = {
-  //   open: true,
-  //   open2: true,
-  // };
-  // toggleImage = () => {
-  //   this.setState(state => ({ open: !state.open}))
-  // }
+  const [isModalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+  state = {
+    open: true,
+    open2: true,
+  };
+  toggleImage = () => {
+    this.setState(state => ({ open: !state.open }))
+  }
 
   return (
     <View style={styles.mainContainer}>
       <View style={styles.authContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.authButton1}>
-          <Image source={SignUpButton}/>
+          <Image source={SignUpButton} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.authButton2}>
           <Image source={SignInButton} />
@@ -553,21 +553,19 @@ function HomeScreen({navigation}) {
         <Image source={LargeTitleApp} />
       </View>
       <View style={styles.circleContainer}>
-        <TouchableOpacity onPress={() => {navigation.navigate('ReadingAnimation')}}> 
+        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}>
           <Image source={TakePhoto} style={styles.circleL} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
-          <Image source={VirtualCoffee} style={styles.circleR}/>
+          <Image source={VirtualCoffee} style={styles.circleR} />
         </TouchableOpacity>
       </View>
       <View style={styles.cardTitle}>
         <Image source={PickCard} />
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Virtual')} style={styles.cards}>
-        <Image source={Cards} />
-      </TouchableOpacity>
-      <View>
-      {/* <Button title="Show modal" onPress={toggleModal} />
+
+      {/* <View>
+       <Button title="Show modal" onPress={toggleModal} />
         <Modal isVisible={isModalVisible}>
           <View style = {styles.modalStyle}>
             <Text style = {styles.tapCard}>Tap card to flip</Text>
@@ -588,12 +586,12 @@ function HomeScreen({navigation}) {
             </View>
           </View>
         </Modal>
-      </View>
+      </View> */}
       <View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
           <Modal isVisible={isModalVisible}>
-            <View style = {styles.modalStyle}>
+            <View style={styles.modalStyle}>
               <ImageBackground source={crystalBackground} style={styles.crystalBackground}>
                 <View style={styles.getCrystalContainer}>
                   <TouchableOpacity onPress={toggleModal}>
@@ -606,10 +604,10 @@ function HomeScreen({navigation}) {
               </ImageBackground>
             </View>
           </Modal>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
       <NavBar />
-      </View>
+    </View>
   );
 }
 
