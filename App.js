@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState, Componenet } from 'react';
 import './fixtimerbug';
 
 import {fortunesArray} from './fortunesArray';
+import {fortunesCadArray} from './fortunesCardArray';
 
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -609,6 +610,14 @@ function HomeScreen({ navigation }) {
       <NavBar />
     </View>
   );
+  function getRandomFortuneCard() {
+    let random = Math.floor((Math.random() * fortunesCardArray.length))
+    console.log(random);
+    let fortune = fortunesCardArray[random];
+    console.log(fortune);
+    return fortune;
+    // console.log(fortunesArray[2])
+  }
 }
 
 function HomeScreenLoggedIn({ navigation }) {
