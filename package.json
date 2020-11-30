@@ -6,12 +6,21 @@
     "web": "expo start --web",
     "eject": "expo eject"
   },
+  "rnpm": {
+    "assets": [
+      "fonts"
+    ]
+  },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.1.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^5.7.5",
     "@react-navigation/stack": "^5.9.2",
     "anonymous-files": "^1.0.1",
     "expo": "~39.0.2",
+    "expo-facebook": "~9.0.0",
+    "expo-font": "~8.3.0",
+    "expo-google-sign-in": "~8.3.0",
     "expo-image-picker": "~9.1.0",
     "expo-sharing": "~8.4.1",
     "expo-splash-screen": "~0.6.2",
@@ -19,6 +28,9 @@
     "expo-updates": "~0.3.2",
     "firebase": "^8.0.2",
     "it": "^1.1.1",
+    "js-yaml": ">=3.13.1",
+    "lodash": ">=4.17.19",
+    "node-fetch": ">=2.6.1",
     "nvm": "0.0.4",
     "pods": "^2.0.0",
     "react": "16.13.1",
@@ -33,7 +45,6 @@
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
     "react-native-unimodules": "~0.11.0",
-
     "react-native-web": "~0.13.12",
     "underscore.string": ">=3.3.5"
   },
