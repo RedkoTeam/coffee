@@ -1,5 +1,5 @@
 
-import React, { useRef, useEffect, useState, Componenet } from 'react';
+import React, { useRef, useEffect, useState, useFocusEffect, Componenet } from 'react';
 
 import './fixtimerbug';
 
@@ -682,13 +682,23 @@ let favoriteDatabase = [
 
 function FavoritesScreen() {
   const navigation = useNavigation();
+
+  const [favoritesData, setFavoritesData] = useState('')
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getFavorites()
+    }, [favoritesData])
+  )
   return (
     <View style={{flexGrow:1, justifyContent:'space-between'}}>
       <ScrollView contentContainerStyle={styles.shopContainer}>
         <View style={{flexDirection:'row', width:'100%', position: 'relative', left:0, top:75, marginBottom: 65}} >
           <TouchableOpacity onPress={()=>navigation.popToTop()} >
             <Image source={backButton} />
+            
           </TouchableOpacity>
+          
             <Image source={savedFortunesTitle} style={{position:'absolute', alignSelf:'center', right:'28%', bottom:'5%'}} />
         </View>
         <Image source={ galaxy } style={styles.shopBackgroundContainer} />
@@ -704,6 +714,13 @@ function FavoritesScreen() {
                 <View style={{position:'absolute', top:150, left: 60, width:'90%'}}>
                   <Text style={{fontSize:17}}>{item.fortune}</Text>
                 </View>
+                <Button
+                  onPress={() => {
+                    getFavorites()
+                  }}
+                  title='Test'
+                >
+                </Button>
               </View>
             )
           })
@@ -712,12 +729,17 @@ function FavoritesScreen() {
     </View>
   )
   function getFavorites () {
-    db.collection('users').doc(firebase.auth().currentUser.uid).get();
-    if (!doc.exists) {
-      console.log('No such document!');
-    } else {
-      console.log('Document data:', doc.data)
-    }
+    db.collection('users').doc(firebase.auth().currentUser.uid)
+    .get()
+    .then(snapshot => {
+        const userData = snapshot.data();
+        console.log(userData.favorites);
+        setFavoritesData(userData.favorites)
+
+
+        
+    })
+    .catch(error => console.log(error))
   }
 }
 
@@ -1116,7 +1138,7 @@ function SavedFortunes() {
 // TODO need to hook this up to a button after signed in
 
 function Profile() {
-  const navagtion = useNavigation();
+  const navigation = useNavigation();
   return (
     <ImageBackground source={profile_bg} style={styles.subBackgroundImage}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
