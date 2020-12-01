@@ -1,13 +1,13 @@
 
-import React, { useRef, useEffect, useState, Componenet } from 'react';
+import React, { useRef, useEffect, useState, useCallback, Componenet } from 'react';
 
 import './fixtimerbug';
 
 import {fortunesArray} from './fortunesArray';
-import {fortunesCadArray} from './fortunesCardArray';
+import {fortunesCardArray} from './fortunesCardArray';
 
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // import firebase from './components/firebase'
@@ -682,23 +682,36 @@ let favoriteDatabase = [
 
 function FavoritesScreen() {
   const navigation = useNavigation();
+
+  const [favoritesData, setFavoritesData] = useState([])
+
+  // this hook calls getFavorites function when the page is focused. Wasn't able to get this to work. Maybe you could make it async so it arrives like you did for the random fortune before?
+    useFocusEffect(useCallback(() => {
+      getFavorites()
+      return () => console.log("screen loses focus");
+    }, []));
+
   return (
     <View style={{flexGrow:1, justifyContent:'space-between'}}>
       <ScrollView contentContainerStyle={styles.shopContainer}>
         <View style={{flexDirection:'row', width:'100%', position: 'relative', left:0, top:75, marginBottom: 65}} >
           <TouchableOpacity onPress={()=>navigation.popToTop()} >
             <Image source={backButton} />
+            
           </TouchableOpacity>
+          
             <Image source={savedFortunesTitle} style={{position:'absolute', alignSelf:'center', right:'28%', bottom:'5%'}} />
         </View>
         <Image source={ galaxy } style={styles.shopBackgroundContainer} />
         {
-          favoriteDatabase.map((item, index) => {
+          favoritesData.map((item, index) => {
+            // favorites data is showing up in the console.log but not populating on the screen
+            console.log(` favoritesData: ${favoritesData}`)
             return(
               <View key={index} style={{padding:30}}>
                 <Image source={fortuneBox} />
                 <View style={{flexDirection:'row', position: 'absolute', bottom:500, right:0, alignItems:'center', padding:12}}>
-                  <Text style={{color:'white', fontWeight:'bold', fontSize: 21, right: 75}}>{item.date}</Text>
+                  <Text style={{color:'black', fontWeight:'bold', fontSize: 21, right: 75}}>{item.date}</Text>
                     <Image source={etcButton} style={{right:50}}/>
                 </View>
                 <View style={{position:'absolute', top:150, left: 60, width:'90%'}}>
@@ -711,6 +724,18 @@ function FavoritesScreen() {
       </ScrollView>
     </View>
   )
+
+  // Can't get this to populate on the favorites page. See above comment for where I am putting it
+  async function getFavorites() {
+    await db.collection('users').doc(firebase.auth().currentUser.uid)
+      .get()
+      .then(documentSnapshot => {
+        const userData = documentSnapshot.data();
+        console.log(`Retrieved data: ${JSON.stringify(userData.favorites)}`)
+        setFavoritesData(userData.favorites)
+      })
+      .catch(error => console.log(error))
+  }
 }
 
 function ReadMore(){
@@ -919,7 +944,7 @@ function VirtualFive(){
 
   {/* ASYNCHRONOUSLY FIND RANDOM FORTUNE */}
   setTimeout( () => { navigation.navigate('Reading', {randFortune: randomFortune}) }, 15000);
-  randomFortune = getRandomFortune();
+  
 
   return( 
     <View style={styles.virtualContainer}>
@@ -1108,7 +1133,7 @@ function SavedFortunes() {
 // TODO need to hook this up to a button after signed in
 
 function Profile() {
-  const navagtion = useNavigation();
+  const navigation = useNavigation();
   return (
     <ImageBackground source={profile_bg} style={styles.subBackgroundImage}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -1272,67 +1297,52 @@ function Reading({route}){
   var userName = 'user';
 
   const [randomFortune, setRandomFortune] = useState('');
-  return(
+  return (
     <View style={styles.virtualContainer}>
-      <ImageBackground source={ readingBackground } style={styles.virtualOne}>
+      <ImageBackground source={readingBackground} style={styles.virtualOne}>
         <View style={styles.flexInRows}>
           <TouchableOpacity onPress={() => navigation.popToTop()}>
-            <Image source={ backButton } />
+            <Image source={backButton} />
           </TouchableOpacity>
-          <Image source={ user } />
+          <Image source={user} />
         </View>
         <View style={styles.flexInRowsCoffee}>
-
-          <TouchableOpacity onPress={()=> onSave()}>
-
-            <Image source={ saveButton } />
-          </TouchableOpacity>
-          <View>
-            <Text style={styles.helloUserTextContainer}> Hello {userName} </Text>
-            <Image source={ coffeeImg } style={{marginTop:20}}/>
-          </View>
-          { /* NEED TO WORK ON "SHARE" */ }
-          <TouchableOpacity onPress={ () => console.log("SHARE")}> 
-            <Image source={ shareButton } style={{alignSelf:'flex-end'}}/>
-          </TouchableOpacity>
-        </View>
-        <View style={ styles.readingTableContainer }>
-          <Image source={ yourFortune } style={{marginBottom:12}}/>
-        <ScrollView>
-           <Text> {route.params.randFortune}  </Text>
-
-          {/* <Image source={ yourPresent } style={{marginBottom:12}}/>
-          <ScrollView>
-            {/* copy and paste */}
-            <Button 
-            onPress={ () => {
-              setRandomFortune(getRandomFortune)
-            }}
-            title='Click to view Fortune!'
-            >
-            </Button>
-           
-          </ScrollView>
-        </View>
-        <View style={ styles.readingTableContainer }>
           
-          <ScrollView>
-            {/* copy and paste */}
-            <Text> {randomFortune}  </Text>
-
-          </ScrollView>
+            <TouchableOpacity onPress={() => onSave()}>
+              <Image source={saveButton} />
+            </TouchableOpacity>
+            <View>
+              <Text style={styles.helloUserTextContainer}> Hello {userName} </Text>
+              <Image source={coffeeImg} style={{ marginTop: 20 }} />
+            </View>
+            <TouchableOpacity onPress={() => console.log("SHARE")}>
+              <Image source={shareButton} style={{ alignSelf: 'flex-end' }} />
+            </TouchableOpacity>
         </View>
+          <View style={styles.readingTableContainer}>
+            
+            <ScrollView>
+            <Text> {randomFortune}  </Text>
+              <Button
+                onPress={() => {
+                  setRandomFortune(getRandomFortune)
+                }}
+                title='Fortune Ready Click To View!'
+              >
+              </Button>
+
+            </ScrollView>
+          </View>
       </ImageBackground>
     </View>
   )
-  {/* copy and paste */ }
+  
   function getRandomFortune() {
     let random = Math.floor((Math.random() * fortunesArray.length))
     console.log(random);
     let fortune = fortunesArray[random];
     console.log(fortune);
     return fortune;
-    // console.log(fortunesArray[2])
   }
   // copy and paste
   function onSave() {
@@ -1343,20 +1353,6 @@ function Reading({route}){
   }
   // end copy paste
 }
-
-// ADDED
-function getRandomFortune() {
-  let random = Math.floor((Math.random() * fortunesArray.length))
-  console.log(random);
-  let fortune = fortunesArray[random];
-  console.log(fortune);
-  return fortune;
-  // console.log(fortunesArray[2])
-}
-// end copy paste
-
-
-
 
 ////////////////////
 // Navigation Stack //
