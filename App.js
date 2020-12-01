@@ -148,7 +148,6 @@ import pageButton from './assets/pageButton.png';
 // Styling  //
 ////////////////////
 
-
 const styles = StyleSheet.create({
   defaultFont: {
     fontFamily: 'Montserrat-Regular',
@@ -508,7 +507,6 @@ const styles = StyleSheet.create({
 ////////////////////
 // Helper Functions //
 ////////////////////
-
 // logic for checking if user is logged in for main screen
 // checkIfLoggedIn = () => {
 //   firebase.auth().onAuthStateChanged(user => {
@@ -646,7 +644,6 @@ function HomeScreenLoggedIn({ navigation }) {
   );
 }
 
-
 function NavBar(){
   const navigation = useNavigation();
   return(
@@ -676,8 +673,6 @@ let favoriteDatabase = [
     date: 'October 13, 2020',
     fortune: 'This is your fortune. This is your fortune. This is your fortune. This is your fortune. This is your fortune.'
   },
-
-
 ]
 
 function FavoritesScreen() {
@@ -894,7 +889,6 @@ function VirtualOne(){
   )
 }
 
-
 function VirtualTwo(){
   const navigation = useNavigation();
   return (
@@ -939,32 +933,21 @@ function VirtualFour(){
 
 function VirtualFive(){
   const navigation = useNavigation();
-  //const [randomFortune, setRandomFortune] = useState('');
-  var randomFortune = '';
 
   {/* ASYNCHRONOUSLY FIND RANDOM FORTUNE */}
-  setTimeout( () => { navigation.navigate('Reading', {randFortune: randomFortune}) }, 15000);
+  // BUG: redirects to fortunes away from subscription page if subscription button was pressed
+  setTimeout( () => { navigation.navigate('Reading') }, 15000);
   
-
   return( 
     <View style={styles.virtualContainer}>
       <ImageBackground source={backgroundFive} style={ styles.virtualOne }>
         <Image source={ pysicReadingText } style={{ margin: '40%'}}/>
         <Image source={ dontWantToWaitText } style={{ marginBottom:10 }} />
-        <TouchableOpacity onPress={ () => navigation.navigate('GetCrystals')}>
+        <TouchableOpacity onPress={ () => navigation.navigate('Subscription')}>
           <Image source={ getCrystalsButton } />
         </TouchableOpacity>
         <NavBar/>
       </ImageBackground>
-    </View>
-  )
-
-}
-
-function GetCrystals(){
-  return(
-    <View style={styles.virtualContainer}>
-      <Text> get crystals Page</Text>
     </View>
   )
 }
@@ -1059,75 +1042,6 @@ function SignUpScreen({ navigation }) {
           .catch(error => console.log(error))
       })
   }
-}
-
-
-function SavedFortunes() {
-  const navigation = useNavigation();
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
-      <View style={styles.authContainer}>
-        <TouchableOpacity>
-          <Image source={backButton} style={{marginRight: 200}}/>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-          <Image source={SignInButton} style={{marginTop:13}}/>
-        </TouchableOpacity>
-      </View>
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 230, marginTop: 20}}>SavedFortunes</Text>
-      <TextInput style={styles.savedFortuneTextBox}
-          label="Name"
-          placeholder="                                   Enter name here"
-          placeholderTextColor='#DCDCDC'
-      />
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 190, marginTop: 20}}>Relationship Status</Text>
-      <TextInput style={styles.savedFortuneTextBox}
-          label="Relationship Status"
-          placeholder="                       Enter relationship status here"
-          placeholderTextColor='#DCDCDC'
-      />
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20}}>Enter employment status here</Text>
-      <TextInput style={styles.savedFortuneTextBox}
-          label="EmploymentStatus"
-          placeholder="                   Enter employment status here"
-          placeholderTextColor='#DCDCDC'
-      />
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20}}>Enter employment status here</Text>
-      <TextInput style={styles.savedFortuneTextBox}
-          label="Gender"
-          placeholder="                       Enter gender here"
-          placeholderTextColor='#DCDCDC'
-      />
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 280, marginTop: 20}}>Birthday</Text>
-      <View style={styles.authContainer}>
-        <TextInput style={styles.savedFortuneTextBox2}
-          label="Month"
-          placeholder="      00"
-          placeholderTextColor='#DCDCDC'
-        />
-        <TextInput style={styles.savedFortuneTextBox2}
-          label="Day"
-          placeholder="      00"
-          placeholderTextColor='#DCDCDC'
-        />
-        <TextInput style={styles.savedFortuneTextBox3}
-          label="Year"
-          placeholder="      00"
-          placeholderTextColor='#DCDCDC'
-        />
-      </View>
-
-      <TouchableOpacity onPress={() => console.log('log in pressed')}>
-      <Image source={continueImage} style={{marginTop: 0}}/>
-      </TouchableOpacity>
-      <Text></Text>
-      <Text></Text>
-      <TouchableOpacity onPress={() => console.log('log in pressed')}>
-      <Image source={skipImage} />
-      </TouchableOpacity>
-    </View>
-  )
-
 }
 
 // TODO need to hook this up to a button after signed in
@@ -1292,7 +1206,7 @@ function ReadingAnimationScreen({navigation}){
 }
 
 // ADDED
-function Reading({route}){
+function Reading({}){
   const navigation = useNavigation();
   var userName = 'user';
 
@@ -1379,7 +1293,6 @@ function App() {
         <Stack.Screen name="VirtualThree" component={VirtualThree} options={{ cardStyleInterpolator:forFade}}/>
         <Stack.Screen name="VirtualFour" component={VirtualFour} options={{ cardStyleInterpolator:forFade}}/>
         <Stack.Screen name="VirtualFive" component={VirtualFive} options={{ cardStyleInterpolator:forFade}}/>
-        <Stack.Screen name="GetCrystals" component={GetCrystals} options={{ cardStyleInterpolator:forFade}}/>
         <Stack.Screen name="VirtualLoading" component={VirtualLoadingScreen} />
         <Stack.Screen name="PhotoReading" component={PhotoReadingScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
@@ -1389,7 +1302,6 @@ function App() {
         <Stack.Screen name="ReadMore" component={ReadMore} />
         <Stack.Screen name="Subscription" component={SubscriptionScreen} />
         <Stack.Screen name="Fortune" component={FortuneModal} />
-        <Stack.Screen name="SavedFortunes" component={SavedFortunes} />
         <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
