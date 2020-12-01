@@ -927,7 +927,7 @@ function VirtualFive(){
 
   {/* ASYNCHRONOUSLY FIND RANDOM FORTUNE */}
   setTimeout( () => { navigation.navigate('Reading', {randFortune: randomFortune}) }, 15000);
-  randomFortune = getRandomFortune();
+  
 
   return( 
     <View style={styles.virtualContainer}>
@@ -1310,7 +1310,7 @@ function Reading({route}){
                 onPress={() => {
                   setRandomFortune(getRandomFortune)
                 }}
-                title='Click to view Fortune!'
+                title='Fortune Ready Click To View!'
               >
               </Button>
 
@@ -1336,20 +1336,6 @@ function Reading({route}){
   }
   // end copy paste
 }
-
-// ADDED
-function getRandomFortune() {
-  let random = Math.floor((Math.random() * fortunesArray.length))
-  console.log(random);
-  let fortune = fortunesArray[random];
-  console.log(fortune);
-  return fortune;
-  // console.log(fortunesArray[2])
-}
-// end copy paste
-
-
-
 
 ////////////////////
 // Navigation Stack //
