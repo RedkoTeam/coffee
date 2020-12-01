@@ -685,6 +685,7 @@ function FavoritesScreen() {
 
   const [favoritesData, setFavoritesData] = useState([])
 
+  // this hook calls getFavorites function when the page is focused. Wasn't able to get this to work. Maybe you could make it async so it arrives like you did for the random fortune before?
     useFocusEffect(useCallback(() => {
       getFavorites()
       return () => console.log("screen loses focus");
@@ -704,7 +705,8 @@ function FavoritesScreen() {
         <Image source={ galaxy } style={styles.shopBackgroundContainer} />
         {
           favoritesData.map((item, index) => {
-            console.log(favoritesData)
+            // favorites data is showing up in the console.log but not populating on the screen
+            console.log(` favoritesData: ${favoritesData}`)
             return(
               <View key={index} style={{padding:30}}>
                 <Image source={fortuneBox} />
@@ -722,15 +724,15 @@ function FavoritesScreen() {
       </ScrollView>
     </View>
   )
-  function getFavorites() {
-    db.collection('users').doc(firebase.auth().currentUser.uid)
+
+  // Can't get this to populate on the favorites page. See above comment for where I am putting it
+  async function getFavorites() {
+    await db.collection('users').doc(firebase.auth().currentUser.uid)
       .get()
-      .then(snapshot => {
-        const userData = snapshot.data();
-        let userDataFavorites = JSON.stringify(userData.favorites)
-        console.log(userDataFavorites)
-        setFavoritesData([userDataFavorites])
-          
+      .then(documentSnapshot => {
+        const userData = documentSnapshot.data();
+        console.log(`Retrieved data: ${JSON.stringify(userData.favorites)}`)
+        setFavoritesData(userData.favorites)
       })
       .catch(error => console.log(error))
   }
