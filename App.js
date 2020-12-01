@@ -1,5 +1,5 @@
 
-import React, { useRef, useEffect, useState, useFocusEffect, Componenet } from 'react';
+import React, { useRef, useEffect, useState, useCallback, Componenet } from 'react';
 
 import './fixtimerbug';
 
@@ -7,7 +7,7 @@ import {fortunesArray} from './fortunesArray';
 import {fortunesCardArray} from './fortunesCardArray';
 
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // import firebase from './components/firebase'
@@ -683,13 +683,13 @@ let favoriteDatabase = [
 function FavoritesScreen() {
   const navigation = useNavigation();
 
-  const [favoritesData, setFavoritesData] = useState('')
+  const [favoritesData, setFavoritesData] = useState([])
 
-  useFocusEffect(
-    React.useCallback(() => {
+    useFocusEffect(useCallback(() => {
       getFavorites()
-    }, [favoritesData])
-  )
+      return () => console.log("screen loses focus");
+    }, []));
+
   return (
     <View style={{flexGrow:1, justifyContent:'space-between'}}>
       <ScrollView contentContainerStyle={styles.shopContainer}>
@@ -703,24 +703,18 @@ function FavoritesScreen() {
         </View>
         <Image source={ galaxy } style={styles.shopBackgroundContainer} />
         {
-          favoriteDatabase.map((item, index) => {
+          favoritesData.map((item, index) => {
+            console.log(favoritesData)
             return(
               <View key={index} style={{padding:30}}>
                 <Image source={fortuneBox} />
                 <View style={{flexDirection:'row', position: 'absolute', bottom:500, right:0, alignItems:'center', padding:12}}>
-                  <Text style={{color:'white', fontWeight:'bold', fontSize: 21, right: 75}}>{item.date}</Text>
+                  <Text style={{color:'black', fontWeight:'bold', fontSize: 21, right: 75}}>{item.date}</Text>
                     <Image source={etcButton} style={{right:50}}/>
                 </View>
                 <View style={{position:'absolute', top:150, left: 60, width:'90%'}}>
                   <Text style={{fontSize:17}}>{item.fortune}</Text>
                 </View>
-                <Button
-                  onPress={() => {
-                    getFavorites()
-                  }}
-                  title='Test'
-                >
-                </Button>
               </View>
             )
           })
@@ -728,18 +722,17 @@ function FavoritesScreen() {
       </ScrollView>
     </View>
   )
-  function getFavorites () {
+  function getFavorites() {
     db.collection('users').doc(firebase.auth().currentUser.uid)
-    .get()
-    .then(snapshot => {
+      .get()
+      .then(snapshot => {
         const userData = snapshot.data();
-        console.log(userData.favorites);
-        setFavoritesData(userData.favorites)
-
-
-        
-    })
-    .catch(error => console.log(error))
+        let userDataFavorites = JSON.stringify(userData.favorites)
+        console.log(userDataFavorites)
+        setFavoritesData([userDataFavorites])
+          
+      })
+      .catch(error => console.log(error))
   }
 }
 
