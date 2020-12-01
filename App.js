@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState, Componenet } from 'react';
 import './fixtimerbug';
 
 import {fortunesArray} from './fortunesArray';
-import {fortunesCadArray} from './fortunesCardArray';
+import {fortunesCardArray} from './fortunesCardArray';
 
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -711,6 +711,14 @@ function FavoritesScreen() {
       </ScrollView>
     </View>
   )
+  function getFavorites () {
+    db.collection('users').doc(firebase.auth().currentUser.uid).get();
+    if (!doc.exists) {
+      console.log('No such document!');
+    } else {
+      console.log('Document data:', doc.data)
+    }
+  }
 }
 
 function ReadMore(){
@@ -1272,67 +1280,52 @@ function Reading({route}){
   var userName = 'user';
 
   const [randomFortune, setRandomFortune] = useState('');
-  return(
+  return (
     <View style={styles.virtualContainer}>
-      <ImageBackground source={ readingBackground } style={styles.virtualOne}>
+      <ImageBackground source={readingBackground} style={styles.virtualOne}>
         <View style={styles.flexInRows}>
           <TouchableOpacity onPress={() => navigation.popToTop()}>
-            <Image source={ backButton } />
+            <Image source={backButton} />
           </TouchableOpacity>
-          <Image source={ user } />
+          <Image source={user} />
         </View>
         <View style={styles.flexInRowsCoffee}>
-
-          <TouchableOpacity onPress={()=> onSave()}>
-
-            <Image source={ saveButton } />
-          </TouchableOpacity>
-          <View>
-            <Text style={styles.helloUserTextContainer}> Hello {userName} </Text>
-            <Image source={ coffeeImg } style={{marginTop:20}}/>
-          </View>
-          { /* NEED TO WORK ON "SHARE" */ }
-          <TouchableOpacity onPress={ () => console.log("SHARE")}> 
-            <Image source={ shareButton } style={{alignSelf:'flex-end'}}/>
-          </TouchableOpacity>
-        </View>
-        <View style={ styles.readingTableContainer }>
-          <Image source={ yourFortune } style={{marginBottom:12}}/>
-        <ScrollView>
-           <Text> {route.params.randFortune}  </Text>
-
-          {/* <Image source={ yourPresent } style={{marginBottom:12}}/>
-          <ScrollView>
-            {/* copy and paste */}
-            <Button 
-            onPress={ () => {
-              setRandomFortune(getRandomFortune)
-            }}
-            title='Click to view Fortune!'
-            >
-            </Button>
-           
-          </ScrollView>
-        </View>
-        <View style={ styles.readingTableContainer }>
           
-          <ScrollView>
-            {/* copy and paste */}
-            <Text> {randomFortune}  </Text>
-
-          </ScrollView>
+            <TouchableOpacity onPress={() => onSave()}>
+              <Image source={saveButton} />
+            </TouchableOpacity>
+            <View>
+              <Text style={styles.helloUserTextContainer}> Hello {userName} </Text>
+              <Image source={coffeeImg} style={{ marginTop: 20 }} />
+            </View>
+            <TouchableOpacity onPress={() => console.log("SHARE")}>
+              <Image source={shareButton} style={{ alignSelf: 'flex-end' }} />
+            </TouchableOpacity>
         </View>
+          <View style={styles.readingTableContainer}>
+            
+            <ScrollView>
+            <Text> {randomFortune}  </Text>
+              <Button
+                onPress={() => {
+                  setRandomFortune(getRandomFortune)
+                }}
+                title='Click to view Fortune!'
+              >
+              </Button>
+
+            </ScrollView>
+          </View>
       </ImageBackground>
     </View>
   )
-  {/* copy and paste */ }
+  
   function getRandomFortune() {
     let random = Math.floor((Math.random() * fortunesArray.length))
     console.log(random);
     let fortune = fortunesArray[random];
     console.log(fortune);
     return fortune;
-    // console.log(fortunesArray[2])
   }
   // copy and paste
   function onSave() {
