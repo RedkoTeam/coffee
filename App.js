@@ -1,10 +1,11 @@
 
-import React, { useRef, useEffect, useState, useCallback, Componenet } from 'react';
+import React, { useRef, useEffect, useState, useCallback, Componenet, useDebugValue } from 'react';
 
 import './fixtimerbug';
+import {fortunesArray} from './fortunesArray';
 
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation, useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // import firebase from './components/firebase'
@@ -27,15 +28,17 @@ if (!firebase.apps.length) {
 // firebase.initializeApp(firebaseConfig)
 
 const db = firebase.firestore();
+
+
 ////////////////////
 // IMAGES & ICONS //
 ////////////////////
 
 //HOMEPAGE//
-import TakePhoto from './assets/FortuneCoffeePNGassets/TakePhoto.png';
-import Home from './assets/FortuneCoffeePNGassets/home.png';
-import Shop from './assets/FortuneCoffeePNGassets/shop.png';
-import Favorites from './assets/FortuneCoffeePNGassets/favorites.png';
+import TakePhoto from './assets/FortuneCoffeePNGassets/takePhotoButton.png';
+import Home from './assets/FortuneCoffeePNGassets/Home.png';
+import Shop from './assets/FortuneCoffeePNGassets/Shop.png';
+import Favorites from './assets/FortuneCoffeePNGassets/Favorites.png';
 
 import VirtualCoffee from './assets/FortuneCoffeePNGassets/VirtualCoffee.png';
 import SignInButton from './assets/FortuneCoffeePNGassets/SignInButton.png';
@@ -44,6 +47,7 @@ import LargeTitleApp from './assets/FortuneCoffeePNGassets/FortuneCoffeeTitle.pn
 import PickCard from './assets/FortuneCoffeePNGassets/PickCard.png';
 import Cards from './assets/FortuneCoffeePNGassets/allCards.png';
 import Ellipse1 from './assets/FortuneCoffeePNGassets/ellipse.png';
+
 
 //SHOP PAGE// 
 import shop from './assets/FortuneCoffeePNGassets/shopPage/Shop.png';
@@ -141,6 +145,7 @@ import { Input } from 'react-native-elements';
 import profile_bg from './assets/FortuneCoffeePNGassets/Profile_bg.png';
 import pencil from './assets/pencil.png';
 import pageButton from './assets/pageButton.png';
+import { render } from 'react-dom';
 
 ////////////////////
 // Styling  //
@@ -524,8 +529,9 @@ const styles = StyleSheet.create({
 
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
-function HomeScreen({ navigation }) {
 
+function HomeScreen() {
+  const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -537,17 +543,18 @@ function HomeScreen({ navigation }) {
   toggleImage = () => {
     this.setState(state => ({ open: !state.open}))
   }
-
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.authContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.authButton1}>
-          <Image source={SignUpButton} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.authButton2}>
-          <Image source={SignInButton} />
-        </TouchableOpacity>
-      </View>
+      {
+        <View style={styles.authContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.authButton1}>
+            <Image source={SignUpButton} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.authButton2}>
+            <Image source={SignInButton} />
+          </TouchableOpacity>
+        </View>
+      }
       <View style={styles.appTitle}>
         <Image source={LargeTitleApp} />
       </View>
@@ -667,12 +674,12 @@ function NavBar(){
 
 let favoriteDatabase = [
   {
-    date: 'October 13, 2020',
-    fortune: 'This is your fortune. This is your fortune. This is your fortune. This is your fortune. This is your fortune.'
+    dates: 'October 13, 2020',
+    fortunes: 'This is your fortune. This is your fortune. This is your fortune. This is your fortune. This is your fortune.'
   },
   {
-    date: 'October 13, 2020',
-    fortune: 'This is your fortune. This is your fortune. This is your fortune. This is your fortune. This is your fortune.'
+    dates: 'October 13, 2020',
+    fortunes: 'This is your fortune. This is your fortune. This is your fortune. This is your fortune. This is your fortune.'
   },
 
 
@@ -681,13 +688,29 @@ let favoriteDatabase = [
 function FavoritesScreen() {
   const navigation = useNavigation();
 
-  const [favoritesData, setFavoritesData] = useState([])
+  const [favoritesData, setFavoritesData] = useState({'dates':[], 'fortunes':[]})
 
   // this hook calls getFavorites function when the page is focused. Wasn't able to get this to work. Maybe you could make it async so it arrives like you did for the random fortune before?
-    useFocusEffect(useCallback(() => {
-      getFavorites()
-      return () => console.log("screen loses focus");
-    }, []));
+
+    useFocusEffect( () => {
+      useCallback( ()=>{
+        const fetchData = async () => {
+          await db.collection('users').doc(firebase.auth().currentUser.uid).get()
+          .then(documentSnapshot => {
+            const userData = documentSnapshot.data();
+            setFavoritesData(userData.favorites);
+          })
+          .catch(error => console.log(error));
+        };
+
+        fetchData();
+        return () => {
+
+        }
+      }, []);
+      })
+
+  console.log(`Retrieved data: ${JSON.stringify(favoritesData)}`)
 
   return (
     <View style={{flexGrow:1, justifyContent:'space-between'}}>
@@ -702,18 +725,17 @@ function FavoritesScreen() {
         </View>
         <Image source={ galaxy } style={styles.shopBackgroundContainer} />
         {
-          favoritesData.map((item, index) => {
+          Object.entries(favoritesData).map((item, index) => {
             // favorites data is showing up in the console.log but not populating on the screen
-            console.log(` favoritesData: ${favoritesData}`)
             return(
               <View key={index} style={{padding:30}}>
                 <Image source={fortuneBox} />
                 <View style={{flexDirection:'row', position: 'absolute', bottom:500, right:0, alignItems:'center', padding:12}}>
-                  <Text style={{color:'black', fontWeight:'bold', fontSize: 21, right: 75}}>{item.date}</Text>
+                  <Text style={{color:'black', fontWeight:'bold', fontSize: 21, right: 75}}>{item.dates}</Text>
                     <Image source={etcButton} style={{right:50}}/>
                 </View>
                 <View style={{position:'absolute', top:150, left: 60, width:'90%'}}>
-                  <Text style={{fontSize:17}}>{item.fortune}</Text>
+                  <Text style={{fontSize:17}}>{item.fortunes}</Text>
                 </View>
               </View>
             )
@@ -725,6 +747,7 @@ function FavoritesScreen() {
 
   // Can't get this to populate on the favorites page. See above comment for where I am putting it
   async function getFavorites() {
+
     await db.collection('users').doc(firebase.auth().currentUser.uid)
       .get()
       .then(documentSnapshot => {
@@ -938,7 +961,7 @@ function VirtualFour(){
     <View style={styles.virtualContainer}>
       <ImageBackground source={ backgroundFour } style={ styles.virtualOne }>
         <Image source={ tapToDrinkText } />
-        <TouchableOpacity onPress={ () => navigation.navigate('VirtualFive')}>
+        <TouchableOpacity onPress={ () => navigation.navigate('ReadingAnimation')}>
           <Image source={ coffee_v } />
         </TouchableOpacity>
       </ImageBackground>
@@ -952,7 +975,7 @@ function VirtualFive(){
   var randomFortune = '';
 
   {/* ASYNCHRONOUSLY FIND RANDOM FORTUNE */}
-  setTimeout( () => { navigation.navigate('Reading', {randFortune: randomFortune}) }, 15000);
+  setTimeout( () => { navigation.navigate('Reading', {randFortune: randomFortune}) }, 5000);
   
 
   return( 
@@ -1252,7 +1275,7 @@ function SignInScreen() {
   // copy and paste
   function onLogin () {
     firebase.auth().signInWithEmailAndPassword(email, password)
-    navigation.navigate('HomeLoggedIn')
+    navigation.navigate("HomeLoggedIn");
   }
 }
 
@@ -1329,8 +1352,8 @@ function Reading({route}){
             </TouchableOpacity>
         </View>
           <View style={styles.readingTableContainer}>
-            
             <ScrollView>
+              <Image source={ yourFortune } style={{marginBottom:12}}/>
             <Text> {randomFortune}  </Text>
               <Button
                 onPress={() => {
@@ -1342,6 +1365,7 @@ function Reading({route}){
 
             </ScrollView>
           </View>
+          <NavBar/>
       </ImageBackground>
     </View>
   )
@@ -1355,8 +1379,11 @@ function Reading({route}){
   }
   // copy and paste
   function onSave() {
-    db.collection('users').doc(firebase.auth().currentUser.uid).update({
-      favorites: firebase.firestore.FieldValue.arrayUnion(...[randomFortune])
+    var today = new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+    var favRef = db.collection('users').doc(firebase.auth().currentUser.uid);
+    favRef.update({
+      'favorites.dates' : firebase.firestore.FieldValue.arrayUnion(...[today]),
+      'favorites.fortunes' : firebase.firestore.FieldValue.arrayUnion(...[randomFortune])
     })
     navigation.navigate('Favorites')
   }
@@ -1370,12 +1397,15 @@ const Stack = createStackNavigator();
 
 function App() {
   const forFade = ({ current }) => ({ cardStyle: { opacity: current.progress }});
+
+  useEffect( () => {
+    firebase.auth().currentUser==null? console.log("Not Logged in") : console.log("Logged in");}, [firebase.auth().currentUser]);
   
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false
+          headerShown: true
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
