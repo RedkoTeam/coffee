@@ -1,7 +1,8 @@
 
-import React, { useRef, useEffect, useState, useCallback, Componenet } from 'react';
+import React, { useRef, useEffect, useState, useCallback, Componenet, useFocusEffect } from 'react';
 
 import './fixtimerbug';
+import {fortunesArray} from './fortunesArray';
 
 import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -33,9 +34,9 @@ const db = firebase.firestore();
 
 //HOMEPAGE//
 import TakePhoto from './assets/FortuneCoffeePNGassets/TakePhoto.png';
-import Home from './assets/FortuneCoffeePNGassets/home.png';
-import Shop from './assets/FortuneCoffeePNGassets/shop.png';
-import Favorites from './assets/FortuneCoffeePNGassets/favorites.png';
+import Home from './assets/FortuneCoffeePNGassets/Home.png';
+import Shop from './assets/FortuneCoffeePNGassets/Shop.png';
+import Favorites from './assets/FortuneCoffeePNGassets/Favorites.png';
 
 import VirtualCoffee from './assets/FortuneCoffeePNGassets/VirtualCoffee.png';
 import SignInButton from './assets/FortuneCoffeePNGassets/SignInButton.png';
