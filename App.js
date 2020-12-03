@@ -1305,12 +1305,12 @@ function Reading({route}){
         </View>
         <View style={ styles.readingTableContainer }>
 
-//           <Image source={ yourFortune } style={{marginBottom:12}}/>
-//           <ScrollView>
-//             <Text> {route.params.randFortune}  </Text>
+           <Image source={ yourFortune } style={{marginBottom:12}}/>
+           <ScrollView>
+              <Text> {route.params.randFortune}  </Text>
 
           {/* <Image source={ yourPresent } style={{marginBottom:12}}/> */}
-          <ScrollView>
+            <ScrollView>
             {/* copy and paste */}
             <Button 
             onPress={ () => {
@@ -1320,7 +1320,7 @@ function Reading({route}){
             >
             </Button>
            
-          </ScrollView>
+            </ScrollView>
         </View>
         <View style={ styles.readingTableContainer }>
           <Image source= { whatHappen } />
