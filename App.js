@@ -10,8 +10,6 @@ import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, 
 import { NavigationContainer, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-// import firebase from './components/firebase'
-
 ////////////////////
 // Firebase //
 ////////////////////
@@ -24,11 +22,32 @@ import { firebaseConfig } from './config';
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
-// old way
-// const db = firebase.firestore();
 
-const database = firebase.database();
-const user = firebase.auth().currentUser;
+// const database = firebase.database();
+// const user = firebase.auth().currentUser;
+
+// logic for checking if user is logged in for main screen
+checkIfLoggedIn = () => {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      this.props.navigation.navigate('HomeLoggedIn');
+    } else {
+      this.props.navigation.navigate('Home')
+    }
+  })
+}
+
+function SignUp(email, password) {
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(user => {
+      const userId = firebase.auth().currentUser.uid
+      return firebase.database().ref('users/' + userId).set({
+        email: email,
+        subscriptionLevel: 0
+      })
+    })
+    .catch(error => console.log(error))
+}
 
 ////////////////////
 // IMAGES & ICONS //
@@ -504,21 +523,6 @@ const styles = StyleSheet.create({
     marginRight: 130
   },
 });
-
-////////////////////
-// Helper Functions //
-////////////////////
-
-// logic for checking if user is logged in for main screen
-checkIfLoggedIn = () => {
-  firebase.auth().onAuthStateChanged(user => {
-    if(user) {
-      this.props.navigation.navigate('HomeLoggedIn');
-    } else {
-      this.props.navigation.navigate('Home')
-    }
-  })
-}
 
 ////////////////////
 // Screen Layouts //
@@ -1029,33 +1033,8 @@ function SignUpScreen({ navigation }) {
       </ImageBackground>
     </View>
   )
-  // copy and paste
-  // function SignUp() {
-  //   firebase.auth().createUserWithEmailAndPassword(email, password)
-  //     .then(data => {
-  //       return db.collection('users').doc(data.user.uid).set({
-  //         userName: email,
-  //         subscriptionLevel: 0,
-  //       })
-  //         .catch(error => console.log(error))
-  //     })
-  // }
-
 }
-function SignUp(email, password) {
-  firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(user => {
-      const userId = firebase.auth().currentUser.uid
-      console.log(user)
-      return firebase.database(). ref('users/' + userId).set({
-        email: email
-      })
 
-      })
-        .catch(error => console.log(error))
-    
-}
-// User.getToken()
 // TODO need to hook this up to a button after signed in
 
 function Profile() {
@@ -1273,7 +1252,6 @@ function ReadingAnimationScreen({navigation}){
                                   transform: [ { rotate: RotateData } ]
                                 } }
                   source={coffee} 
-                  
           />
         </Animated.View>
       </ImageBackground>
@@ -1299,8 +1277,7 @@ function Reading({}){
           </TouchableOpacity>
         </View>
         <View style={styles.flexInRowsCoffee}>
-          
-            <TouchableOpacity onPress={() => onSave()}>
+          <TouchableOpacity onPress={() => onSaveFortune()}>
               <Image source={saveButton} />
             </TouchableOpacity>
             <View>
@@ -1312,7 +1289,6 @@ function Reading({}){
             </TouchableOpacity>
         </View>
           <View style={styles.readingTableContainer}>
-            
             <ScrollView>
             <Text> {randomFortune}  </Text>
               <Button
@@ -1322,7 +1298,6 @@ function Reading({}){
                 title='Fortune Ready Click To View!'
               >
               </Button>
-
             </ScrollView>
           </View>
       </ImageBackground>
@@ -1336,13 +1311,15 @@ function Reading({}){
     console.log(fortune);
     return fortune;
   }
-  // copy and paste
-  function onSave() {
-    db.collection('users').doc(firebase.auth().currentUser.uid).update({
-      favorites: firebase.firestore.FieldValue.arrayUnion(...[randomFortune])
+
+  function onSaveFortune() {
+    const userId = firebase.auth().currentUser.uid
+    firebase.database().ref('users/' + userId + '/favorites').push({
+      randomFortune
     })
-    navigation.navigate('Favorites')
+    // navigation.navigate('Favorites')
   }
+
   // end copy paste
 }
 
