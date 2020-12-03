@@ -141,6 +141,7 @@ import { Input } from 'react-native-elements';
 import profile_bg from './assets/FortuneCoffeePNGassets/Profile_bg.png';
 import pencil from './assets/pencil.png';
 import pageButton from './assets/pageButton.png';
+import { cardsFrontReversed, cardsMeaning } from './fortunesCardArray';
 
 ////////////////////
 // Styling  //
@@ -608,12 +609,16 @@ function HomeScreen({ navigation }) {
       <NavBar />
     </View>
   );
+  
   function getRandomFortuneCard() {
-    let random = Math.floor((Math.random() * fortunesCardArray.length))
+    let random = Math.floor((Math.random() * cardsFront.length));
     console.log(random);
-    let fortune = fortunesCardArray[random];
-    console.log(fortune);
-    return fortune;
+    let fortuneFront = cardsFront[random];
+    let fortuneFrontReversed = cardsFrontReversed[random];
+    let fortuneCardsMeaning = cardsMeaning[random];
+    let fortunePaths = [fortuneFront, fortuneFrontReversed, fortuneCardsMeaning];
+    //console.log(fortune);
+    return fortunePaths;
     // console.log(fortunesArray[2])
   }
 }
