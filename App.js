@@ -2,6 +2,7 @@
 import React, { useRef, useEffect, useState, Componenet } from 'react';
 
 import './fixtimerbug';
+
 import {fortunesArray} from './fortunesArray';
 
 import { Modal, Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
@@ -508,15 +509,15 @@ const styles = StyleSheet.create({
 ////////////////////
 
 // logic for checking if user is logged in for main screen
-checkIfLoggedIn = () => {
-  firebase.auth().onAuthStateChanged(user => {
-    if(user) {
-      this.props.navigation.navigate('Dashboard');
-    } else {
-      this.props.navigation.navigate('SignIn')
-    }
-  })
-}
+// checkIfLoggedIn = () => {
+//   firebase.auth().onAuthStateChanged(user => {
+//     if(user) {
+//       this.props.navigation.navigate('Dashboard');
+//     } else {
+//       this.props.navigation.navigate('SignIn')
+//     }
+//   })
+// }
 
 ////////////////////
 // Screen Layouts //
@@ -552,7 +553,7 @@ function HomeScreen({navigation}) {
         <Image source={LargeTitleApp} />
       </View>
       <View style={styles.circleContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}> 
+        <TouchableOpacity onPress={() => {navigation.navigate('ReadingAnimation')}}> 
           <Image source={TakePhoto} style={styles.circleL} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
@@ -637,9 +638,6 @@ function HomeScreenLoggedIn({ navigation }) {
     </View>
   );
 }
-
-
-
 
 
 function NavBar(){
@@ -956,7 +954,7 @@ function PhotoReadingScreen() {
 }
 
 function SignUpScreen({ navigation }) {
-
+  // copy and paste
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -983,17 +981,19 @@ function SignUpScreen({ navigation }) {
         <Text style={styles.underFacebook}>
           OR SIGN UP WITH EMAIL
         </Text>
-
+        {/* copy and paste */}
         <TextInput style={styles.textBox}
           label="Email"
           placeholder="   Email address"
           placeholderTextColor='#DCDCDC'
           onChangeText={email => setEmail(email)}
         />
+        {/* copy and paste */}
         <TextInput style={styles.textBox}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
+          
           onChangeText={password => setPassword(password)}
         />
         <TextInput style={styles.textBox}
@@ -1002,6 +1002,7 @@ function SignUpScreen({ navigation }) {
           placeholderTextColor='#DCDCDC'
         />
         <StatusBar style="auto" />
+        {/* copy and paste */}
         <TouchableOpacity onPress={() => { SignUp(email, password), navigation.navigate('HomeLoggedIn')} }>
           <Image source={signin} style={styles.buttonImage}  />
   
@@ -1015,7 +1016,17 @@ function SignUpScreen({ navigation }) {
       </ImageBackground>
     </View>
   )
-
+  // copy and paste
+  function SignUp() {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(data => {
+        return db.collection('users').doc(data.user.uid).set({
+          userName: email,
+          subscriptionLevel: 0,
+        })
+          .catch(error => console.log(error))
+      })
+  }
 }
 
 // ADDED
@@ -1095,6 +1106,7 @@ function SavedFortunes() {
       </TouchableOpacity>
     </View>
   )
+
 }
 
 // TODO need to hook this up to a button after signed in
@@ -1147,7 +1159,7 @@ function Profile() {
 
 function SignInScreen() {
   const navigation = useNavigation();
-
+// copy and paste
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -1173,12 +1185,14 @@ function SignInScreen() {
         <Text style={styles.underFacebook}>
           OR LOG IN WITH EMAIL
         </Text>
+        {/* copy and paste */}
         <TextInput style={styles.textBox}
           label="Email"
           placeholder="   Email address"
           placeholderTextColor='#DCDCDC'
           onChangeText={email => setEmail(email)}
         />
+        {/* copy and paste */}
         <TextInput style={styles.textBox}
           label="Password"
           placeholder="    Password"
@@ -1188,7 +1202,7 @@ function SignInScreen() {
         <Text>
         </Text>
         <StatusBar style="auto" />
-
+        {/* copy and paste */}
         <TouchableOpacity onPress={() => { onLogin(email, password) } }>
 
           <Image source={login} style={styles.buttonImage} />
@@ -1205,6 +1219,7 @@ function SignInScreen() {
 
     </View>
   )
+  // copy and paste
   function onLogin () {
     firebase.auth().signInWithEmailAndPassword(email, password)
     navigation.navigate('HomeLoggedIn')
@@ -1260,19 +1275,23 @@ function Reading({route}){
   const navigation = useNavigation();
   var userName = 'user';
 
-  //const [randomFortune, setRandomFortune] = useState('');
+
+  const [randomFortune, setRandomFortune] = useState('');
+
 
   return(
     <View style={styles.virtualContainer}>
       <ImageBackground source={ readingBackground } style={styles.virtualOne}>
         <View style={styles.flexInRows}>
-          <TouchableOpacity onPress={()=>navigation.popToTop()}>
+          <TouchableOpacity onPress={() => navigation.popToTop()}>
             <Image source={ backButton } />
           </TouchableOpacity>
           <Image source={ user } />
         </View>
         <View style={styles.flexInRowsCoffee}>
+
           <TouchableOpacity onPress={()=> onSave()}>
+
             <Image source={ saveButton } />
           </TouchableOpacity>
           <View>
@@ -1285,15 +1304,53 @@ function Reading({route}){
           </TouchableOpacity>
         </View>
         <View style={ styles.readingTableContainer }>
-          <Image source={ yourFortune } style={{marginBottom:12}}/>
+
+//           <Image source={ yourFortune } style={{marginBottom:12}}/>
+//           <ScrollView>
+//             <Text> {route.params.randFortune}  </Text>
+
+          {/* <Image source={ yourPresent } style={{marginBottom:12}}/> */}
           <ScrollView>
-            <Text> {route.params.randFortune}  </Text>
+            {/* copy and paste */}
+            <Button 
+            onPress={ () => {
+              setRandomFortune(getRandomFortune)
+            }}
+            title='Click to view Fortune!'
+            >
+            </Button>
+           
+          </ScrollView>
+        </View>
+        <View style={ styles.readingTableContainer }>
+          <Image source= { whatHappen } />
+          <ScrollView>
+            {/* copy and paste */}
+            <Text> {randomFortune}  </Text>
+
           </ScrollView>
         </View>
       </ImageBackground>
       <NavBar/>
     </View>
   )
+  {/* copy and paste */ }
+  function getRandomFortune() {
+    let random = Math.floor((Math.random() * fortunesArray.length))
+    console.log(random);
+    let fortune = fortunesArray[random];
+    console.log(fortune);
+    return fortune;
+    // console.log(fortunesArray[2])
+  }
+  // copy and paste
+  function onSave() {
+    db.collection('users').doc(firebase.auth().currentUser.uid).update({
+      favorites: firebase.firestore.FieldValue.arrayUnion(...[randomFortune])
+    })
+    navigation.navigate('Favorites')
+  }
+  // end copy paste
 }
 
 // ADDED
