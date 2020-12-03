@@ -1291,6 +1291,7 @@ function Reading({route}){
           </ScrollView>
         </View>
       </ImageBackground>
+      <NavBar/>
     </View>
   )
 }
