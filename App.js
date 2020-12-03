@@ -7,8 +7,6 @@ import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-// import firebase from './components/firebase'
-
 ////////////////////
 // Firebase //
 ////////////////////
@@ -17,16 +15,37 @@ import 'firebase/auth'
 import 'firebase/firebase-firestore'
 import { firebaseConfig } from './config';
 
-
 //checks to see if app is already initialized before running again
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
 
-// error 
-// firebase.initializeApp(firebaseConfig)
+// const database = firebase.database();
+// const user = firebase.auth().currentUser;
 
-const db = firebase.firestore();
+// logic for checking if user is logged in for main screen
+checkIfLoggedIn = () => {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      this.props.navigation.navigate('HomeLoggedIn');
+    } else {
+      this.props.navigation.navigate('Home')
+    }
+  })
+}
+
+function SignUp(email, password) {
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(user => {
+      const userId = firebase.auth().currentUser.uid
+      return firebase.database().ref('users/' + userId).set({
+        email: email,
+        subscriptionLevel: 0
+      })
+    })
+    .catch(error => console.log(error))
+}
+
 ////////////////////
 // IMAGES & ICONS //
 ////////////////////
@@ -90,7 +109,7 @@ import coffeeImg from './assets/FortuneCoffeePNGassets/reading/coffee.png';
 import readingBackground from './assets/FortuneCoffeePNGassets/reading/readingBackground.png';
 import saveButton from './assets/FortuneCoffeePNGassets/reading/saveButton.png';
 import shareButton from './assets/FortuneCoffeePNGassets/reading/shareButton.png';
-import user from './assets/FortuneCoffeePNGassets/reading/user.png';
+import userImg from './assets/FortuneCoffeePNGassets/reading/user.png';
 import yourFortune from './assets/FortuneCoffeePNGassets/reading/yourFortune.png';
 
 // FAVORITES PAGE //
@@ -115,6 +134,7 @@ import Modal from 'react-native-modal';
 import FlipCard from 'react-native-flip-card';
 import card from './assets/FortuneCoffeePNGassets/MiddleCard-1.png';
 import card2 from './assets/FortuneCoffeePNGassets/MiddleCard-2.png';
+
 // GET CRYSTAL PAGE //
 import crystalBackground from './assets/FortuneCoffeePNGassets/crystalBackground.png';
 import getCrystals from './assets/FortuneCoffeePNGassets/getCrystals.png';
@@ -146,7 +166,6 @@ import { cardsFrontReversed, cardsMeaning } from './fortunesCardArray';
 ////////////////////
 // Styling  //
 ////////////////////
-
 
 const styles = StyleSheet.create({
   defaultFont: {
@@ -505,21 +524,6 @@ const styles = StyleSheet.create({
 });
 
 ////////////////////
-// Helper Functions //
-////////////////////
-
-// logic for checking if user is logged in for main screen
-// checkIfLoggedIn = () => {
-//   firebase.auth().onAuthStateChanged(user => {
-//     if(user) {
-//       this.props.navigation.navigate('Dashboard');
-//     } else {
-//       this.props.navigation.navigate('SignIn')
-//     }
-//   })
-// }
-
-////////////////////
 // Screen Layouts //
 ////////////////////
 
@@ -649,7 +653,6 @@ function HomeScreenLoggedIn({ navigation }) {
   );
 }
 
-
 function NavBar(){
   const navigation = useNavigation();
   return(
@@ -659,7 +662,7 @@ function NavBar(){
         <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
             <Image source={Favorites}/>
           </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={() => checkIfLoggedIn()}>
             <Image source={Home} style={{bottom:'80%'}}/>
           </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
@@ -679,8 +682,6 @@ let favoriteDatabase = [
     date: 'October 13, 2020',
     fortune: 'This is your fortune. This is your fortune. This is your fortune. This is your fortune. This is your fortune.'
   },
-
-
 ]
 
 function FavoritesScreen() {
@@ -729,16 +730,26 @@ function FavoritesScreen() {
   )
 
   // Can't get this to populate on the favorites page. See above comment for where I am putting it
+  // async function getFavorites() {
+  //   await db.collection('users').doc(firebase.auth().currentUser.uid)
+  //     .get()
+  //     .then(documentSnapshot => {
+  //       const userData = documentSnapshot.data();
+  //       console.log(`Retrieved data: ${JSON.stringify(userData.favorites)}`)
+  //       setFavoritesData(userData.favorites)
+  //     })
+  //     .catch(error => console.log(error))
+  // }
   async function getFavorites() {
-    await db.collection('users').doc(firebase.auth().currentUser.uid)
-      .get()
-      .then(documentSnapshot => {
-        const userData = documentSnapshot.data();
-        console.log(`Retrieved data: ${JSON.stringify(userData.favorites)}`)
-        setFavoritesData(userData.favorites)
-      })
-      .catch(error => console.log(error))
+
+    const userId = firebase.auth().currentUser.uid
+    return firebase.database().ref('users/' + userId + '/favorites').once('value').then((snapshot) => {
+      console.log(snapshot)
+      setFavoritesData(snapshot)
+    })
+    
   }
+
 }
 
 function ReadMore(){
@@ -908,7 +919,6 @@ function VirtualOne(){
   )
 }
 
-
 function VirtualTwo(){
   const navigation = useNavigation();
   return (
@@ -953,13 +963,11 @@ function VirtualFour(){
 
 function VirtualFive(){
   const navigation = useNavigation();
-  //const [randomFortune, setRandomFortune] = useState('');
-  var randomFortune = '';
 
   {/* ASYNCHRONOUSLY FIND RANDOM FORTUNE */}
-  setTimeout( () => { navigation.navigate('Reading', {randFortune: randomFortune}) }, 15000);
+  // BUG: redirects to fortunes away from subscription page if subscription button was pressed
+  setTimeout( () => { navigation.navigate('Reading') }, 15000);
   
-
   return( 
     <View style={styles.virtualContainer}>
       <ImageBackground source={backgroundFive} style={ styles.virtualOne }>
@@ -970,15 +978,6 @@ function VirtualFive(){
         </TouchableOpacity>
         <NavBar/>
       </ImageBackground>
-    </View>
-  )
-
-}
-
-function GetCrystals(){
-  return(
-    <View style={styles.virtualContainer}>
-      <Text> get crystals Page</Text>
     </View>
   )
 }
@@ -1000,7 +999,6 @@ function PhotoReadingScreen() {
 }
 
 function SignUpScreen({ navigation }) {
-  // copy and paste
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -1027,14 +1025,12 @@ function SignUpScreen({ navigation }) {
         <Text style={styles.underFacebook}>
           OR SIGN UP WITH EMAIL
         </Text>
-        {/* copy and paste */}
         <TextInput style={styles.textBox}
           label="Email"
           placeholder="   Email address"
           placeholderTextColor='#DCDCDC'
           onChangeText={email => setEmail(email)}
         />
-        {/* copy and paste */}
         <TextInput style={styles.textBox}
           label="Password"
           placeholder="    Password"
@@ -1048,7 +1044,6 @@ function SignUpScreen({ navigation }) {
           placeholderTextColor='#DCDCDC'
         />
         <StatusBar style="auto" />
-        {/* copy and paste */}
         <TouchableOpacity onPress={() => { SignUp(email, password), navigation.navigate('HomeLoggedIn')} }>
           <Image source={signin} style={styles.buttonImage}  />
   
@@ -1062,57 +1057,44 @@ function SignUpScreen({ navigation }) {
       </ImageBackground>
     </View>
   )
-  // copy and paste
-  function SignUp() {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(data => {
-        return db.collection('users').doc(data.user.uid).set({
-          userName: email,
-          subscriptionLevel: 0,
-        })
-          .catch(error => console.log(error))
-      })
-  }
 }
 
+// TODO need to hook this up to a button after signed in
 
-function SavedFortunes() {
+function Profile() {
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
       <View style={styles.authContainer}>
         <TouchableOpacity>
-          <Image source={backButton} style={{marginRight: 200}}/>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-          <Image source={SignInButton} style={{marginTop:13}}/>
+          <Image source={backButton} style={{ marginRight: 200 }} />
         </TouchableOpacity>
       </View>
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 230, marginTop: 20}}>SavedFortunes</Text>
+      <Text style={{ color: '#FFFFFF', fontSize: 18, marginRight: 230, marginTop: 20 }}>Name</Text>
       <TextInput style={styles.savedFortuneTextBox}
-          label="Name"
-          placeholder="                                   Enter name here"
-          placeholderTextColor='#DCDCDC'
+        label="Name"
+        placeholder="                                   Enter name here"
+        placeholderTextColor='#DCDCDC'
       />
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 190, marginTop: 20}}>Relationship Status</Text>
+      <Text style={{ color: '#FFFFFF', fontSize: 18, marginRight: 190, marginTop: 20 }}>Relationship Status</Text>
       <TextInput style={styles.savedFortuneTextBox}
-          label="Relationship Status"
-          placeholder="                       Enter relationship status here"
-          placeholderTextColor='#DCDCDC'
+        label="Relationship Status"
+        placeholder="                       Enter relationship status here"
+        placeholderTextColor='#DCDCDC'
       />
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20}}>Enter employment status here</Text>
+      <Text style={{ color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20 }}>Employment Status</Text>
       <TextInput style={styles.savedFortuneTextBox}
-          label="EmploymentStatus"
-          placeholder="                   Enter employment status here"
-          placeholderTextColor='#DCDCDC'
+        label="EmploymentStatus"
+        placeholder="                   Enter employment status here"
+        placeholderTextColor='#DCDCDC'
       />
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20}}>Enter employment status here</Text>
+      <Text style={{ color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20 }}>Gender</Text>
       <TextInput style={styles.savedFortuneTextBox}
-          label="Gender"
-          placeholder="                       Enter gender here"
-          placeholderTextColor='#DCDCDC'
+        label="Gender"
+        placeholder="                       Enter gender here"
+        placeholderTextColor='#DCDCDC'
       />
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 280, marginTop: 20}}>Birthday</Text>
+      <Text style={{ color: '#FFFFFF', fontSize: 18, marginRight: 280, marginTop: 20 }}>Birthday</Text>
       <View style={styles.authContainer}>
         <TextInput style={styles.savedFortuneTextBox2}
           label="Month"
@@ -1132,65 +1114,65 @@ function SavedFortunes() {
       </View>
 
       <TouchableOpacity onPress={() => console.log('log in pressed')}>
-      <Image source={continueImage} style={{marginTop: 0}}/>
+        <Image source={continueImage} style={{ marginTop: 0 }} />
       </TouchableOpacity>
       <Text></Text>
       <Text></Text>
       <TouchableOpacity onPress={() => console.log('log in pressed')}>
-      <Image source={skipImage} />
+        <Image source={skipImage} />
       </TouchableOpacity>
     </View>
   )
 
 }
 
-// TODO need to hook this up to a button after signed in
 
-function Profile() {
-  const navigation = useNavigation();
-  return (
-    <ImageBackground source={profile_bg} style={styles.subBackgroundImage}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <View style={styles.authContainer}>
-          <TouchableOpacity style={styles.authButton1}>
-            <Image source={backButton} style={{marginRight: 80}}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.authButton2}>
-            <Image source={pageButton} />
-          </TouchableOpacity>
-        </View>
-        <Text style={{marginBottom: 30}}></Text>
-        <Image source={profileImage} />
-        <Input placeholder="Name" >
-        {/*<Image source={pencil} />*/}
-        </Input>  
-        <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>Username</Text>
-        <Input placeholder="Username" >
-        </Input>
-        <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>First name</Text>
-        <Input placeholder="First name" >
-        </Input> 
-        <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>Last Name</Text>
-        <Input placeholder="Last Name" >
-        </Input>  
-        <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 285}}>Date of Birth</Text>
-        <Input placeholder="Date of Birth" >
-        </Input>  
-        <Image source={Ellipse1} style={styles.ellipse1} />
-        {/* <Image source={Ellipse2} style={styles.ellipse2} /> */}
-        <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom:-175,left: -130}}>
-          <Image source={Favorites} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{top: 60,left: -0}}>
-          <Image source={Home} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={{top: 60,right: -130}}>
-          <Image source={Shop} />
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
-  )
-}
+
+
+//   const navigation = useNavigation();
+//   return (
+//     <ImageBackground source={profile_bg} style={styles.subBackgroundImage}>
+//       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+//         <View style={styles.authContainer}>
+//           <TouchableOpacity style={styles.authButton1}>
+//             <Image source={backButton} style={{marginRight: 80}}/>
+//           </TouchableOpacity>
+//           <TouchableOpacity style={styles.authButton2}>
+//             <Image source={pageButton} />
+//           </TouchableOpacity>
+//         </View>
+//         <Text style={{marginBottom: 30}}></Text>
+//         <Image source={profileImage} />
+//         <Input placeholder="Name" >
+//         {/*<Image source={pencil} />*/}
+//         </Input>  
+//         <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>Username</Text>
+//         <Input placeholder="Username" >
+//         </Input>
+//         <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>First name</Text>
+//         <Input placeholder="First name" >
+//         </Input> 
+//         <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>Last Name</Text>
+//         <Input placeholder="Last Name" >
+//         </Input>  
+//         <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 285}}>Date of Birth</Text>
+//         <Input placeholder="Date of Birth" >
+//         </Input>  
+//         <Image source={Ellipse1} style={styles.ellipse1} />
+//         {/* <Image source={Ellipse2} style={styles.ellipse2} /> */}
+//         <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom:-175,left: -130}}>
+//           <Image source={Favorites} />
+//         </TouchableOpacity>
+//         <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{top: 60,left: -0}}>
+//           <Image source={Home} />
+//         </TouchableOpacity>
+//         <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={{top: 60,right: -130}}>
+//           <Image source={Shop} />
+//         </TouchableOpacity>
+//       </View>
+//     </ImageBackground>
+//   )
+// }
 
 function SignInScreen() {
   const navigation = useNavigation();
@@ -1220,14 +1202,12 @@ function SignInScreen() {
         <Text style={styles.underFacebook}>
           OR LOG IN WITH EMAIL
         </Text>
-        {/* copy and paste */}
         <TextInput style={styles.textBox}
           label="Email"
           placeholder="   Email address"
           placeholderTextColor='#DCDCDC'
           onChangeText={email => setEmail(email)}
         />
-        {/* copy and paste */}
         <TextInput style={styles.textBox}
           label="Password"
           placeholder="    Password"
@@ -1237,7 +1217,6 @@ function SignInScreen() {
         <Text>
         </Text>
         <StatusBar style="auto" />
-        {/* copy and paste */}
         <TouchableOpacity onPress={() => { onLogin(email, password) } }>
 
           <Image source={login} style={styles.buttonImage} />
@@ -1297,7 +1276,6 @@ function ReadingAnimationScreen({navigation}){
                                   transform: [ { rotate: RotateData } ]
                                 } }
                   source={coffee} 
-                  
           />
         </Animated.View>
       </ImageBackground>
@@ -1306,7 +1284,7 @@ function ReadingAnimationScreen({navigation}){
 }
 
 // ADDED
-function Reading({route}){
+function Reading({}){
   const navigation = useNavigation();
   var userName = 'user';
 
@@ -1318,11 +1296,12 @@ function Reading({route}){
           <TouchableOpacity onPress={() => navigation.popToTop()}>
             <Image source={backButton} />
           </TouchableOpacity>
-          <Image source={user} />
+          <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+            <Image source={userImg} />
+          </TouchableOpacity>
         </View>
         <View style={styles.flexInRowsCoffee}>
-          
-            <TouchableOpacity onPress={() => onSave()}>
+          <TouchableOpacity onPress={() => onSaveFortune()}>
               <Image source={saveButton} />
             </TouchableOpacity>
             <View>
@@ -1334,7 +1313,6 @@ function Reading({route}){
             </TouchableOpacity>
         </View>
           <View style={styles.readingTableContainer}>
-            
             <ScrollView>
             <Text> {randomFortune}  </Text>
               <Button
@@ -1344,7 +1322,6 @@ function Reading({route}){
                 title='Fortune Ready Click To View!'
               >
               </Button>
-
             </ScrollView>
           </View>
       </ImageBackground>
@@ -1358,14 +1335,15 @@ function Reading({route}){
     console.log(fortune);
     return fortune;
   }
-  // copy and paste
-  function onSave() {
-    db.collection('users').doc(firebase.auth().currentUser.uid).update({
-      favorites: firebase.firestore.FieldValue.arrayUnion(...[randomFortune])
+
+  // the structure is pretty bad this way as well. Not sure how to get it to populate like a simple array.
+  function onSaveFortune() {
+    const userId = firebase.auth().currentUser.uid
+    firebase.database().ref('users/' + userId + '/favorites').push({
+      randomFortune
     })
-    navigation.navigate('Favorites')
+    // navigation.navigate('Favorites')
   }
-  // end copy paste
 }
 
 ////////////////////
@@ -1393,7 +1371,6 @@ function App() {
         <Stack.Screen name="VirtualThree" component={VirtualThree} options={{ cardStyleInterpolator:forFade}}/>
         <Stack.Screen name="VirtualFour" component={VirtualFour} options={{ cardStyleInterpolator:forFade}}/>
         <Stack.Screen name="VirtualFive" component={VirtualFive} options={{ cardStyleInterpolator:forFade}}/>
-        <Stack.Screen name="GetCrystals" component={GetCrystals} options={{ cardStyleInterpolator:forFade}}/>
         <Stack.Screen name="VirtualLoading" component={VirtualLoadingScreen} />
         <Stack.Screen name="PhotoReading" component={PhotoReadingScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
@@ -1403,7 +1380,6 @@ function App() {
         <Stack.Screen name="ReadMore" component={ReadMore} />
         <Stack.Screen name="Subscription" component={SubscriptionScreen} />
         <Stack.Screen name="Fortune" component={FortuneModal} />
-        <Stack.Screen name="SavedFortunes" component={SavedFortunes} />
         <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
