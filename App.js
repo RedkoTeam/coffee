@@ -727,16 +727,26 @@ function FavoritesScreen() {
   )
 
   // Can't get this to populate on the favorites page. See above comment for where I am putting it
+  // async function getFavorites() {
+  //   await db.collection('users').doc(firebase.auth().currentUser.uid)
+  //     .get()
+  //     .then(documentSnapshot => {
+  //       const userData = documentSnapshot.data();
+  //       console.log(`Retrieved data: ${JSON.stringify(userData.favorites)}`)
+  //       setFavoritesData(userData.favorites)
+  //     })
+  //     .catch(error => console.log(error))
+  // }
   async function getFavorites() {
-    await db.collection('users').doc(firebase.auth().currentUser.uid)
-      .get()
-      .then(documentSnapshot => {
-        const userData = documentSnapshot.data();
-        console.log(`Retrieved data: ${JSON.stringify(userData.favorites)}`)
-        setFavoritesData(userData.favorites)
-      })
-      .catch(error => console.log(error))
+
+    const userId = firebase.auth().currentUser.uid
+    return firebase.database().ref('users/' + userId + '/favorites').once('value').then((snapshot) => {
+      console.log(snapshot)
+      setFavoritesData(snapshot)
+    })
+    
   }
+
 }
 
 function ReadMore(){
@@ -1312,6 +1322,7 @@ function Reading({}){
     return fortune;
   }
 
+  // the structure is pretty bad this way as well. Not sure how to get it to populate like a simple array.
   function onSaveFortune() {
     const userId = firebase.auth().currentUser.uid
     firebase.database().ref('users/' + userId + '/favorites').push({
@@ -1319,8 +1330,6 @@ function Reading({}){
     })
     // navigation.navigate('Favorites')
   }
-
-  // end copy paste
 }
 
 ////////////////////
