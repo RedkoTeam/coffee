@@ -692,8 +692,8 @@ function FavoritesScreen() {
 
   // this hook calls getFavorites function when the page is focused. Wasn't able to get this to work. Maybe you could make it async so it arrives like you did for the random fortune before?
 
-    useFocusEffect( () => {
-      useCallback( ()=>{
+    useFocusEffect(
+      useCallback( ()=> {
         const fetchData = async () => {
           await db.collection('users').doc(firebase.auth().currentUser.uid).get()
           .then(documentSnapshot => {
@@ -704,13 +704,30 @@ function FavoritesScreen() {
         };
 
         fetchData();
+
+
         return () => {
-
+          console.log('data fetched');
         }
-      }, []);
-      })
+      }, []));
 
-  console.log(`Retrieved data: ${JSON.stringify(favoritesData)}`)
+  console.log(`Retrieved data: ${JSON.stringify(favoritesData)}`);
+  console.log(`Data type: ${typeof(favoritesData)}`);
+
+
+  const objectToMap = obj => {
+    const keys = Object.keys(obj);
+    const map = new Map();
+    for(let i = 0; i < keys.length; i++){
+      //inserting new key value pair inside map
+      map.set(keys[i], obj[keys[i]]);
+    };
+    return map;
+  };
+
+  const fortune = objectToMap(favoritesData);
+  console.log(`fortune: ${typeof(fortune)}`);
+
 
   return (
     <View style={{flexGrow:1, justifyContent:'space-between'}}>
@@ -725,7 +742,7 @@ function FavoritesScreen() {
         </View>
         <Image source={ galaxy } style={styles.shopBackgroundContainer} />
         {
-          Object.entries(favoritesData).map((item, index) => {
+          fortune.map((item, index) => {
             // favorites data is showing up in the console.log but not populating on the screen
             return(
               <View key={index} style={{padding:30}}>
