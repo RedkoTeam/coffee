@@ -33,9 +33,9 @@ const db = firebase.firestore();
 
 //HOMEPAGE//
 import TakePhoto from './assets/FortuneCoffeePNGassets/TakePhoto.png';
-import Home from './assets/FortuneCoffeePNGassets/home.png';
-import Shop from './assets/FortuneCoffeePNGassets/shop.png';
-import Favorites from './assets/FortuneCoffeePNGassets/favorites.png';
+import Home from './assets/FortuneCoffeePNGassets/Home.png';
+import Shop from './assets/FortuneCoffeePNGassets/Shop.png';
+import Favorites from './assets/FortuneCoffeePNGassets/Favorites.png';
 
 import VirtualCoffee from './assets/FortuneCoffeePNGassets/VirtualCoffee.png';
 import SignInButton from './assets/FortuneCoffeePNGassets/SignInButton.png';
@@ -141,7 +141,7 @@ import { Input } from 'react-native-elements';
 import profile_bg from './assets/FortuneCoffeePNGassets/Profile_bg.png';
 import pencil from './assets/pencil.png';
 import pageButton from './assets/pageButton.png';
-import { cardsFrontReversed, cardsMeaning } from './fortunesCardArray';
+import { cardsFront, cardsFrontReversed, cardsMeaning } from './fortunesCardArray';
 
 ////////////////////
 // Styling  //
@@ -536,8 +536,10 @@ function HomeScreen({ navigation }) {
     open2: true,
   };
   toggleImage = () => {
-    this.setState(state => ({ open: !state.open}))
+    this.setState(state => ({ open: !state.open}));
   }
+  //const path = getRandomFortuneCard();
+  //console.log(path[0]);
 
   return (
     <View style={styles.mainContainer}>
@@ -563,8 +565,7 @@ function HomeScreen({ navigation }) {
       <View style={styles.cardTitle}>
         <Image source={PickCard} />
       </View>
-
-      {/* <View>
+      <View>
        <Button title="Show modal" onPress={toggleModal} />
         <Modal isVisible={isModalVisible}>
           <View style = {styles.modalStyle}>
@@ -586,7 +587,7 @@ function HomeScreen({ navigation }) {
             </View>
           </View>
         </Modal>
-      </View> */}
+      </View>
       <View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
@@ -610,17 +611,17 @@ function HomeScreen({ navigation }) {
     </View>
   );
   
-  function getRandomFortuneCard() {
-    let random = Math.floor((Math.random() * cardsFront.length));
-    console.log(random);
-    let fortuneFront = cardsFront[random];
-    let fortuneFrontReversed = cardsFrontReversed[random];
-    let fortuneCardsMeaning = cardsMeaning[random];
-    let fortunePaths = [fortuneFront, fortuneFrontReversed, fortuneCardsMeaning];
-    //console.log(fortune);
-    return fortunePaths;
-    // console.log(fortunesArray[2])
-  }
+  // function getRandomFortuneCard() {
+  //   let random = Math.floor((Math.random() * cardsFront.length));
+  //   console.log(random);
+  //   let fortuneFront = cardsFront[random];
+  //   let fortuneFrontReversed = cardsFrontReversed[random];
+  //   let fortuneCardsMeaning = cardsMeaning[random];
+  //   let fortunePaths = [fortuneFront, fortuneFrontReversed, fortuneCardsMeaning];
+  //   //console.log(fortune);
+  //   return fortunePaths;
+  //   // console.log(fortunesArray[2])
+  // }
 }
 
 function HomeScreenLoggedIn({ navigation }) {
