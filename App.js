@@ -41,9 +41,12 @@ function SignUp(email, password) {
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(user => {
       const userId = firebase.auth().currentUser.uid
+      // add time stamp 
       return firebase.database().ref('users/' + userId).set({
         email: email,
-        subscriptionLevel: 0
+        subscriptionLevel: 0,
+        // increment based on timestamp 
+        totalGems: 0
       })
     })
     .catch(error => console.log(error))
@@ -683,7 +686,6 @@ let favoriteDatabase = [
 
 function FavoritesScreen() {
   const navigation = useNavigation();
-
   const [favoritesData, setFavoritesData] = useState([])
 
   // this hook calls getFavorites function when the page is focused. Wasn't able to get this to work. Maybe you could make it async so it arrives like you did for the random fortune before?
@@ -707,6 +709,7 @@ function FavoritesScreen() {
         {
           favoritesData.map((item, index) => {
             // favorites data is showing up in the console.log but not populating on the screen
+            // this needs to be changed from a map to something else to correctly access the fortunes. 
             console.log(` favoritesData: ${favoritesData}`)
             return(
               <View key={index} style={{padding:30}}>
@@ -1112,9 +1115,6 @@ function Profile() {
 
 }
 
-
-
-
 //   const navigation = useNavigation();
 //   return (
 //     <ImageBackground source={profile_bg} style={styles.subBackgroundImage}>
@@ -1301,12 +1301,14 @@ function Reading({}){
           <View style={styles.readingTableContainer}>
             <ScrollView>
             <Text> {randomFortune}  </Text>
+            {/* // add onPress decrement gem counter  */}
               <Button
                 onPress={() => {
                   setRandomFortune(getRandomFortune)
                 }}
                 title='Fortune Ready Click To View!'
               >
+                
               </Button>
             </ScrollView>
           </View>
