@@ -51,19 +51,20 @@ function SignUp(email, password) {
 // IMAGES & ICONS //
 ////////////////////
 
-//HOMEPAGE//
-import TakePhoto from './assets/FortuneCoffeePNGassets/TakePhoto.png';
-import Home from './assets/FortuneCoffeePNGassets/Home.png';
-import Shop from './assets/FortuneCoffeePNGassets/Shop.png';
-import Favorites from './assets/FortuneCoffeePNGassets/Favorites.png';
+//NAVBAR//
+import Ellipse1 from './assets/FortuneCoffeePNGassets/HomePage/ellipse.png';
+import Home from './assets/FortuneCoffeePNGassets/HomePage/Home.png';
+import Shop from './assets/FortuneCoffeePNGassets/HomePage/Shop.png';
+import Favorites from './assets/FortuneCoffeePNGassets/HomePage/Favorites.png';
 
-import VirtualCoffee from './assets/FortuneCoffeePNGassets/VirtualCoffee.png';
-import SignInButton from './assets/FortuneCoffeePNGassets/SignInButton.png';
-import SignUpButton from './assets/FortuneCoffeePNGassets/SignUpButton.png';
-import LargeTitleApp from './assets/FortuneCoffeePNGassets/FortuneCoffeeTitle.png';
-import PickCard from './assets/FortuneCoffeePNGassets/PickCard.png';
-import Cards from './assets/FortuneCoffeePNGassets/allCards.png';
-import Ellipse1 from './assets/FortuneCoffeePNGassets/ellipse.png';
+//HOMEPAGE//
+import TakePhoto from './assets/FortuneCoffeePNGassets/HomePage/TakePhoto.png';
+import VirtualCoffee from './assets/FortuneCoffeePNGassets/HomePage/VirtualCoffee.png';
+import SignInButton from './assets/FortuneCoffeePNGassets/HomePage/SignInButton.png';
+import SignUpButton from './assets/FortuneCoffeePNGassets/HomePage/SignUpButton.png';
+import LargeTitleApp from './assets/FortuneCoffeePNGassets/HomePage/FortuneCoffeeTitle.png';
+import PickCard from './assets/FortuneCoffeePNGassets/HomePage/PickCard.png';
+import Cards from './assets/FortuneCoffeePNGassets/HomePage/allCards.png';
 
 //SHOP PAGE// 
 import shop from './assets/FortuneCoffeePNGassets/shopPage/Shop.png';
@@ -81,13 +82,19 @@ import coffeeChocolateButton from './assets/FortuneCoffeePNGassets/shopPage/coff
 import strawberryPhoto from './assets/FortuneCoffeePNGassets/shopPage/strawberryPhoto.png';
 import strawberryButton from './assets/FortuneCoffeePNGassets/shopPage/strawberryButton.png';
 
-// LOGIN PAGE //
-import facebookTitle from './assets/FortuneCoffeePNGassets/ContinueFacebook.png';
-import googleTitle from './assets/FortuneCoffeePNGassets/ContinueGoogle.png';
-import login from './assets/FortuneCoffeePNGassets/LogInButton.png';
-import backgroundPicture from './assets/FortuneCoffeePNGassets/backgroundPicture.png'
+//SIGN// 
+import facebookTitle from './assets/FortuneCoffeePNGassets/Sign/ContinueFacebook.png';
+import googleTitle from './assets/FortuneCoffeePNGassets/Sign/ContinueGoogle.png';
+import signTitle from './assets/FortuneCoffeePNGassets/Sign/signTitle.png';
+// SIGN UP PAGE //
+import login from './assets/FortuneCoffeePNGassets/Sign/LogInButton.png';
+import haveAcctText from './assets/FortuneCoffeePNGassets/Sign/haveAcctText.png';
+import loginText from './assets/FortuneCoffeePNGassets/Sign/loginText.png';
+import signEmailText from './assets/FortuneCoffeePNGassets/Sign/signEmailText.png';
+import signUpBelowTitle from './assets/FortuneCoffeePNGassets/Sign/signUpbelowTitle.png';
 // SIGNUP PAGE //
 import signin from './assets/FortuneCoffeePNGassets/signin.png';
+import signBackground from './assets/FortuneCoffeePNGassets/Sign/SignBackground.png';
 // READING ANIMATION PAGE //
 import coffee from './assets/FortuneCoffeePNGassets/readingAnimationPage/coffee.png';
 import readingCoffee from './assets/FortuneCoffeePNGassets/readingAnimationPage/readingCoffee.png';
@@ -122,13 +129,12 @@ import savedFortunesTitle from './assets/FortuneCoffeePNGassets/savedFortunes/sa
 
 
 // SUBSCRIPTION PAGE //
-import sub1 from './assets/FortuneCoffeePNGassets/subscription1.png';
-import sub2 from './assets/FortuneCoffeePNGassets/subscription2.png';
-import sub3 from './assets/FortuneCoffeePNGassets/subscription3.png';
-import sub4 from './assets/FortuneCoffeePNGassets/subscription4.png';
-import subscriptionDescription from './assets/FortuneCoffeePNGassets/subscriptionDescription.png';
-import subBackgorund1 from './assets/FortuneCoffeePNGassets/Vector.png';
-import subBackgorund2 from './assets/FortuneCoffeePNGassets/Vector-3.png';
+import sub1 from './assets/FortuneCoffeePNGassets/Subscription/subscription1.png';
+import sub2 from './assets/FortuneCoffeePNGassets/Subscription/subscription2.png';
+import sub3 from './assets/FortuneCoffeePNGassets/Subscription/subscription3.png';
+import sub4 from './assets/FortuneCoffeePNGassets/Subscription/subscription4.png';
+import subscriptionDescription from './assets/FortuneCoffeePNGassets/Subscription/subscriptionDescription.png';
+import subBackground from './assets/FortuneCoffeePNGassets/Subscription/subscriptionBackground.png'
 
 // Fortune Page //
 import Modal from 'react-native-modal';
@@ -264,15 +270,6 @@ const styles = StyleSheet.create({
     width: 160,
     height: 130,
   },
-  buttonImage: {
-    width: 360,
-    height: 38,
-    paddingBottom: 50,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 40
-  },
   getCrystalImage: {
     width: 300,
     height: 38,
@@ -334,7 +331,7 @@ const styles = StyleSheet.create({
   textBox: {
     margin: 15,
     height: 60,
-    width: 360,
+    width: '87%',
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "#FFFFFF",
@@ -522,6 +519,11 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.4)",
     marginRight: 130
   },
+  backButtonStyle: {
+    position: 'absolute', 
+    top: 10,
+    left: 15
+  }
 });
 
 ////////////////////
@@ -700,7 +702,7 @@ function FavoritesScreen() {
     <View style={{flexGrow:1, justifyContent:'space-between'}}>
       <ScrollView contentContainerStyle={styles.shopContainer}>
         <View style={{flexDirection:'row', width:'100%', position: 'relative', left:0, top:75, marginBottom: 65}} >
-          <TouchableOpacity onPress={()=>navigation.popToTop()} >
+          <TouchableOpacity onPress={()=>navigation.popToTop()} style={styles.backButtonStyle}>
             <Image source={backButton} />
             
           </TouchableOpacity>
@@ -799,33 +801,30 @@ let ShopDatabase = [
 function SubscriptionScreen() {
   const navigation = useNavigation();
   return (
-    <View style={styles.mainContainer}>
-      {/*<ImageBackground source={subBackgorund1} style={styles.subBackgroundImage}>*/}
-        <Image source={subscriptionDescription} style={{marginTop: 60}}/>
-        <TouchableOpacity>
-          <Image source={sub1} style={styles.subButton1}/>
-        </TouchableOpacity>
-        <TouchableOpacity>
-        <Image source={sub2} style={styles.subButton2} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image source={sub3} style={styles.subButton2}/>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image source={sub4} style={styles.subButton2}/>
-        </TouchableOpacity>
-        <Image source={Ellipse1} style={styles.ellipse3} />
-        {/* <Image source={Ellipse2} style={styles.ellipse4} /> */}
-        <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom: -94, left:-130}}>
-          <Image source={Favorites} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{top: -20, left: -0}}>
-          <Image source={Home} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={{top: -20,right: -130}}>
-          <Image source={Shop} />
-        </TouchableOpacity>
-      {/*</ImageBackground>*/}
+    <View style={styles.virtualContainer}>
+      <ImageBackground source={subBackground} style={styles.virtualOne}>
+        <View style={{flex:1, flexDirection:'row', width:'100%', position:'relative'}}>
+          <TouchableOpacity onPress={() => navigation.popToTop() } style={styles.backButtonStyle}>
+            <Image source={backButton} />
+          </TouchableOpacity>
+          <Image source={subscriptionDescription} style={{alignSelf:'center', justifyContent:'center'}}/>
+        </View>
+        <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+          <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')} >
+            <Image source={sub1}/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')}>
+          <Image source={sub2}  />
+          </TouchableOpacity >
+          <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')}>
+            <Image source={sub3} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')}>
+            <Image source={sub4} />
+          </TouchableOpacity>
+        </View>
+        <NavBar/>
+      </ImageBackground>
     </View>
   )
 }
@@ -837,7 +836,7 @@ function ShopScreen() {
     <ScrollView contentContainerStyle={styles.shopContainer}>
       <Image source={ galaxy } style={styles.shopBackgroundContainer} />
       <View style={ styles.flexInRows }>
-        <TouchableOpacity onPress={()=>navigation.popToTop()} >
+        <TouchableOpacity onPress={()=>navigation.popToTop()} style={styles.backButtonStyle}>
           <Image source={backButton} />
         </TouchableOpacity>
         <Image source={shop} style={styles.shopScreenTitle} />
@@ -874,8 +873,8 @@ function VirtualCoffeeReadingScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
         <View style={styles.authContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Image source={backButton} style={{marginRight: 160}}/>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.backButtonStyle} >
+            <Image source={backButton}/>
           </TouchableOpacity>
           <TouchableOpacity>
             <Image source={useAVirtualCoffee} style={{marginTop:13}}/>
@@ -1004,57 +1003,55 @@ function SignUpScreen({ navigation }) {
   const [password, setPassword] = useState('')
 
   return (
-    <View style={styles.container}>
-      <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Image source={backButton} style={{marginLeft: 50, marginBottom: 10}}/>
+    <View style={styles.virtualContainer}>
+      <ImageBackground source={signBackground} style={styles.virtualOne}>
+        <TouchableOpacity onPress={() => navigation.popToTop()} style={styles.backButtonStyle}>
+          <Image source={backButton}/>
         </TouchableOpacity>
-        <Text style={styles.title}>
-          fortune coffee
-        </Text>
-        <Text style={styles.underTitle}>
-          We see many fortunes in your near future.
-        </Text>
-        <TouchableOpacity onPress={() => console.log('google pressed')}>
-          <Image source={googleTitle} style={styles.buttonImage} />
-        </TouchableOpacity>
-        <Text>
-        </Text>
-        <TouchableOpacity onPress={() => console.log('facebook pressed')}>
-          <Image source={facebookTitle} style={styles.buttonImage} />
-        </TouchableOpacity>
-        <Text style={styles.underFacebook}>
-          OR SIGN UP WITH EMAIL
-        </Text>
+        <Image source={signTitle} style={{marginTop:'20%'}}/>
+        <Image source={signUpBelowTitle} style={{marginBottom:12, marginTop:12}} />
+        <View style={{marginTop:8, marginBottom:20}}>
+          <TouchableOpacity onPress={() => console.log('google pressed')} style={{marginBottom:2}}>
+            <Image source={googleTitle} />
+          </TouchableOpacity>
+          <Text>
+          </Text>
+          <TouchableOpacity onPress={() => console.log('facebook pressed')}>
+            <Image source={facebookTitle} />
+          </TouchableOpacity>
+        </View>
+        <Image source={signEmailText} style={{marginBottom:8}}/>
         <TextInput style={styles.textBox}
           label="Email"
-          placeholder="   Email address"
+          placeholder="    Email address"
           placeholderTextColor='#DCDCDC'
+          autoCapitalize='none'
+          keyboardType='email-address'
           onChangeText={email => setEmail(email)}
         />
         <TextInput style={styles.textBox}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
-          
+          autoCapitalize='none'
+          passwordRules='required: lower; required: upper; required: digit; required: [-], minlength:5'
           onChangeText={password => setPassword(password)}
         />
         <TextInput style={styles.textBox}
           label="Re-enter Password"
           placeholder="    Re-enter Password"
           placeholderTextColor='#DCDCDC'
+          autoCapitalize='none'
         />
-        <StatusBar style="auto" />
         <TouchableOpacity onPress={() => { SignUp(email, password), navigation.navigate('HomeLoggedIn')} }>
           <Image source={signin} style={styles.buttonImage}  />
-  
         </TouchableOpacity>
-        <Text style={styles.underSignup}>
-          Already have an account?
+        <View style={{flexDirection:'row', marginTop:20}} >
+          <Image source={haveAcctText} style={{marginRight:10}}/>
           <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-            <Text style={styles.login}> Login</Text>
+            <Image source={loginText} />
           </TouchableOpacity>
-        </Text>
+        </View>
       </ImageBackground>
     </View>
   )
@@ -1067,8 +1064,8 @@ function Profile() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
       <View style={styles.authContainer}>
-        <TouchableOpacity>
-          <Image source={backButton} style={{ marginRight: 200 }} />
+        <TouchableOpacity style={styles.backButtonStyle}>
+          <Image source={backButton}/>
         </TouchableOpacity>
       </View>
       <Text style={{ color: '#FFFFFF', fontSize: 18, marginRight: 230, marginTop: 20 }}>Name</Text>
@@ -1182,10 +1179,10 @@ function SignInScreen() {
   const [password, setPassword] = useState('')
 
   return (
-    <View style={styles.container}>
-      <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Image source={backButton} style={{marginLeft: 50, marginBottom: 10}}/>
+    <View style={styles.virtualContainer}>
+      <ImageBackground source={signBackground} style={styles.virtualOne}>
+        <TouchableOpacity onPress={() => navigation.popToTop()}>
+          <Image source={backButton} style={styles.backButtonStyle}/>
         </TouchableOpacity>
         <Text style={styles.title}>
           fortune coffee
@@ -1325,6 +1322,7 @@ function Reading({}){
               </Button>
             </ScrollView>
           </View>
+          <NavBar/>
       </ImageBackground>
     </View>
   )
@@ -1359,7 +1357,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false
+          headerShown: true
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
