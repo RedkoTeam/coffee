@@ -89,3 +89,16 @@ class Firebase {
 }
 
 export default new Firebase()
+
+
+// firebase.database().ref("users/" + req.username).set({
+//     name: req.name,
+//     email: req.email,
+//     phone: req.phone,
+//     address: req.address,
+//     customer_stripe_id: req.customer_stripe_id,
+//     subscription: req.subscription,
+// });
+
+// cb(null, { "statuscode": 200, "message": "Inserted successfully" });
+//     },
