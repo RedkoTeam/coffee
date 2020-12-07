@@ -230,56 +230,25 @@ const styles = StyleSheet.create({
     height: 130,
   },
   buttonImage: {
-    width: 360,
-    height: 38,
     paddingBottom: 50,
     borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 40
   },
   getCrystalImage: {
     width: 300,
     height: 38,
     paddingBottom: 50,
     borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 40,
-    marginTop: 290
+    marginTop: 265
   },
   instructions: {
     color: '#888',
     fontSize: 18,
-  },
-  title: {
-    color: '#FFF',
-    fontSize: 40,
-    textAlign: 'center'
-  },
-  login: {
-    color: '#1E90FF',
-    fontSize: 20,
-    marginTop: 10
   },
   underTitle: {
     color: '#0080ff',
     fontSize: 20,
     marginTop: 10,
     marginBottom: 20,
-    textAlign: 'center',
-  },
-  underSignup: {
-    color: '#FFFFFF',
-    fontSize: 20,
-    textAlign: 'center',
-    marginTop: 10
-  },
-  underFacebook: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    textAlign: 'center',
-    marginTop: 10,
   },
   button: {
     backgroundColor: "blue",
@@ -290,7 +259,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 5,
     marginLeft: 280,
-    marginTop: 7
   },
   buttonText: {
     fontSize: 20,
@@ -298,18 +266,19 @@ const styles = StyleSheet.create({
   },
   textBox: {
     margin: 15,
-    height: 60,
-    width: 360,
+    height: "7%",
+    width: "90%",
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "#FFFFFF",
-    marginHorizontal: 40
   },
   backgroundImage: {
     flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-    padding: 2
+    resizeMode:'cover',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width:'100%',
+    opacity: 0.7,
   },
   readingAnimationBackground: {
     flex: 1,
@@ -397,29 +366,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 2
   },
-  subButton1: {
-    width: 390,
-    height: 130,
-    borderRadius: 30,
-    marginHorizontal: 1,
-    marginTop: 30
-  },
-  subButton2: {
-    width: 390,
-    height: 110,
-  },
-  ellipse3: {
-    position: 'absolute',
-    bottom: -10,
-    left: 0,
-    marginBottom: 20
-  },
-  ellipse4: {
-    position: 'absolute',
-    bottom: -10,
-    left: 0,
-    marginBottom: 20
-  },
   cameraContainer: {
     flex: 1,
   },
@@ -436,45 +382,34 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 40,
   },
-  textBox2: {
-    margin: 15,
-    height: 60,
-    width: 70,
-    borderWidth: 1,
-    borderRadius: 10,
-    backgroundColor: "#FFFFFF",
-    marginHorizontal: 40
-  },
-  textBox3: {
-    margin: 15,
-    height: 60,
-    width: 100,
-    borderWidth: 1,
-    borderRadius: 10,
-    backgroundColor: "#FFFFFF",
-    marginHorizontal: 40
-  },
   savedFortuneTextBox: {
-    height: 60,
-    width: 360,
+    height: "7%",
+    width: "90%",
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "rgba(255,255,255,0.4)",
   },
   savedFortuneTextBox2: {
-    height: 60,
-    width: 70,
+    height: "90%",
+    width: "20%",
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "rgba(255,255,255,0.4)",
   },
   savedFortuneTextBox3: {
-    height: 60,
-    width: 90,
+    height: "90%",
+    width: "50%",
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "rgba(255,255,255,0.4)",
-    marginRight: 130
+  },
+  flexRowX: {
+    flex: 0.5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width:'100%',
+    paddingTop: '10%',
+    padding: 12,
   },
 });
 
@@ -516,10 +451,10 @@ function HomeScreen({navigation}) {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.authContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.authButton1}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.authButton1}>
           <Image source={SignUpButton}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.authButton2}>
+        <TouchableOpacity onPress={() => navigation.navigate('SavedFortunes')} style={styles.authButton2}>
           <Image source={SignInButton} />
         </TouchableOpacity>
       </View>
@@ -568,9 +503,11 @@ function HomeScreen({navigation}) {
             <View style = {styles.modalStyle}>
               <ImageBackground source={crystalBackground} style={styles.crystalBackground}>
                 <View style={styles.getCrystalContainer}>
-                  <TouchableOpacity onPress={toggleModal}>
-                    <Image source={xButton} style={styles.xbutton} />
-                  </TouchableOpacity>
+                  <View style={ styles.flexRowX }>
+                    <TouchableOpacity onPress={toggleModal} >
+                      <Image source={xButton} style={styles.xbutton} />
+                    </TouchableOpacity>
+                  </View>
                   <TouchableOpacity onPressIn={toggleModal} onPress={() => navigation.navigate('Subscription')}>
                     <Image source={getCrystals} style={styles.getCrystalImage} />
                   </TouchableOpacity>
@@ -681,29 +618,23 @@ function SubscriptionScreen() {
   return (
     <View style={styles.mainContainer}>
       {/*<ImageBackground source={subBackgorund1} style={styles.subBackgroundImage}>*/}
-        <Image source={subscriptionDescription} style={{marginTop: 60}}/>
+        <View style={styles.flexInRows}>
+          <TouchableOpacity onPress={()=>navigation.popToTop()}>
+            <Image source={ backButton } />
+          </TouchableOpacity>
+        </View>
+        <Image source={subscriptionDescription}/>
         <TouchableOpacity>
-          <Image source={sub1} style={styles.subButton1}/>
+          <Image source={sub1} />
         </TouchableOpacity>
         <TouchableOpacity>
-        <Image source={sub2} style={styles.subButton2} />
+        <Image source={sub2} />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Image source={sub3} style={styles.subButton2}/>
+          <Image source={sub3} />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Image source={sub4} style={styles.subButton2}/>
-        </TouchableOpacity>
-        <Image source={Ellipse1} style={styles.ellipse3} />
-        {/* <Image source={Ellipse2} style={styles.ellipse4} /> */}
-        <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom: -94, left:-130}}>
-          <Image source={Favorites} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{top: -20, left: -0}}>
-          <Image source={Home} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={{top: -20,right: -130}}>
-          <Image source={Shop} />
+          <Image source={sub4} />
         </TouchableOpacity>
       {/*</ImageBackground>*/}
     </View>
@@ -754,7 +685,7 @@ function VirtualCoffeeReadingScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
         <View style={styles.authContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity onPress={()=>navigation.popToTop()}>
             <Image source={backButton} style={{marginRight: 160}}/>
           </TouchableOpacity>
           <TouchableOpacity>
@@ -896,11 +827,13 @@ function SignUpScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Image source={backButton} style={{marginLeft: 50, marginBottom: 10}}/>
-        </TouchableOpacity>
-        <Text style={styles.title}>
-          fortune coffee
+      <View style={styles.flexInRows}>
+          <TouchableOpacity onPress={()=>navigation.popToTop()}>
+            <Image source={ backButton } />
+          </TouchableOpacity>
+        </View>
+        <Text style={{color: '#FFF', fontSize: 40}}>
+          Fortune Coffee
         </Text>
         <Text style={styles.underTitle}>
           We see many fortunes in your near future.
@@ -913,10 +846,9 @@ function SignUpScreen({ navigation }) {
         <TouchableOpacity onPress={() => console.log('facebook pressed')}>
           <Image source={facebookTitle} style={styles.buttonImage} />
         </TouchableOpacity>
-        <Text style={styles.underFacebook}>
+        <Text style={{color:'#FFFFFF', fontSize: 18, marginTop: 10}}>
           OR SIGN UP WITH EMAIL
         </Text>
-
         <TextInput style={styles.textBox}
           label="Email"
           placeholder="   Email address"
@@ -939,10 +871,10 @@ function SignUpScreen({ navigation }) {
           <Image source={signin} style={styles.buttonImage}  />
   
         </TouchableOpacity>
-        <Text style={styles.underSignup}>
+        <Text style={{color: '#FFFFFF', fontSize: 20, marginBottom: 60}}>
           Already have an account?
           <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-            <Text style={styles.login}> Login</Text>
+            <Text style={{color: '#1E90FF', fontSize: 20}}> Login</Text>
           </TouchableOpacity>
         </Text>
       </ImageBackground>
@@ -955,15 +887,15 @@ function SavedFortunes() {
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
-      <View style={styles.authContainer}>
-        <TouchableOpacity>
-          <Image source={backButton} style={{marginRight: 200}}/>
+      <View style={styles.flexInRows}>
+        <TouchableOpacity onPress={()=>navigation.popToTop()}>
+          <Image source={ backButton } />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
           <Image source={SignInButton} style={{marginTop:13}}/>
         </TouchableOpacity>
       </View>
-      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 230, marginTop: 20}}>SavedFortunes</Text>
+      <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 230}}>SavedFortunes</Text>
       <TextInput style={styles.savedFortuneTextBox}
           label="Name"
           placeholder="                                   Enter name here"
@@ -1044,15 +976,14 @@ function SavedFortunes() {
   return (
     <ImageBackground source={profile_bg} style={styles.subBackgroundImage}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <View style={styles.authContainer}>
-          <TouchableOpacity style={styles.authButton1}>
-            <Image source={backButton} style={{marginRight: 80}}/>
+        <View style={styles.flexInRows}>
+          <TouchableOpacity onPress={()=>navigation.popToTop()}>
+            <Image source={ backButton } />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.authButton2}>
+          <TouchableOpacity>
             <Image source={pageButton} />
           </TouchableOpacity>
         </View>
-        <Text style={{marginBottom: 30}}></Text>
         <Image source={profileImage} />
         <Input placeholder="Name" >
         {/*<Image source={pencil} />*/}
@@ -1069,17 +1000,7 @@ function SavedFortunes() {
         <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 285}}>Date of Birth</Text>
         <Input placeholder="Date of Birth" >
         </Input>  
-        <Image source={Ellipse1} style={styles.ellipse1} />
-        {/* <Image source={Ellipse2} style={styles.ellipse2} /> */}
-        <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom:-175,left: -130}}>
-          <Image source={Favorites} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{top: 60,left: -0}}>
-          <Image source={Home} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={{top: 60,right: -130}}>
-          <Image source={Shop} />
-        </TouchableOpacity>
+        <NavBar />
       </View>
     </ImageBackground>
   )
@@ -1094,11 +1015,13 @@ function SignInScreen() {
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundPicture} style={styles.backgroundImage}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Image source={backButton} style={{marginLeft: 50, marginBottom: 10}}/>
-        </TouchableOpacity>
-        <Text style={styles.title}>
-          fortune coffee
+        <View style={styles.flexInRows}>
+          <TouchableOpacity onPress={()=>navigation.popToTop()}>
+            <Image source={ backButton } />
+          </TouchableOpacity>
+        </View>
+        <Text style={{color: '#FFF', fontSize: 40}}>
+          Fortune Coffee
         </Text>
         <Text style={styles.underTitle}>
         </Text>
@@ -1110,7 +1033,7 @@ function SignInScreen() {
         <TouchableOpacity onPress={() => console.log('facebook pressed')}>
           <Image source={facebookTitle} style={styles.buttonImage} />
         </TouchableOpacity>
-        <Text style={styles.underFacebook}>
+        <Text style={{color:'#FFFFFF', fontSize: 18, marginTop: 10}}>
           OR LOG IN WITH EMAIL
         </Text>
         <TextInput style={styles.textBox}
@@ -1133,11 +1056,11 @@ function SignInScreen() {
 
           <Image source={login} style={styles.buttonImage} />
         </TouchableOpacity>
-        <Text style={styles.underSignup}>
+        <Text style={{color: '#FFFFFF', fontSize: 20, marginTop: 10 }}>
           Forgot Password?{"\n"}
           Create a new
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.login}> account</Text>
+            <Text style={{color: '#1E90FF', fontSize: 20, marginTop: 10}}> account</Text>
           </TouchableOpacity>
         </Text>
         <Text style={{marginBottom: 100}}></Text>
@@ -1231,6 +1154,7 @@ function Reading(){
             <Text> TABLE TO BE ATTACHED  </Text>
           </ScrollView>
         </View>
+        <NavBar />
       </ImageBackground>
     </View>
   )
