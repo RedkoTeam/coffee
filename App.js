@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   },
   textBox: {
     margin: 15,
-    height: 60,
+    height: "7%",
     width: '87%',
     borderWidth: 1,
     borderRadius: 10,
@@ -497,7 +497,7 @@ function HomeScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.authButton1}>
           <Image source={SignUpButton} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('SingIn')} style={styles.authButton2}>
+        <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.authButton2}>
           <Image source={SignInButton} />
         </TouchableOpacity>
       </View>
@@ -1009,36 +1009,36 @@ function Profile() {
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
-      <View style={styles.authContainer}>
-        <TouchableOpacity style={styles.backButtonStyle}>
-          <Image source={backButton}/>
+      <View style={ styles.flexInRows }>
+        <TouchableOpacity onPress={()=>navigation.popToTop()}>
+          <Image source={backButton} />
         </TouchableOpacity>
       </View>
-      <Text style={{ color: '#FFFFFF', fontSize: 18, marginRight: 230, marginTop: 20 }}>Name</Text>
+      <Text style={{ color: '#FFFFFF', fontSize: 18, textAlign: 'left', alignSelf: 'stretch', marginLeft: 20}}>Name</Text>
       <TextInput style={styles.savedFortuneTextBox}
         label="Name"
-        placeholder="                                   Enter name here"
+        placeholder="   Enter name here"
         placeholderTextColor='#DCDCDC'
       />
-      <Text style={{ color: '#FFFFFF', fontSize: 18, marginRight: 190, marginTop: 20 }}>Relationship Status</Text>
+      <Text style={{ color: '#FFFFFF', fontSize: 18, marginTop: 20, textAlign: 'left', alignSelf: 'stretch', marginLeft: 20}}>Relationship Status</Text>
       <TextInput style={styles.savedFortuneTextBox}
         label="Relationship Status"
-        placeholder="                       Enter relationship status here"
+        placeholder="   Enter relationship status here"
         placeholderTextColor='#DCDCDC'
       />
-      <Text style={{ color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20 }}>Employment Status</Text>
+      <Text style={{ color: '#FFFFFF', fontSize: 18, marginTop: 20, textAlign: 'left', alignSelf: 'stretch', marginLeft: 20}}>Employment Status</Text>
       <TextInput style={styles.savedFortuneTextBox}
         label="EmploymentStatus"
-        placeholder="                   Enter employment status here"
+        placeholder="   Enter employment status here"
         placeholderTextColor='#DCDCDC'
       />
-      <Text style={{ color: '#FFFFFF', fontSize: 18, marginRight: 110, marginTop: 20 }}>Gender</Text>
+      <Text style={{ color: '#FFFFFF', fontSize: 18, marginTop: 20, textAlign: 'left', alignSelf: 'stretch', marginLeft: 20}}>Gender</Text>
       <TextInput style={styles.savedFortuneTextBox}
         label="Gender"
-        placeholder="                       Enter gender here"
+        placeholder="   Enter gender here"
         placeholderTextColor='#DCDCDC'
       />
-      <Text style={{ color: '#FFFFFF', fontSize: 18, marginRight: 280, marginTop: 20 }}>Birthday</Text>
+      <Text style={{ color: '#FFFFFF', fontSize: 18, marginTop: 20, textAlign: 'left', alignSelf: 'stretch', marginLeft: 20}}>Birthday</Text>
       <View style={styles.authContainer}>
         <TextInput style={styles.savedFortuneTextBox2}
           label="Month"
@@ -1058,7 +1058,7 @@ function Profile() {
       </View>
 
       <TouchableOpacity onPress={() => console.log('log in pressed')}>
-        <Image source={continueImage} style={{ marginTop: 0 }} />
+        <Image source={continueImage} />
       </TouchableOpacity>
       <Text></Text>
       <Text></Text>
@@ -1128,7 +1128,7 @@ function SignInScreen() {
           <Image source={backButton} style={styles.backButtonStyle}/>
         </TouchableOpacity>
         <Text style={styles.title}>
-          fortune coffee
+          Fortune Coffee
         </Text>
         <Text style={styles.underTitle}>
         </Text>
