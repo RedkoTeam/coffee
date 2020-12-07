@@ -222,13 +222,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logoContainer: {
-    flexDirection: "row",
-  },
-  logo: {
-    width: 160,
-    height: 130,
-  },
   buttonImage: {
     paddingBottom: 50,
     borderRadius: 30,
