@@ -214,14 +214,12 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 40,
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginTop: 250,
   },
   cardStyle: {
-    width: 250,
-    height: 500,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 60
   },
   authButton1: {
     right: 90,
@@ -269,7 +267,7 @@ const styles = StyleSheet.create({
   buttonImage: {
     paddingBottom: 50,
     borderRadius: 30,
-  },
+  }, 
   getCrystalImage: {
     width: 300,
     height: 38,
@@ -472,21 +470,29 @@ const styles = StyleSheet.create({
 
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
+global.arr = ['', '', ''];
 function HomeScreen({ navigation }) {
-
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+  //const [randomFortune, setRandomFortune] = useState('');
+  const toggleModal2 = () => {
+    setModalVisible(!isModalVisible);
+    let random = Math.floor((Math.random() * cardsFront.length));
+    arr[0] = cardsFront[random];
+    arr[1] = cardsFrontReversed[random];
+    arr[2] = cardsMeaning[random];
+    console.log(arr[2]);
+  }
+ 
   state = {
     open: true,
-    open2: true,
   };
   toggleImage = () => {
     this.setState(state => ({ open: !state.open}));
   }
-  //const path = getRandomFortuneCard();
-  //console.log(path[0]);
 
   return (
     <View style={styles.mainContainer}>
@@ -513,22 +519,22 @@ function HomeScreen({ navigation }) {
         <Image source={PickCard} />
       </View>
       <View>
-       <Button title="Show modal" onPress={toggleModal} />
-        <Modal isVisible={isModalVisible}>
-          <View style = {styles.modalStyle}>
+        <Button title="Show modal!" onPress={toggleModal2} />
+        <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
+          <View>
             <Text style = {styles.tapCard}>Tap card to flip</Text>
             <Button title="Hide modal" onPress={toggleModal} />
             <View style={{marginBottom:500}}>
               <FlipCard
                 flipHorizontal={true}
                 flipVertical={false}>
-                <View style={styles.face, {marginBottom: 400}}>
+                <View style={styles.face}>
                   <Text>The Face</Text>
-                  <Image source={card} style={styles.cardStyle} />
+                  <Image source={arr[0]} style={styles.cardStyle} />
                 </View>
                 <View>
                   <Text>The Back</Text>
-                  <Image source={card} style={styles.cardStyle} />
+                  <Image source={arr[2]} style={styles.cardStyle} />
                 </View>
               </FlipCard>
             </View>
@@ -538,8 +544,8 @@ function HomeScreen({ navigation }) {
       <View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
-          <Modal isVisible={isModalVisible}>
-            <View style={styles.modalStyle}>
+          {/* <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
+            <View>
               <ImageBackground source={crystalBackground} style={styles.crystalBackground}>
                 <View style={styles.getCrystalContainer}>
                   <View style={ styles.flexRowX }>
@@ -553,24 +559,26 @@ function HomeScreen({ navigation }) {
                 </View>
               </ImageBackground>
             </View>
-          </Modal>
+          </Modal> */}
         </TouchableOpacity>
       </View>
       <NavBar />
     </View>
   );
   
-  // function getRandomFortuneCard() {
-  //   let random = Math.floor((Math.random() * cardsFront.length));
-  //   console.log(random);
-  //   let fortuneFront = cardsFront[random];
-  //   let fortuneFrontReversed = cardsFrontReversed[random];
-  //   let fortuneCardsMeaning = cardsMeaning[random];
-  //   let fortunePaths = [fortuneFront, fortuneFrontReversed, fortuneCardsMeaning];
-  //   //console.log(fortune);
-  //   return fortunePaths;
-  //   // console.log(fortunesArray[2])
-  // }
+  function getRandomFortuneCard() {
+    let random = Math.floor((Math.random() * cardsFront.length));
+    let fortuneFront = cardsFront[random];
+    console.log(fortuneFront);
+    let fortuneFrontReversed = cardsFrontReversed[random];
+    console.log(fortuneFrontReversed);
+    let fortuneCardsMeaning = cardsMeaning[random];
+    console.log(fortuneCardsMeaning);
+    let fortunePaths = [fortuneFront, fortuneFrontReversed, fortuneCardsMeaning];
+    //console.log(fortune);
+    return fortunePaths;
+    // console.log(fortunesArray[2])
+  }
 }
 
 function HomeScreenLoggedIn({ navigation }) {
