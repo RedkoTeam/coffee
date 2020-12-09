@@ -89,15 +89,19 @@ import strawberryButton from './assets/FortuneCoffeePNGassets/shopPage/strawberr
 import facebookTitle from './assets/FortuneCoffeePNGassets/Sign/ContinueFacebook.png';
 import googleTitle from './assets/FortuneCoffeePNGassets/Sign/ContinueGoogle.png';
 import signTitle from './assets/FortuneCoffeePNGassets/Sign/signTitle.png';
+import signBackground from './assets/FortuneCoffeePNGassets/Sign/SignBackground.png';
+
 // SIGN UP PAGE //
-import login from './assets/FortuneCoffeePNGassets/Sign/LogInButton.png';
+import signUpButton from './assets/FortuneCoffeePNGassets/Sign/signUpButton.png';
 import haveAcctText from './assets/FortuneCoffeePNGassets/Sign/haveAcctText.png';
 import loginText from './assets/FortuneCoffeePNGassets/Sign/loginText.png';
 import signEmailText from './assets/FortuneCoffeePNGassets/Sign/signEmailText.png';
 import signUpBelowTitle from './assets/FortuneCoffeePNGassets/Sign/signUpbelowTitle.png';
-// SIGNUP PAGE //
-import signin from './assets/FortuneCoffeePNGassets/signin.png';
-import signBackground from './assets/FortuneCoffeePNGassets/Sign/SignBackground.png';
+// SIGN IN PAGE //
+import loginButton from './assets/FortuneCoffeePNGassets/Sign/LogInButton.png';
+import forgotPasswordText from './assets/FortuneCoffeePNGassets/Sign/forgotPasswordText.png';
+import createNewText from './assets/FortuneCoffeePNGassets/Sign/createaNewText.png';
+import accoutText from './assets/FortuneCoffeePNGassets/Sign/accountText.png';
 // READING ANIMATION PAGE //
 import coffee from './assets/FortuneCoffeePNGassets/readingAnimationPage/coffee.png';
 import readingCoffee from './assets/FortuneCoffeePNGassets/readingAnimationPage/readingCoffee.png';
@@ -610,7 +614,7 @@ function HomeScreenLoggedIn({ navigation }) {
 function NavBar(){
   const navigation = useNavigation();
   return(
-    <View style={{flex:1, alignItems:'center', alignContent:'center'}}>
+    <View style={{flex:1,alignItems:'center', alignContent:'center'}}>
       <Image source={Ellipse1} style={styles.ellipse} />
       <View style={{flexDirection:'row', width:'80%', justifyContent: 'space-between', position:'absolute', bottom: 0, paddingBottom:10}}>
         <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
@@ -804,6 +808,9 @@ function ShopScreen() {
           )
         })
       }
+      <View>
+        <NavBar/>
+      </View>
     </ScrollView>
   )
 }
@@ -904,7 +911,7 @@ function VirtualFour(){
     <View style={styles.virtualContainer}>
       <ImageBackground source={ backgroundFour } style={ styles.virtualOne }>
         <Image source={ tapToDrinkText } />
-        <TouchableOpacity onPress={ () => navigation.navigate('VirtualFive')}>
+        <TouchableOpacity onPress={ () => navigation.navigate('ReadingAnimation')}>
           <Image source={ coffee_v } />
         </TouchableOpacity>
       </ImageBackground>
@@ -962,11 +969,9 @@ function SignUpScreen({ navigation }) {
         <Image source={signTitle} style={{marginTop:'20%'}}/>
         <Image source={signUpBelowTitle} style={{marginBottom:12, marginTop:12}} />
         <View style={{marginTop:8, marginBottom:20}}>
-          <TouchableOpacity onPress={() => console.log('google pressed')} style={{marginBottom:2}}>
+          <TouchableOpacity onPress={() => console.log('google pressed')} style={{marginBottom:20}}>
             <Image source={googleTitle} />
           </TouchableOpacity>
-          <Text>
-          </Text>
           <TouchableOpacity onPress={() => console.log('facebook pressed')}>
             <Image source={facebookTitle} />
           </TouchableOpacity>
@@ -995,7 +1000,7 @@ function SignUpScreen({ navigation }) {
           autoCapitalize='none'
         />
         <TouchableOpacity onPress={() => { SignUp(email, password), navigation.navigate('HomeLoggedIn')} }>
-          <Image source={signin} style={styles.buttonImage}  />
+          <Image source={signUpButton} style={styles.buttonImage}  />
         </TouchableOpacity>
         <View style={{flexDirection:'row', marginTop:20}} >
           <Image source={haveAcctText} style={{marginRight:10}}/>
@@ -1129,52 +1134,45 @@ function SignInScreen() {
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={signBackground} style={styles.virtualOne}>
-        <TouchableOpacity onPress={() => navigation.popToTop()}>
-          <Image source={backButton} style={styles.backButtonStyle}/>
+        <TouchableOpacity onPress={() => navigation.popToTop()} style={styles.backButtonStyle}>
+          <Image source={backButton}/>
         </TouchableOpacity>
-        <Text style={styles.title}>
-          Fortune Coffee
-        </Text>
-        <Text style={styles.underTitle}>
-        </Text>
-        <TouchableOpacity onPress={() => console.log('google pressed')}>
-          <Image source={googleTitle} style={styles.buttonImage} />
-        </TouchableOpacity>
-        <Text>
-        </Text>
-        <TouchableOpacity onPress={() => console.log('facebook pressed')}>
-          <Image source={facebookTitle} style={styles.buttonImage} />
-        </TouchableOpacity>
-        <Text style={{color:'#FFFFFF', fontSize: 18, marginTop: 10}}>
-          OR LOG IN WITH EMAIL
-        </Text>
+        <Image source={signTitle}  style={{marginTop:'20%', marginBottom:40}}/>
+        <View style={{marginTop:8, marginBottom:20}}>
+          <TouchableOpacity onPress={() => console.log('google pressed')} style={{marginBottom:20}}>
+            <Image source={googleTitle} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('facebook pressed')}>
+            <Image source={facebookTitle} />
+          </TouchableOpacity>
+        </View>
+        <Image source={signEmailText} style={{marginBottom:8}}/>
         <TextInput style={styles.textBox}
           label="Email"
-          placeholder="   Email address"
+          placeholder="    Email address"
           placeholderTextColor='#DCDCDC'
+          autoCapitalize='none'
+          keyboardType='email-address'
           onChangeText={email => setEmail(email)}
         />
         <TextInput style={styles.textBox}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
+          autoCapitalize='none'
+          passwordRules='required: lower; required: upper; required: digit; required: [-], minlength:5'
           onChangeText={password => setPassword(password)}
         />
-        <Text>
-        </Text>
-        <StatusBar style="auto" />
         <TouchableOpacity onPress={() => { onLogin(email, password) } }>
-
-          <Image source={login} style={styles.buttonImage} />
+          <Image source={loginButton} style={styles.buttonImage} />
         </TouchableOpacity>
-        <Text style={{color: '#FFFFFF', fontSize: 20, marginTop: 10 }}>
-          Forgot Password?{"\n"}
-          Create a new
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-            <Text style={{color: '#1E90FF', fontSize: 20, marginTop: 10}}> account</Text>
+        <Image source={forgotPasswordText} style={{marginTop:20}}/>
+        <View style={{flexDirection:'row', marginTop:12}}>
+          <Image source={createNewText} style={{marginRight:4}}/>
+          <TouchableOpacity onPress={()=>navigation.navigate('SignUp')}>
+            <Image source={accoutText}/>
           </TouchableOpacity>
-        </Text>
-        <Text style={{marginBottom: 100}}></Text>
+        </View>
       </ImageBackground>
 
     </View>
