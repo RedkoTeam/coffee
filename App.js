@@ -523,7 +523,9 @@ function HomeScreen({ navigation }) {
         <Image source={PickCard} />
       </View>
       <View>
-        <Button title="Show modal!" onPress={toggleModal2} />
+        <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
+            <Image source={Cards} />
+       {/* </TouchableOpacity> <Button title="Show modal!" onPress={toggleModal2} /> */}
         <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
           <View>
             <Text style = {styles.tapCard}>Tap card to flip</Text>
@@ -544,11 +546,12 @@ function HomeScreen({ navigation }) {
             </View>
           </View>
         </Modal>
+        </TouchableOpacity>
       </View>
-      <View>
+      {/*<View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
-          {/* <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
+           <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
             <View>
               <ImageBackground source={crystalBackground} style={styles.crystalBackground}>
                 <View style={styles.getCrystalContainer}>
@@ -563,9 +566,9 @@ function HomeScreen({ navigation }) {
                 </View>
               </ImageBackground>
             </View>
-          </Modal> */}
+          </Modal> 
         </TouchableOpacity>
-      </View>
+      </View>*/}
       <NavBar />
     </View>
   );
