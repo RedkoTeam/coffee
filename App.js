@@ -175,7 +175,10 @@ import { Input } from 'react-native-elements';
 import profile_bg from './assets/FortuneCoffeePNGassets/Profile_bg.png';
 import pencil from './assets/pencil.png';
 import pageButton from './assets/pageButton.png';
+
+//random cards
 import { cardsFront, cardsFrontReversed, cardsMeaning } from './fortunesCardArray';
+import dummyPath from './assets/pencil.png';
 
 ////////////////////
 // Styling  //
@@ -449,7 +452,7 @@ const styles = StyleSheet.create({
 
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
-global.arr = ['', '', ''];
+global.arr = [dummyPath, dummyPath, dummyPath];
 function HomeScreen({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
@@ -492,10 +495,35 @@ function HomeScreen({ navigation }) {
             <Image source={TakePhoto} />
           </TouchableOpacity>
         </View>
-        <Image source={PickCard} />
-        <View>
-          <Button title="Show modal!" onPress={toggleModal2} />
-          <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
+        <Image source={PickCard} style={{margin:8}}/>
+        <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
+            <Image source={Cards} />
+       {/* </TouchableOpacity> <Button title="Show modal!" onPress={toggleModal2} /> */}
+        <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
+          <View>
+            <Text style = {styles.tapCard}>Tap card to flip</Text>
+            <Button title="Hide modal" onPress={toggleModal} />
+            <View style={{marginBottom:500}}>
+              <FlipCard
+                flipHorizontal={true}
+                flipVertical={false}>
+                <View style={styles.face}>
+                  <Text>The Face</Text>
+                  <Image source={arr[0]} style={styles.cardStyle} />
+                </View>
+                <View>
+                  <Text>The Back</Text>
+                  <Image source={arr[2]} style={styles.cardStyle} />
+                </View>
+              </FlipCard>
+            </View>
+          </View>
+        </Modal>
+        </TouchableOpacity>
+      {/*<View>
+        <TouchableOpacity onPress={toggleModal} style={styles.cards}>
+          <Image source={Cards} />
+           <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
             <View>
               <Text style = {styles.tapCard}>Tap card to flip</Text>
               <Button title="Hide modal" onPress={toggleModal} />
@@ -514,32 +542,10 @@ function HomeScreen({ navigation }) {
                 </FlipCard>
               </View>
             </View>
-          </Modal>
-        </View>
-        <View>
-          <TouchableOpacity onPress={toggleModal}>
-            <Image source={Cards} />
-            {/* <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
-              <View>
-                <ImageBackground source={crystalBackground} style={styles.crystalBackground}>
-                  <View style={styles.getCrystalContainer}>
-                    <View style={ styles.flexRowX }>
-                      <TouchableOpacity onPress={toggleModal} >
-                        <Image source={xButton} style={styles.xbutton} />
-                      </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity onPressIn={toggleModal} onPress={() => navigation.navigate('Subscription')}>
-                      <Image source={getCrystals} style={styles.getCrystalImage} />
-                    </TouchableOpacity>
-                  </View>
-                </ImageBackground>
-              </View>
-            </Modal> */}
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={{flex:0.3}}>
-        <NavBar />
+          </Modal> 
+        </TouchableOpacity>
+      </View>*/}
+      <NavBar />
       </View>
     </View>
   );
@@ -732,18 +738,20 @@ function SubscriptionScreen() {
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={subBackground} style={styles.virtualOne}>
-        <View style={{flex:1, flexDirection:'row', width:'100%', position:'relative'}}>
-          <TouchableOpacity onPress={() => navigation.popToTop() } style={styles.backButtonStyle}>
+      
+        <View style={ styles.flexInRows }>
+          <TouchableOpacity onPress={()=>navigation.popToTop()} style={styles.backButtonStyle}>
             <Image source={backButton} />
           </TouchableOpacity>
-          <Image source={subscriptionDescription} style={{alignSelf:'center', justifyContent:'center'}}/>
         </View>
-        <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+        <Image source={subscriptionDescription}/>
+        <ScrollView>
+        <View style={{justifyContent:'center', alignItems:'center'}}>
           <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')} >
-            <Image source={sub1}/>
+            <Image source={sub1} />
           </TouchableOpacity>
           <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')}>
-          <Image source={sub2}  />
+            <Image source={sub2}  />
           </TouchableOpacity >
           <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')}>
             <Image source={sub4} />
@@ -752,8 +760,10 @@ function SubscriptionScreen() {
             <Image source={sub3} />
           </TouchableOpacity>
         </View>
+        </ScrollView>
         <NavBar/>
       </ImageBackground>
+      
     </View>
   )
 }
@@ -960,7 +970,7 @@ function SignUpScreen({ navigation }) {
           keyboardType='email-address'
           onChangeText={email => setEmail(email)}
         />
-        <TextInput style={styles.textBox}
+        <TextInput style={styles.textBox} secureTextEntry={true}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
@@ -969,7 +979,7 @@ function SignUpScreen({ navigation }) {
           onChangeText={password => setPassword(password)}
           secureTextEntry={true}
         />
-        <TextInput style={styles.textBox}
+        <TextInput style={styles.textBox} secureTextEntry={true}
           label="Re-enter Password"
           placeholder="    Re-enter Password"
           placeholderTextColor='#DCDCDC'
@@ -1134,7 +1144,7 @@ function SignInScreen() {
           keyboardType='email-address'
           onChangeText={email => setEmail(email)}
         />
-        <TextInput style={styles.textBox}
+        <TextInput style={styles.textBox} secureTextEntry={true}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
@@ -1288,8 +1298,8 @@ function App() {
           headerShown: true
         }}
       >
-        <Stack.Screen name="HomeLoggedIn" component={HomeScreenLoggedIn} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="HomeLoggedIn" component={HomeScreenLoggedIn} />
         <Stack.Screen name="Favorites" component={FavoritesScreen} />
         <Stack.Screen name="Shop" component={ShopScreen} />
         <Stack.Screen name="Virtual" component={VirtualCoffeeReadingScreen} />
