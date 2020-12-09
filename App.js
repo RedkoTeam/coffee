@@ -175,7 +175,10 @@ import { Input } from 'react-native-elements';
 import profile_bg from './assets/FortuneCoffeePNGassets/Profile_bg.png';
 import pencil from './assets/pencil.png';
 import pageButton from './assets/pageButton.png';
+
+//random cards
 import { cardsFront, cardsFrontReversed, cardsMeaning } from './fortunesCardArray';
+import dummyPath from './assets/pencil.png';
 
 ////////////////////
 // Styling  //
@@ -474,7 +477,7 @@ const styles = StyleSheet.create({
 
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
-global.arr = ['', '', ''];
+global.arr = [dummyPath, dummyPath, dummyPath];
 function HomeScreen({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
@@ -761,28 +764,32 @@ function SubscriptionScreen() {
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={subBackground} style={styles.virtualOne}>
-        <View style={{flex:1, flexDirection:'row', width:'100%', position:'relative'}}>
-          <TouchableOpacity onPress={() => navigation.popToTop() } style={styles.backButtonStyle}>
+      
+        <View style={ styles.flexInRows }>
+          <TouchableOpacity onPress={()=>navigation.popToTop()} style={styles.backButtonStyle}>
             <Image source={backButton} />
           </TouchableOpacity>
-          <Image source={subscriptionDescription} style={{alignSelf:'center', justifyContent:'center'}}/>
         </View>
-        <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+        <Image source={subscriptionDescription}/>
+        <ScrollView>
+        <View style={{justifyContent:'center', alignItems:'center'}}>
           <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')} >
-            <Image source={sub1}/>
+            <Image source={sub1} />
           </TouchableOpacity>
           <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')}>
-          <Image source={sub2}  />
+            <Image source={sub2}  />
           </TouchableOpacity >
-          <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')}>
-            <Image source={sub3} />
-          </TouchableOpacity>
           <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')}>
             <Image source={sub4} />
           </TouchableOpacity>
+          <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')}>
+            <Image source={sub3} />
+          </TouchableOpacity>
         </View>
+        </ScrollView>
         <NavBar/>
       </ImageBackground>
+      
     </View>
   )
 }
@@ -988,7 +995,7 @@ function SignUpScreen({ navigation }) {
           keyboardType='email-address'
           onChangeText={email => setEmail(email)}
         />
-        <TextInput style={styles.textBox}
+        <TextInput style={styles.textBox} secureTextEntry={true}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
@@ -996,7 +1003,7 @@ function SignUpScreen({ navigation }) {
           passwordRules='required: lower; required: upper; required: digit; required: [-], minlength:5'
           onChangeText={password => setPassword(password)}
         />
-        <TextInput style={styles.textBox}
+        <TextInput style={styles.textBox} secureTextEntry={true}
           label="Re-enter Password"
           placeholder="    Re-enter Password"
           placeholderTextColor='#DCDCDC'
@@ -1158,7 +1165,7 @@ function SignInScreen() {
           keyboardType='email-address'
           onChangeText={email => setEmail(email)}
         />
-        <TextInput style={styles.textBox}
+        <TextInput style={styles.textBox} secureTextEntry={true}
           label="Password"
           placeholder="    Password"
           placeholderTextColor='#DCDCDC'
@@ -1260,18 +1267,19 @@ function Reading({}){
             </TouchableOpacity>
         </View>
           <View style={styles.readingTableContainer}>
-            <ScrollView>
-            <Text> {randomFortune}  </Text>
-            {/* // add onPress decrement gem counter  */}
-              <Button
-                onPress={() => {
-                  setRandomFortune(getRandomFortune)
-                }}
-                title='Fortune Ready Click To View!'
-              >
-                
-              </Button>
-            </ScrollView>
+            <View style={{height: "120%"}}>
+              <ScrollView>
+              <Text style={{color: "#FFF", fontSize: 20}}> {randomFortune}  </Text>
+              {/* // add onPress decrement gem counter  */}
+                <Button
+                  onPress={() => {
+                    setRandomFortune(getRandomFortune)
+                  }}
+                  title='Fortune Ready Click To View!'
+                >
+                </Button>
+              </ScrollView>
+            </View>
           </View>
           <NavBar/>
       </ImageBackground>
