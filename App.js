@@ -190,20 +190,14 @@ const styles = StyleSheet.create({
     fontSize: 17
   },
   mainContainer: {
-    flex: 1,
+    flex:1,
     backgroundColor: '#070631',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width:'100%'
   },
   shopContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#070631',
-    flexGrow: 1
-  },
-  authContainer: {
-    flex: .25,
-    flexDirection: 'row',
   },
   getCrystalContainer: {
     flex: 1,
@@ -239,26 +233,6 @@ const styles = StyleSheet.create({
   appTitle: {
     paddingBottom: 30,
     paddingTop: 30,
-  },
-  cardTitle: {
-    paddingTop: 15,
-  },
-  circleContainer: {
-    flex: .5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 10,
-  },
-  circleL: {
-    left: 145
-  },
-  circleR: {
-    right: 145
-  },
-  cards: {
-    paddingTop: 10,
-    bottom: -20,
   },
   ellipse: {
     position: 'absolute',
@@ -349,15 +323,16 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   flexInRows: {
-    flex: 0.5,
+    position:'absolute',
+    top: 0, 
     flexDirection: 'row',
     justifyContent: 'space-between',
     width:'100%',
-    paddingTop: '10%',
-    padding: 12,
+    padding: 16,
   },
   flexInRowsCoffee: {
     flex: 1,
+    paddingTop: '20%',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width:'100%',
@@ -366,8 +341,8 @@ const styles = StyleSheet.create({
   readingTableContainer: {
     flex: 1, 
     width:'100%',
-    alignItems:'stretch',
-    padding: 20
+    alignContent:'stretch',
+    padding: 15,
   },
   helloUserTextContainer: {
     fontSize:35,
@@ -500,32 +475,27 @@ function HomeScreen({ navigation }) {
   toggleImage = () => {
     this.setState(state => ({ open: !state.open}));
   }
-
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.authContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.authButton1}>
-          <Image source={SignUpButton} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.authButton2}>
-          <Image source={SignInButton} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.appTitle}>
-        <Image source={LargeTitleApp} />
-      </View>
-      <View style={styles.circleContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Virtual')}> 
-          <Image source={TakePhoto} style={styles.circleL} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
-          <Image source={VirtualCoffee} style={styles.circleR} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.cardTitle}>
-        <Image source={PickCard} />
-      </View>
-      <View>
+      <View style={{flex:1, alignItems: 'center'}}>
+        <View style={{flexDirection:'row', width:'100%',justifyContent:'space-between', padding: 25}}>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <Image source={SignUpButton} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+            <Image source={SignInButton} />
+          </TouchableOpacity>
+        </View>
+        <Image source={LargeTitleApp} style={{width:'100%'}}/>
+        <View style={{flexDirection:'row', width:'100%', justifyContent:'space-evenly'}}>
+          <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
+            <Image source={VirtualCoffee} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Virtual')}> 
+            <Image source={TakePhoto} />
+          </TouchableOpacity>
+        </View>
+        <Image source={PickCard} style={{margin:8}}/>
         <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
             <Image source={Cards} />
        {/* </TouchableOpacity> <Button title="Show modal!" onPress={toggleModal2} /> */}
@@ -550,29 +520,33 @@ function HomeScreen({ navigation }) {
           </View>
         </Modal>
         </TouchableOpacity>
-      </View>
       {/*<View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
            <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
             <View>
-              <ImageBackground source={crystalBackground} style={styles.crystalBackground}>
-                <View style={styles.getCrystalContainer}>
-                  <View style={ styles.flexRowX }>
-                    <TouchableOpacity onPress={toggleModal} >
-                      <Image source={xButton} style={styles.xbutton} />
-                    </TouchableOpacity>
+              <Text style = {styles.tapCard}>Tap card to flip</Text>
+              <Button title="Hide modal" onPress={toggleModal} />
+              <View style={{marginBottom:500}}>
+                <FlipCard
+                  flipHorizontal={true}
+                  flipVertical={false}>
+                  <View style={styles.face}>
+                    <Text>The Face</Text>
+                    <Image source={arr[0]} style={styles.cardStyle} />
                   </View>
-                  <TouchableOpacity onPressIn={toggleModal} onPress={() => navigation.navigate('Subscription')}>
-                    <Image source={getCrystals} style={styles.getCrystalImage} />
-                  </TouchableOpacity>
-                </View>
-              </ImageBackground>
+                  <View>
+                    <Text>The Back</Text>
+                    <Image source={arr[2]} style={styles.cardStyle} />
+                  </View>
+                </FlipCard>
+              </View>
             </View>
           </Modal> 
         </TouchableOpacity>
       </View>*/}
       <NavBar />
+      </View>
     </View>
   );
   
@@ -620,7 +594,7 @@ function HomeScreenLoggedIn({ navigation }) {
 function NavBar(){
   const navigation = useNavigation();
   return(
-    <View style={{flex:1,alignItems:'center', alignContent:'center'}}>
+    <View style={{flex:1, backgroundColor:'#070631', height:'30%', alignItems:'center', alignContent:'center'}}>
       <Image source={Ellipse1} style={styles.ellipse} />
       <View style={{flexDirection:'row', width:'80%', justifyContent: 'space-between', position:'absolute', bottom: 0, paddingBottom:10}}>
         <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
@@ -818,9 +792,8 @@ function ShopScreen() {
           )
         })
       }
-      <View>
-        <NavBar/>
-      </View>
+      <View style={{paddingBottom:150}}></View>
+      <NavBar/>
     </ScrollView>
   )
 }
@@ -978,6 +951,7 @@ function SignUpScreen({ navigation }) {
         </TouchableOpacity>
         <Image source={signTitle} style={{marginTop:'20%'}}/>
         <Image source={signUpBelowTitle} style={{marginBottom:12, marginTop:12}} />
+{/*
         <View style={{marginTop:8, marginBottom:20}}>
           <TouchableOpacity onPress={() => console.log('google pressed')} style={{marginBottom:20}}>
             <Image source={googleTitle} />
@@ -987,6 +961,7 @@ function SignUpScreen({ navigation }) {
           </TouchableOpacity>
         </View>
         <Image source={signEmailText} style={{marginBottom:8}}/>
+*/}
         <TextInput style={styles.textBox}
           label="Email"
           placeholder="    Email address"
@@ -1002,12 +977,14 @@ function SignUpScreen({ navigation }) {
           autoCapitalize='none'
           passwordRules='required: lower; required: upper; required: digit; required: [-], minlength:5'
           onChangeText={password => setPassword(password)}
+          secureTextEntry={true}
         />
         <TextInput style={styles.textBox} secureTextEntry={true}
           label="Re-enter Password"
           placeholder="    Re-enter Password"
           placeholderTextColor='#DCDCDC'
           autoCapitalize='none'
+          secureTextEntry={true}
         />
         <TouchableOpacity onPress={() => { SignUp(email, password), navigation.navigate('HomeLoggedIn')} }>
           <Image source={signUpButton} style={styles.buttonImage}  />
@@ -1148,6 +1125,7 @@ function SignInScreen() {
           <Image source={backButton}/>
         </TouchableOpacity>
         <Image source={signTitle}  style={{marginTop:'20%', marginBottom:40}}/>
+{/*
         <View style={{marginTop:8, marginBottom:20}}>
           <TouchableOpacity onPress={() => console.log('google pressed')} style={{marginBottom:20}}>
             <Image source={googleTitle} />
@@ -1157,6 +1135,7 @@ function SignInScreen() {
           </TouchableOpacity>
         </View>
         <Image source={signEmailText} style={{marginBottom:8}}/>
+*/}
         <TextInput style={styles.textBox}
           label="Email"
           placeholder="    Email address"
@@ -1172,6 +1151,7 @@ function SignInScreen() {
           autoCapitalize='none'
           passwordRules='required: lower; required: upper; required: digit; required: [-], minlength:5'
           onChangeText={password => setPassword(password)}
+          secureTextEntry={true}
         />
         <TouchableOpacity onPress={() => { onLogin(email, password) } }>
           <Image source={loginButton} style={styles.buttonImage} />
@@ -1267,19 +1247,18 @@ function Reading({}){
             </TouchableOpacity>
         </View>
           <View style={styles.readingTableContainer}>
-            <View style={{height: "120%"}}>
-              <ScrollView>
-              <Text style={{color: "#FFF", fontSize: 20}}> {randomFortune}  </Text>
-              {/* // add onPress decrement gem counter  */}
-                <Button
-                  onPress={() => {
-                    setRandomFortune(getRandomFortune)
-                  }}
-                  title='Fortune Ready Click To View!'
-                >
-                </Button>
-              </ScrollView>
-            </View>
+            <Image source={yourFortune} style={{marginBottom:12}} />
+            <ScrollView>
+            <Text style={{fontSize:17, color:'white'}}> {randomFortune}  </Text>
+            {/* // add onPress decrement gem counter  */}
+              <Button
+                onPress={() => {
+                  setRandomFortune(getRandomFortune)
+                }}
+                title='Fortune Ready Click To View!'
+              >
+              </Button>
+            </ScrollView>
           </View>
           <NavBar/>
       </ImageBackground>
