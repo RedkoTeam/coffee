@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
-import React, { useRef, useEffect, useState, useCallback, Componenet, useDebugValue } from 'react';
-=======
-import React, { useRef, useEffect, useState, useCallback, Componenet, useFocusEffect } from 'react';
->>>>>>> 78fd693d1ec8e640d945444da465524842a72b06
+import React, { useRef, useEffect, useState, useCallback} from 'react';
 
 import './fixtimerbug';
 import {fortunesArray} from './fortunesArray';
@@ -54,12 +50,9 @@ function SignUp(email, password) {
     .catch(error => console.log(error))
 }
 
-<<<<<<< HEAD
 const db = firebase.firestore();
 
 
-=======
->>>>>>> 78fd693d1ec8e640d945444da465524842a72b06
 ////////////////////
 // IMAGES & ICONS //
 ////////////////////
@@ -71,20 +64,6 @@ import Shop from './assets/FortuneCoffeePNGassets/HomePage/Shop.png';
 import Favorites from './assets/FortuneCoffeePNGassets/HomePage/Favorites.png';
 
 //HOMEPAGE//
-<<<<<<< HEAD
-import TakePhoto from './assets/FortuneCoffeePNGassets/takePhotoButton.png';
-import Home from './assets/FortuneCoffeePNGassets/Home.png';
-import Shop from './assets/FortuneCoffeePNGassets/Shop.png';
-import Favorites from './assets/FortuneCoffeePNGassets/Favorites.png';
-
-import VirtualCoffee from './assets/FortuneCoffeePNGassets/VirtualCoffee.png';
-import SignInButton from './assets/FortuneCoffeePNGassets/SignInButton.png';
-import SignUpButton from './assets/FortuneCoffeePNGassets/SignUpButton.png';
-import LargeTitleApp from './assets/FortuneCoffeePNGassets/FortuneCoffeeTitle.png';
-import PickCard from './assets/FortuneCoffeePNGassets/PickCard.png';
-import Cards from './assets/FortuneCoffeePNGassets/allCards.png';
-import Ellipse1 from './assets/FortuneCoffeePNGassets/ellipse.png';
-=======
 import TakePhoto from './assets/FortuneCoffeePNGassets/HomePage/TakePhoto.png';
 import VirtualCoffee from './assets/FortuneCoffeePNGassets/HomePage/VirtualCoffee.png';
 import SignInButton from './assets/FortuneCoffeePNGassets/HomePage/SignInButton.png';
@@ -92,7 +71,6 @@ import SignUpButton from './assets/FortuneCoffeePNGassets/HomePage/SignUpButton.
 import LargeTitleApp from './assets/FortuneCoffeePNGassets/HomePage/FortuneCoffeeTitle.png';
 import PickCard from './assets/FortuneCoffeePNGassets/HomePage/PickCard.png';
 import Cards from './assets/FortuneCoffeePNGassets/HomePage/allCards.png';
->>>>>>> 78fd693d1ec8e640d945444da465524842a72b06
 
 
 //SHOP PAGE// 
@@ -479,20 +457,14 @@ const styles = StyleSheet.create({
 
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
-<<<<<<< HEAD
-
-function HomeScreen() {
-  const navigation = useNavigation();
-=======
 global.arr = [dummyPath, dummyPath, dummyPath];
 function HomeScreen({ navigation }) {
->>>>>>> 78fd693d1ec8e640d945444da465524842a72b06
+
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
-  //const [randomFortune, setRandomFortune] = useState('');
   const toggleModal2 = () => {
     setModalVisible(!isModalVisible);
     let random = Math.floor((Math.random() * cardsFront.length));
@@ -501,46 +473,8 @@ function HomeScreen({ navigation }) {
     arr[2] = cardsMeaning[random];
     console.log(arr[2]);
   }
- 
-  state = {
-    open: true,
-  };
-  toggleImage = () => {
-    this.setState(state => ({ open: !state.open}));
-  }
   return (
     <View style={styles.mainContainer}>
-<<<<<<< HEAD
-      {
-        <View style={styles.authContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.authButton1}>
-            <Image source={SignUpButton} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.authButton2}>
-            <Image source={SignInButton} />
-          </TouchableOpacity>
-        </View>
-      }
-      <View style={styles.appTitle}>
-        <Image source={LargeTitleApp} />
-      </View>
-      <View style={styles.circleContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Virtual')}> 
-          <Image source={TakePhoto} style={styles.circleL} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
-          <Image source={VirtualCoffee} style={styles.circleR} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.cardTitle}>
-        <Image source={PickCard} />
-      </View>
-
-      {/* <View>
-       <Button title="Show modal" onPress={toggleModal} />
-        <Modal isVisible={isModalVisible}>
-          <View style = {styles.modalStyle}>
-=======
       <View style={{flex:1, alignItems: 'center'}}>
         <View style={{flexDirection:'row', width:'100%',justifyContent:'space-between', padding: 25}}>
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
@@ -562,10 +496,8 @@ function HomeScreen({ navigation }) {
         <Image source={PickCard} style={{margin:8}}/>
         <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
             <Image source={Cards} />
-       {/* </TouchableOpacity> <Button title="Show modal!" onPress={toggleModal2} /> */}
         <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
           <View>
->>>>>>> 78fd693d1ec8e640d945444da465524842a72b06
             <Text style = {styles.tapCard}>Tap card to flip</Text>
             <Button title="Hide modal" onPress={toggleModal} />
             <View style={{marginBottom:500}}>
@@ -585,50 +517,13 @@ function HomeScreen({ navigation }) {
           </View>
         </Modal>
         </TouchableOpacity>
-      {/*<View>
-        <TouchableOpacity onPress={toggleModal} style={styles.cards}>
-          <Image source={Cards} />
-           <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
-            <View>
-              <Text style = {styles.tapCard}>Tap card to flip</Text>
-              <Button title="Hide modal" onPress={toggleModal} />
-              <View style={{marginBottom:500}}>
-                <FlipCard
-                  flipHorizontal={true}
-                  flipVertical={false}>
-                  <View style={styles.face}>
-                    <Text>The Face</Text>
-                    <Image source={arr[0]} style={styles.cardStyle} />
-                  </View>
-                  <View>
-                    <Text>The Back</Text>
-                    <Image source={arr[2]} style={styles.cardStyle} />
-                  </View>
-                </FlipCard>
-              </View>
-            </View>
-          </Modal> 
-        </TouchableOpacity>
-      </View>*/}
       <NavBar />
       </View>
     </View>
   );
   
-  function getRandomFortuneCard() {
-    let random = Math.floor((Math.random() * cardsFront.length));
-    let fortuneFront = cardsFront[random];
-    console.log(fortuneFront);
-    let fortuneFrontReversed = cardsFrontReversed[random];
-    console.log(fortuneFrontReversed);
-    let fortuneCardsMeaning = cardsMeaning[random];
-    console.log(fortuneCardsMeaning);
-    let fortunePaths = [fortuneFront, fortuneFrontReversed, fortuneCardsMeaning];
-    //console.log(fortune);
-    return fortunePaths;
-    // console.log(fortunesArray[2])
-  }
 }
+
 
 function HomeScreenLoggedIn({ navigation }) {
   return (
@@ -689,14 +584,8 @@ let favoriteDatabase = [
 
 function FavoritesScreen() {
   const navigation = useNavigation();
-<<<<<<< HEAD
 
   const [favoritesData, setFavoritesData] = useState({'dates':[], 'fortunes':[]})
-=======
-  const [favoritesData, setFavoritesData] = useState([])
->>>>>>> 78fd693d1ec8e640d945444da465524842a72b06
-
-  // this hook calls getFavorites function when the page is focused. Wasn't able to get this to work. Maybe you could make it async so it arrives like you did for the random fortune before?
 
     useFocusEffect(
       useCallback( ()=> {
@@ -749,12 +638,8 @@ function FavoritesScreen() {
         <Image source={ galaxy } style={styles.shopBackgroundContainer} />
         {
           fortune.map((item, index) => {
-            // favorites data is showing up in the console.log but not populating on the screen
-<<<<<<< HEAD
-=======
             // this needs to be changed from a map to something else to correctly access the fortunes. 
             console.log(` favoritesData: ${favoritesData}`)
->>>>>>> 78fd693d1ec8e640d945444da465524842a72b06
             return(
               <View key={index} style={{padding:30}}>
                 <Image source={fortuneBox} />
@@ -784,26 +669,6 @@ function FavoritesScreen() {
   //     })
   //     .catch(error => console.log(error))
   // }
-  async function getFavorites() {
-
-<<<<<<< HEAD
-    await db.collection('users').doc(firebase.auth().currentUser.uid)
-      .get()
-      .then(documentSnapshot => {
-        const userData = documentSnapshot.data();
-        console.log(`Retrieved data: ${JSON.stringify(userData.favorites)}`)
-        setFavoritesData(userData.favorites)
-      })
-      .catch(error => console.log(error))
-=======
-    const userId = firebase.auth().currentUser.uid
-    return firebase.database().ref('users/' + userId + '/favorites').once('value').then((snapshot) => {
-      console.log(snapshot)
-      setFavoritesData(snapshot)
-    })
-    
->>>>>>> 78fd693d1ec8e640d945444da465524842a72b06
-  }
 
 }
 
@@ -1023,12 +888,7 @@ function VirtualFive(){
   const navigation = useNavigation();
 
   {/* ASYNCHRONOUSLY FIND RANDOM FORTUNE */}
-<<<<<<< HEAD
   setTimeout( () => { navigation.navigate('Reading', {randFortune: randomFortune}) }, 5000);
-=======
-  // BUG: redirects to fortunes away from subscription page if subscription button was pressed
-  setTimeout( () => { navigation.navigate('Reading') }, 15000);
->>>>>>> 78fd693d1ec8e640d945444da465524842a72b06
   
   return( 
     <View style={styles.virtualContainer}>
@@ -1368,16 +1228,10 @@ function Reading({}){
             </TouchableOpacity>
         </View>
           <View style={styles.readingTableContainer}>
-<<<<<<< HEAD
-            <ScrollView>
-              <Image source={ yourFortune } style={{marginBottom:12}}/>
-            <Text> {randomFortune}  </Text>
-=======
             <Image source={yourFortune} style={{marginBottom:12}} />
             <ScrollView>
             <Text style={{fontSize:17, color:'white'}}> {randomFortune}  </Text>
             {/* // add onPress decrement gem counter  */}
->>>>>>> 78fd693d1ec8e640d945444da465524842a72b06
               <Button
                 onPress={() => {
                   setRandomFortune(getRandomFortune)
@@ -1399,7 +1253,6 @@ function Reading({}){
     console.log(fortune);
     return fortune;
   }
-<<<<<<< HEAD
   // copy and paste
   function onSave() {
     var today = new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
@@ -1407,14 +1260,6 @@ function Reading({}){
     favRef.update({
       'favorites.dates' : firebase.firestore.FieldValue.arrayUnion(...[today]),
       'favorites.fortunes' : firebase.firestore.FieldValue.arrayUnion(...[randomFortune])
-=======
-
-  // the structure is pretty bad this way as well. Not sure how to get it to populate like a simple array.
-  function onSaveFortune() {
-    const userId = firebase.auth().currentUser.uid
-    firebase.database().ref('users/' + userId + '/favorites').push({
-      randomFortune
->>>>>>> 78fd693d1ec8e640d945444da465524842a72b06
     })
     // navigation.navigate('Favorites')
   }
