@@ -177,7 +177,8 @@ import pencil from './assets/pencil.png';
 import pageButton from './assets/pageButton.png';
 
 //random cards
-import {cardsFrontReversed, cardsAndMeaning } from './fortunesCardArray';
+import {cardsAndMeaning} from './fortunesCardArray';
+//import {cardsFrontReversed, cardsAndMeaning, cardsMeaning, cardsFront} from './fortunesCardArray';
 import dummyPath from './assets/pencil.png';
 
 ////////////////////
@@ -464,7 +465,7 @@ function HomeScreen({ navigation }) {
     setModalVisible(!isModalVisible);
     let random = Math.floor((Math.random() * cardsAndMeaning.length));
     arr[0] = cardsAndMeaning[random][0];
-    arr[1] = cardsFrontReversed[random];
+    //arr[1] = cardsFrontReversed[random];
     arr[2] = cardsAndMeaning[random][1];
     console.log(arr[2]);
   }
