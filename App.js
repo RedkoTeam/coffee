@@ -177,7 +177,7 @@ import pencil from './assets/pencil.png';
 import pageButton from './assets/pageButton.png';
 
 //random cards
-import { cardsFront, cardsFrontReversed, cardsMeaning } from './fortunesCardArray';
+import {cardsFrontReversed, cardsAndMeaning } from './fortunesCardArray';
 import dummyPath from './assets/pencil.png';
 
 ////////////////////
@@ -487,10 +487,10 @@ function HomeScreen({ navigation }) {
   //const [randomFortune, setRandomFortune] = useState('');
   const toggleModal2 = () => {
     setModalVisible(!isModalVisible);
-    let random = Math.floor((Math.random() * cardsFront.length));
-    arr[0] = cardsFront[random];
+    let random = Math.floor((Math.random() * cardsAndMeaning.length));
+    arr[0] = cardsAndMeaning[random][0];
     arr[1] = cardsFrontReversed[random];
-    arr[2] = cardsMeaning[random];
+    arr[2] = cardsAndMeaning[random][1];
     console.log(arr[2]);
   }
  
@@ -576,19 +576,19 @@ function HomeScreen({ navigation }) {
     </View>
   );
   
-  function getRandomFortuneCard() {
-    let random = Math.floor((Math.random() * cardsFront.length));
-    let fortuneFront = cardsFront[random];
-    console.log(fortuneFront);
-    let fortuneFrontReversed = cardsFrontReversed[random];
-    console.log(fortuneFrontReversed);
-    let fortuneCardsMeaning = cardsMeaning[random];
-    console.log(fortuneCardsMeaning);
-    let fortunePaths = [fortuneFront, fortuneFrontReversed, fortuneCardsMeaning];
-    //console.log(fortune);
-    return fortunePaths;
-    // console.log(fortunesArray[2])
-  }
+  // function getRandomFortuneCard() {
+  //   let random = Math.floor((Math.random() * cardsFront.length));
+  //   let fortuneFront = cardsFront[random];
+  //   console.log(fortuneFront);
+  //   let fortuneFrontReversed = cardsFrontReversed[random];
+  //   console.log(fortuneFrontReversed);
+  //   let fortuneCardsMeaning = cardsMeaning[random];
+  //   console.log(fortuneCardsMeaning);
+  //   let fortunePaths = [fortuneFront, fortuneFrontReversed, fortuneCardsMeaning];
+  //   //console.log(fortune);
+  //   return fortunePaths;
+  //   // console.log(fortunesArray[2])
+  // }
 }
 
 function HomeScreenLoggedIn({ navigation }) {
