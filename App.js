@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
 
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
-global.arr = [dummyPath, dummyPath, dummyPath];
+global.arr = [dummyPath, dummyPath];
 function HomeScreen({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
@@ -465,9 +465,7 @@ function HomeScreen({ navigation }) {
     setModalVisible(!isModalVisible);
     let random = Math.floor((Math.random() * cardsAndMeaning.length));
     arr[0] = cardsAndMeaning[random][0];
-    //arr[1] = cardsFrontReversed[random];
-    arr[2] = cardsAndMeaning[random][1];
-    console.log(arr[2]);
+    arr[1] = cardsAndMeaning[random][1];
   }
  
   state = {
@@ -514,7 +512,7 @@ function HomeScreen({ navigation }) {
                 </View>
                 <View>
                   <Text>The Back</Text>
-                  <Image source={arr[2]} style={styles.cardStyle} />
+                  <Image source={arr[1]} style={styles.cardStyle} />
                 </View>
               </FlipCard>
             </View>
