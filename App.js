@@ -21,8 +21,8 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
 
-// const database = firebase.database();
-// const user = firebase.auth().currentUser;
+// FIRESTORE
+const db = firebase.firestore();
 
 // logic for checking if user is logged in for main screen
 checkIfLoggedIn = () => {
@@ -35,19 +35,33 @@ checkIfLoggedIn = () => {
   })
 }
 
-function SignUp(email, password) {
+// FIREBASE
+// function SignUp(email, password) {
+//   firebase.auth().createUserWithEmailAndPassword(email, password)
+//     .then(user => {
+//       const userId = firebase.auth().currentUser.uid
+//       // add time stamp 
+//       return firebase.database().ref('users/' + userId).set({
+//         email: email,
+//         subscriptionLevel: 0,
+//         // increment based on timestamp 
+//         totalGems: 0
+//       })
+//     })
+//     .catch(error => console.log(error))
+// }
+
+// FIRESTORE
+function SignUp() {
   firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(user => {
-      const userId = firebase.auth().currentUser.uid
-      // add time stamp 
-      return firebase.database().ref('users/' + userId).set({
-        email: email,
+    .then(data => {
+      return db.collection('users').doc(data.user.uid).set({
+        userName: email,
         subscriptionLevel: 0,
-        // increment based on timestamp 
         totalGems: 0
       })
+        .catch(error => console.log(error))
     })
-    .catch(error => console.log(error))
 }
 
 ////////////////////
@@ -666,7 +680,8 @@ function FavoritesScreen() {
       </ScrollView>
     </View>
   )
-
+  
+  // FIRESTORE
   // Can't get this to populate on the favorites page. See above comment for where I am putting it
   // async function getFavorites() {
   //   await db.collection('users').doc(firebase.auth().currentUser.uid)
@@ -678,15 +693,15 @@ function FavoritesScreen() {
   //     })
   //     .catch(error => console.log(error))
   // }
-  async function getFavorites() {
 
-    const userId = firebase.auth().currentUser.uid
-    return firebase.database().ref('users/' + userId + '/favorites').once('value').then((snapshot) => {
-      console.log(snapshot)
-      setFavoritesData(snapshot)
-    })
-    
-  }
+  // FIREBASE
+  // async function getFavorites() {
+  //   const userId = firebase.auth().currentUser.uid
+  //   return firebase.database().ref('users/' + userId + '/favorites').once('value').then((snapshot) => {
+  //     console.log(snapshot)
+  //     setFavoritesData(snapshot)
+  //   })
+  // }
 
 }
 
@@ -986,7 +1001,7 @@ function SignUpScreen({ navigation }) {
           autoCapitalize='none'
           secureTextEntry={true}
         />
-        <TouchableOpacity onPress={() => { SignUp(email, password), navigation.navigate('HomeLoggedIn')} }>
+        <TouchableOpacity onPress={() => { SignUp(email, password), navigation.navigate('Home')} }>
           <Image source={signUpButton} style={styles.buttonImage}  />
         </TouchableOpacity>
         <View style={{flexDirection:'row', marginTop:20}} >
@@ -1170,7 +1185,13 @@ function SignInScreen() {
   // copy and paste
   function onLogin () {
     firebase.auth().signInWithEmailAndPassword(email, password)
-    navigation.navigate('HomeLoggedIn')
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        navigation.navigate('Home');
+      } else {
+        console.log('Incorrect Email Or Password')
+      }
+    })
   }
 }
 
@@ -1250,7 +1271,7 @@ function Reading({}){
             <Image source={yourFortune} style={{marginBottom:12}} />
             <ScrollView>
             <Text style={{fontSize:17, color:'white'}}> {randomFortune}  </Text>
-            {/* // add onPress decrement gem counter  */}
+            {/* // add onPress decrement gem counter also add conditional rendoring  */}
               <Button
                 onPress={() => {
                   setRandomFortune(getRandomFortune)
@@ -1273,11 +1294,20 @@ function Reading({}){
     return fortune;
   }
 
+  // FIREBASE
   // the structure is pretty bad this way as well. Not sure how to get it to populate like a simple array.
+  // function onSaveFortune() {
+  //   const userId = firebase.auth().currentUser.uid
+  //   firebase.database().ref('users/' + userId + '/favorites').push({
+  //     randomFortune
+  //   })
+  //   // navigation.navigate('Favorites')
+  // }
+
+  //FIRESTORE
   function onSaveFortune() {
-    const userId = firebase.auth().currentUser.uid
-    firebase.database().ref('users/' + userId + '/favorites').push({
-      randomFortune
+    db.collection('users').doc(firebase.auth().currentUser.uid).update({
+      favorites: firebase.firestore.FieldValue.arrayUnion(...[randomFortune])
     })
     // navigation.navigate('Favorites')
   }
@@ -1295,7 +1325,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: true
+          headerShown: false
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
