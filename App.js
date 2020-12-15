@@ -1137,7 +1137,6 @@ function Profile() {
       </TouchableOpacity>
     </View>
   )
-
 }
 
 function SignInScreen() {
@@ -1159,7 +1158,6 @@ function SignInScreen() {
         });
         
       }
-    
 
   return (
     <View style={styles.virtualContainer}>
