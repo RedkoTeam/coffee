@@ -183,6 +183,7 @@ import pageButton from './assets/pageButton.png';
 //random cards
 import {cardsFrontReversed, cardsAndMeaning } from './fortunesCardArray';
 import dummyPath from './assets/pencil.png';
+import { Alert } from 'react-native';
 
 ////////////////////
 // Styling  //
@@ -1047,7 +1048,7 @@ function SignUpScreen({ navigation }) {
           autoCapitalize='none'
           secureTextEntry={true}
         />
-        <TouchableOpacity onPress={() =>  SignUp(email, password) }>
+        <TouchableOpacity onPress={() => { SignUp(email, password), navigation.navigate('HomeLoggedIn') }}>
           <Image source={signUpButton} style={styles.buttonImage}  />
         </TouchableOpacity>
         <View style={{flexDirection:'row', marginTop:20}} >
@@ -1144,6 +1145,21 @@ function SignInScreen() {
 // copy and paste
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState("")
+
+
+  function onLogin() {
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(function (firebaseUser) {
+          Alert.alert("Success", "You are Logged In")
+          navigation.navigate('HomeLoggedIn')
+        })
+        .catch(function (error) {
+          setError("Invalid Email/Password")
+        });
+        
+      }
+    
 
   return (
     <View style={styles.virtualContainer}>
@@ -1163,13 +1179,16 @@ function SignInScreen() {
         </View>
         <Image source={signEmailText} style={{marginBottom:8}}/>
 */}
+      
         <TextInput style={styles.textBox}
           label="Email"
           placeholder="    Email address"
           placeholderTextColor='#DCDCDC'
           autoCapitalize='none'
           keyboardType='email-address'
-          onChangeText={email => setEmail(email)}
+          onChangeText={email => {
+            setEmail(email)
+          }}
         />
         <TextInput style={styles.textBox} secureTextEntry={true}
           label="Password"
@@ -1180,6 +1199,12 @@ function SignInScreen() {
           onChangeText={password => setPassword(password)}
           secureTextEntry={true}
         />
+
+      {error ? (
+        <View>
+          <Text>{error}</Text>
+        </View>
+      ) : null}
         <TouchableOpacity onPress={() => { onLogin(email, password) } }>
           <Image source={loginButton} style={styles.buttonImage} />
         </TouchableOpacity>
@@ -1195,17 +1220,7 @@ function SignInScreen() {
     </View>
   )
   // copy and paste
-  function onLogin () {
-    firebase.auth().signInWithEmailAndPassword(email, password)
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        navigation.navigate('HomeLoggedIn');
-      } else {
-        navigation.navigate('SignIn');
-        console.log('Incorrect Email Or Password')
-      }
-    })
-  }
+  
 }
 
 function ReadingAnimationScreen({navigation}){
