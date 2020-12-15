@@ -453,19 +453,18 @@ const styles = StyleSheet.create({
 
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
-global.arr = [dummyPath, dummyPath];
 function HomeScreen({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [front, setFront] = useState(dummyPath);
+  const [meaning, setMeaning] = useState(dummyPath);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
-  //const [randomFortune, setRandomFortune] = useState('');
   const toggleModal2 = () => {
     setModalVisible(!isModalVisible);
     let random = Math.floor((Math.random() * cardsAndMeaning.length));
-    arr[0] = cardsAndMeaning[random][0];
-    arr[1] = cardsAndMeaning[random][1];
+    setFront(cardsAndMeaning[random][0]);
+    setMeaning(cardsAndMeaning[random][1]);
   }
  
   state = {
@@ -497,22 +496,21 @@ function HomeScreen({ navigation }) {
         <Image source={PickCard} style={{margin:8}}/>
         <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
             <Image source={Cards} />
-       {/* </TouchableOpacity> <Button title="Show modal!" onPress={toggleModal2} /> */}
         <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
           <View>
             <Text style = {styles.tapCard}>Tap card to flip</Text>
-            <Button title="Hide modal" onPress={toggleModal} />
+            <Button title="Hide Image" onPress={toggleModal} />
             <View style={{marginBottom:500}}>
               <FlipCard
                 flipHorizontal={true}
                 flipVertical={false}>
                 <View style={styles.face}>
                   <Text>The Face</Text>
-                  <Image source={arr[0]} style={styles.cardStyle} />
+                  <Image source={front} style={styles.cardStyle} />
                 </View>
                 <View>
                   <Text>The Back</Text>
-                  <Image source={arr[1]} style={styles.cardStyle} />
+                  <Image source={meaning} style={styles.cardStyle} />
                 </View>
               </FlipCard>
             </View>
@@ -798,9 +796,13 @@ function ShopScreen() {
 }
 
 function VirtualCoffeeReadingScreen() {
+  const [boolButton, setBoolButton] = useState(false);
+  const togglePhotoReading = () => {
+    setBoolButton(!boolButton);
+  };
+
   let openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
     if (permissionResult.granted === false) {
       alert("Permission to access camera roll is required!");
       return;
@@ -812,22 +814,24 @@ function VirtualCoffeeReadingScreen() {
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
-        <View style={styles.authContainer}>
+        <View style={{position: "absolute", top: 0, flexDirection: 'row',justifyContent: 'space-between',width:'100%'}}>
           <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.backButtonStyle} >
             <Image source={backButton}/>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image source={useAVirtualCoffee} style={{marginTop:13}}/>
           </TouchableOpacity>
         </View>
       {/*<RNCamera ref={ref => {this.camera = ref;}} style={{flex: 1, width: '100%'}}>
       </RNCamera>
       */}
-      <Image source={virtualImage} />
-      <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}>
-        <Image source={submitPhoto} style={{marginTop:30}} />
+      <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
+        <Image source={useAVirtualCoffee}/>
       </TouchableOpacity>
-      <TouchableOpacity onPress={openImagePickerAsync}>
+      <Image source={virtualImage} />
+      {boolButton && <View>
+        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')} onPressOut={togglePhotoReading}>
+          <Image source={submitPhoto} style={{marginTop:30}} />
+        </TouchableOpacity>
+      </View>}
+      <TouchableOpacity onPress={openImagePickerAsync} onPressOut={togglePhotoReading}>
       <Image source={photoGallery} style={{marginTop:30}} />
       </TouchableOpacity>
     </View>
