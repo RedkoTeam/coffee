@@ -1269,6 +1269,7 @@ function Reading({}){
   const navigation = useNavigation();
   var userName = 'user';
 
+  const [buttonClicked, setButtonClicked] = useState(false);
   const [randomFortune, setRandomFortune] = useState('');
   return (
     <View style={styles.virtualContainer}>
@@ -1297,14 +1298,18 @@ function Reading({}){
             <Image source={yourFortune} style={{marginBottom:12}} />
             <ScrollView>
             <Text style={{fontSize:17, color:'white'}}> {randomFortune}  </Text>
-            {/* // add onPress decrement gem counter also add conditional rendoring  */}
+          
+            {!buttonClicked ? (
               <Button
                 onPress={() => {
                   setRandomFortune(getRandomFortune)
+                  setButtonClicked(true)
                 }}
                 title='Fortune Ready Click To View!'
               >
               </Button>
+            ) : null}
+            
             </ScrollView>
           </View>
           <NavBar/>
