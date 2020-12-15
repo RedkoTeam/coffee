@@ -16,13 +16,12 @@ import 'firebase/auth'
 import 'firebase/firebase-firestore'
 import { firebaseConfig } from './config';
 
+const db = firebase.firestore();
+
 //checks to see if app is already initialized before running again
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
-
-// const database = firebase.database();
-// const user = firebase.auth().currentUser;
 
 // logic for checking if user is logged in for main screen
 checkIfLoggedIn = () => {
@@ -35,22 +34,16 @@ checkIfLoggedIn = () => {
   })
 }
 
-function SignUp(email, password) {
+function SignUp() {
   firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(user => {
-      const userId = firebase.auth().currentUser.uid
-      // add time stamp 
-      return firebase.database().ref('users/' + userId).set({
-        email: email,
+    .then(data => {
+      return db.collection('users').doc(data.user.uid).set({
+        userName: email,
         subscriptionLevel: 0,
-        // increment based on timestamp 
-        totalGems: 0
       })
+        .catch(error => console.log(error))
     })
-    .catch(error => console.log(error))
 }
-
-const db = firebase.firestore();
 
 
 ////////////////////
@@ -185,15 +178,8 @@ import { render } from 'react-dom';
 import { cardsFront, cardsFrontReversed, cardsMeaning } from './fortunesCardArray';
 import dummyPath from './assets/pencil.png';
 
-////////////////////
-// Styling  //
-////////////////////
-
+// Styling 
 const styles = StyleSheet.create({
-  defaultFont: {
-    fontFamily: 'Montserrat-Regular',
-    fontSize: 17
-  },
   mainContainer: {
     flex:1,
     backgroundColor: '#070631',
@@ -458,6 +444,27 @@ const styles = StyleSheet.create({
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
 global.arr = [dummyPath, dummyPath, dummyPath];
+
+function checkLoginStatus(user){
+  if(!user){
+    return(
+      <View style={{flexDirection:'row', width:'100%',justifyContent:'space-between', padding: 25}}>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+          <Image source={SignUpButton} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+          <Image source={SignInButton} />
+        </TouchableOpacity>
+      </View>
+    )
+  }
+  return(
+    <View>
+      <Text>Welcome {db.collection('users').doc(data.user.uid)}</Text>
+    </View>
+  )
+}
+
 function HomeScreen({ navigation }) {
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -473,17 +480,26 @@ function HomeScreen({ navigation }) {
     arr[2] = cardsMeaning[random];
     console.log(arr[2]);
   }
+
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  function onAuthStateChanged(user){
+    setUser(user);
+    if(initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
+
+  if(initializing) return null;
+
   return (
     <View style={styles.mainContainer}>
       <View style={{flex:1, alignItems: 'center'}}>
-        <View style={{flexDirection:'row', width:'100%',justifyContent:'space-between', padding: 25}}>
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-            <Image source={SignUpButton} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-            <Image source={SignInButton} />
-          </TouchableOpacity>
-        </View>
+        <checkLoginStatus user={user}/>
         <Image source={LargeTitleApp} style={{width:'100%'}}/>
         <View style={{flexDirection:'row', width:'100%', justifyContent:'space-evenly'}}>
           <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
