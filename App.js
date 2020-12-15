@@ -52,17 +52,7 @@ checkIfLoggedIn = () => {
 // }
 
 // FIRESTORE
-function SignUp() {
-  firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(data => {
-      return db.collection('users').doc(data.user.uid).set({
-        userName: email,
-        subscriptionLevel: 0,
-        totalGems: 0
-      })
-        .catch(error => console.log(error))
-    })
-}
+
 
 ////////////////////
 // IMAGES & ICONS //
@@ -510,9 +500,8 @@ function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
         <Image source={PickCard} style={{margin:8}}/>
-        <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
+        {/* <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
             <Image source={Cards} />
-       {/* </TouchableOpacity> <Button title="Show modal!" onPress={toggleModal2} /> */}
         <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
           <View>
             <Text style = {styles.tapCard}>Tap card to flip</Text>
@@ -533,7 +522,7 @@ function HomeScreen({ navigation }) {
             </View>
           </View>
         </Modal>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       {/*<View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
@@ -1013,6 +1002,17 @@ function SignUpScreen({ navigation }) {
       </ImageBackground>
     </View>
   )
+  function SignUp() {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(data => {
+        return db.collection('users').doc(data.user.uid).set({
+          userName: email,
+          subscriptionLevel: 0,
+          totalGems: 0
+        })
+          .catch(error => console.log(error))
+      })
+  }
 }
 
 // TODO need to hook this up to a button after signed in
