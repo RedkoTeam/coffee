@@ -495,17 +495,15 @@ function HomeScreen({ navigation }) {
         <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
           <View>
             <Text style = {styles.tapCard}>Tap card to flip</Text>
-            <Button title="Hide Image" onPress={toggleModal} />
+            <Button title="Hide Card" onPress={toggleModal} />
             <View style={{marginBottom:500}}>
               <FlipCard
                 flipHorizontal={true}
                 flipVertical={false}>
                 <View style={styles.face}>
-                  <Text>The Face</Text>
                   <Image source={front} style={styles.cardStyle} />
                 </View>
-                <View>
-                  <Text>The Back</Text>
+                <View style={styles.back}>
                   <Image source={meaning} style={styles.cardStyle} />
                 </View>
               </FlipCard>
@@ -561,11 +559,10 @@ function HomeScreen({ navigation }) {
 function HomeScreenLoggedIn({ navigation }) {
   return (
     <View style={styles.mainContainer}>
-      
       <View style={styles.appTitle}>
         <Image source={LargeTitleApp} />
       </View>
-      <View style={styles.circleContainer}>
+      <View style={{flexDirection:'row', width:'100%', justifyContent:'space-evenly'}}>
         <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}>
           <Image source={TakePhoto} style={styles.circleL} />
         </TouchableOpacity>
@@ -573,9 +570,7 @@ function HomeScreenLoggedIn({ navigation }) {
           <Image source={VirtualCoffee} style={styles.circleR} />
         </TouchableOpacity>
       </View>
-      <View style={styles.cardTitle}>
-        <Image source={PickCard} />
-      </View>
+      <Image source={PickCard} style={{margin:8}}/>
       <TouchableOpacity onPress={() => navigation.navigate('Virtual')} style={styles.cards}>
         <Image source={Cards} />
       </TouchableOpacity>
