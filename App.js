@@ -21,6 +21,9 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
 
+
+
+
 // FIRESTORE
 const db = firebase.firestore();
 
@@ -707,7 +710,7 @@ function FavoritesScreen() {
         </View>
         <Image source={ galaxy } style={styles.shopBackgroundContainer} />
         {
-          favoritesData.map((item, index) => {
+          favoriteDatabase.map((item, index) => {
             // favorites data is showing up in the console.log but not populating on the screen
             // this needs to be changed from a map to something else to correctly access the fortunes. 
             console.log(` favoritesData: ${favoritesData}`)
@@ -1209,6 +1212,7 @@ function SignInScreen() {
           <Text>{error}</Text>
         </View>
       ) : null}
+
         <TouchableOpacity onPress={() => { onLogin(email, password) } }>
           <Image source={loginButton} style={styles.buttonImage} />
         </TouchableOpacity>
@@ -1223,7 +1227,6 @@ function SignInScreen() {
 
     </View>
   )
-  
 }
 
 function ReadingAnimationScreen({navigation}){
