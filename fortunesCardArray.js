@@ -105,7 +105,7 @@ export const cardsAndMeaning = [
     [require("./assets/Cards/CardsFrontReversed/Page_of_Swords_R.png"), require("./assets/Cards/CardsMeaning/Page_of_Swords_A.png")],
     [require("./assets/Cards/CardsFrontReversed/Queen_of_Cups_R.png"), require("./assets/Cards/CardsMeaning/Queen_of_Cups_A.png")],
     [require("./assets/Cards/CardsFrontReversed/Queen_of_Pentacles_R.png"), require("./assets/Cards/CardsMeaning/Queen_of_Pentacles_A.png")],
-    [require("./assets/Cards/CardsFrontReversed/Queen_of_swords_R.png"), require("./assets/Cards/CardsMeaning/Queen_of_Swords_A.png")],
+    [require("./assets/Cards/CardsFrontReversed/Queen_of_Swords_R.png"), require("./assets/Cards/CardsMeaning/Queen_of_Swords_A.png")],
     [require("./assets/Cards/CardsFrontReversed/Seven_of_Pentacles_R.png"), require("./assets/Cards/CardsMeaning/Seven_of_Pentacles_A.png")],
     [require("./assets/Cards/CardsFrontReversed/Seven_of_Wands_R.png"), require("./assets/Cards/CardsMeaning/Seven_of_Wands_A.png")],
     [require("./assets/Cards/CardsFrontReversed/Seven_of_Cups_R.png"), require("./assets/Cards/CardsMeaning/Seven_of_Cups_A.png")],
