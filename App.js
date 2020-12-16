@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState, useCallback, Componenet, useFocusEf
 import './fixtimerbug';
 import {fortunesArray} from './fortunesArray';
 
-import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
+import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -177,7 +177,7 @@ import pencil from './assets/pencil.png';
 import pageButton from './assets/pageButton.png';
 
 //random cards
-import {cardsAndMeaning} from './fortunesCardArray';
+//import {cardsAndMeaning} from './fortunesCardArray';
 //import {cardsFrontReversed, cardsAndMeaning, cardsMeaning, cardsFront} from './fortunesCardArray';
 import dummyPath from './assets/pencil.png';
 
