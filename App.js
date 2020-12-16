@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState, useCallback, Componenet, useFocusEf
 import './fixtimerbug';
 import {fortunesArray} from './fortunesArray';
 
-import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
+import { Button, View, Text, Image, TouchableOpacity, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, StatusBar , Animated, Easing, InteractionManager, Linking } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -59,7 +59,9 @@ import Ellipse1 from './assets/FortuneCoffeePNGassets/HomePage/ellipse.png';
 import Home from './assets/FortuneCoffeePNGassets/HomePage/Home.png';
 import Shop from './assets/FortuneCoffeePNGassets/HomePage/Shop.png';
 import Favorites from './assets/FortuneCoffeePNGassets/HomePage/Favorites.png';
-
+import homeSelected from './assets/FortuneCoffeePNGassets/HomePage/homeSelected.png';
+import favSelected from './assets/FortuneCoffeePNGassets/HomePage/favSelected.png';
+import shopSelected from './assets/FortuneCoffeePNGassets/HomePage/shopSelected.png';
 //HOMEPAGE//
 import TakePhoto from './assets/FortuneCoffeePNGassets/HomePage/TakePhoto.png';
 import VirtualCoffee from './assets/FortuneCoffeePNGassets/HomePage/VirtualCoffee.png';
@@ -329,7 +331,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width:'100%',
-    padding: 16,
+    margin: 16,
   },
   flexInRowsCoffee: {
     flex: 1,
@@ -374,12 +376,6 @@ const styles = StyleSheet.create({
     position:'absolute', 
     width:'100%', 
     height:'100%'
-  },
-  shopScreenTitle: {
-    position:'absolute', 
-    alignSelf:'center', 
-    right:'47%', 
-    bottom:'5%'
   },
   crystalBackground: {
     flex:1,
@@ -597,7 +593,7 @@ function NavBar(){
         <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
             <Image source={Favorites}/>
           </TouchableOpacity>
-        <TouchableOpacity onPress={() => checkIfLoggedIn()}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <Image source={Home} style={{bottom:'80%'}}/>
           </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
@@ -701,32 +697,38 @@ let ShopDatabase = [
   {
     name: 'OriginalCoffee',
     img: originalPhoto,
-    buyButton: originalBuyButton 
+    buyButton: originalBuyButton,
+    URL: 'https://thefortunecoffee.com/products/fortune-coffee-original'
   },
   {
     name: 'CoconutCoffee',
     img: coconutPhoto,
-    buyButton: coconutButton
+    buyButton: coconutButton,
+    URL: 'https://thefortunecoffee.com/products/fortune-coffee-coconut-flavor'
   },
   {
     name: 'StrawberryCoffee',
     img: strawberryPhoto,
-    buyButton: strawberryButton
+    buyButton: strawberryButton,
+    URL: 'https://thefortunecoffee.com/products/fortune-coffee-strawberry-flavor'
   },
   {
     name: 'HazelnutCoffee',
     img: hazelnutPhoto,
-    buyButton: hazelnutButton
+    buyButton: hazelnutButton,
+    URL: 'https://thefortunecoffee.com/products/fortune-coffee-hazelnut-flavor'
   },
   {
     name: 'CoffeeCaramel',
     img: coffeeCaramelPhoto,
-    buyButton: coffeeCaramelButton
+    buyButton: coffeeCaramelButton,
+    URL: 'https://thefortunecoffee.com/products/fortune-coffee-caramel-flavor'
   },
   {
     name: 'CoffeeChocolate',
     img: coffeeChocolatePhoto,
-    buyButton: coffeeChocolateButton
+    buyButton: coffeeChocolateButton,
+    URL: 'https://thefortunecoffee.com/products/fortune-coffee-chocolate-flavor'
   }
 ]
 
@@ -771,18 +773,19 @@ function ShopScreen() {
   return (
     <ScrollView contentContainerStyle={styles.shopContainer}>
       <Image source={ galaxy } style={styles.shopBackgroundContainer} />
-      <View style={ styles.flexInRows }>
-        <TouchableOpacity onPress={()=>navigation.popToTop()} style={styles.backButtonStyle}>
-          <Image source={backButton} />
+      <View style={{position:'absolute', top:0, flexDirection:'row', width:'100%', margin:16}}>
+        <TouchableOpacity onPress={()=>{navigation.popToTop()}}>
+          <Image source={backButton} style={styles.backButtonStyle}/>
         </TouchableOpacity>
-        <Image source={shop} style={styles.shopScreenTitle} />
+        <Image source={shop} style={{position:'absolute', alignSelf:'center', right:'43%', top: 60}} />
       </View>
+      <View style={{paddingTop:100}}></View>
       {
         ShopDatabase.map((item, index) =>{
           return(
             <View key={index} style={{padding:30}}>
               <Image source={item.img} style={styles.coffeeImageDimension} />
-              <TouchableOpacity onPress={()=>{console.log(item.name)}}>
+              <TouchableOpacity onPress={()=>{Linking.openURL(item.URL)}}>
                <Image source={item.buyButton} style={styles.coffeeBuyButton} />
               </TouchableOpacity>
             </View>
@@ -1229,14 +1232,15 @@ function Reading({}){
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={readingBackground} style={styles.virtualOne}>
-        <View style={styles.flexInRows}>
-          <TouchableOpacity onPress={() => navigation.popToTop()}>
-            <Image source={backButton} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-            <Image source={userImg} />
-          </TouchableOpacity>
-        </View>
+      <View style={{width:'100%', flexDirection:'row', justifyContent:'space-between', marginTop: 15, paddingHorizontal:12}}>
+        <TouchableOpacity onPress={()=>{navigation.popToTop()}}>
+          <Image source={backButton} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          <Image source={userImg}/>
+        </TouchableOpacity>
+      </View>
+
         <View style={styles.flexInRowsCoffee}>
           <TouchableOpacity onPress={() => onSaveFortune()}>
               <Image source={saveButton} />
