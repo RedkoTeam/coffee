@@ -468,18 +468,17 @@ function HomeScreen({ navigation }) {
     setFront(cardsAndMeaning[random][0]);
     setMeaning(cardsAndMeaning[random][1]);
   }
- 
+
   state = {
     open: true,
   };
   toggleImage = () => {
-    this.setState(state => ({ open: !state.open}));
+    this.setState(state => ({ open: !state.open }));
   }
-
   return (
     <View style={styles.mainContainer}>
-      <View style={{flex:1, alignItems: 'center'}}>
-        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 35 }}>
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 25 }}>
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
             <Image source={SignUpButton} />
           </TouchableOpacity>
@@ -487,38 +486,40 @@ function HomeScreen({ navigation }) {
             <Image source={SignInButton} />
           </TouchableOpacity>
         </View>
-        <Image source={LargeTitleApp} style={{width:'100%'}}/>
-        <View style={{flexDirection:'row', width:'100%', justifyContent:'space-evenly'}}>
+        <Image source={LargeTitleApp} style={{ width: '100%' }} />
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly' }}>
           <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
             <Image source={VirtualCoffee} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Virtual')}> 
+          <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
             <Image source={TakePhoto} />
           </TouchableOpacity>
         </View>
-        <Image source={PickCard} style={{margin:8}}/>
-        {/* <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
-            <Image source={Cards} />
-        <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
-          <View>
-            <Text style = {styles.tapCard}>Tap card to flip</Text>
-            <Button title="Hide Card" onPress={toggleModal} />
-            <View style={{marginBottom:500}}>
-              <FlipCard
-                flipHorizontal={true}
-                flipVertical={false}>
-                <View style={styles.face}>
-                  <Image source={front} style={styles.cardStyle} />
-                </View>
-                <View style={styles.back}>
-                  <Image source={meaning} style={styles.cardStyle} />
-                </View>
-              </FlipCard>
+        <Image source={PickCard} style={{ margin: 8 }} />
+        <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
+          <Image source={Cards} />
+          <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
+            <View>
+              <Text style={styles.tapCard}>Tap card to flip</Text>
+              <Button title="Hide Image" onPress={toggleModal} />
+              <View style={{ marginBottom: 500 }}>
+                <FlipCard
+                  flipHorizontal={true}
+                  flipVertical={false}>
+                  <View style={styles.face}>
+                    <Text>The Face</Text>
+                    <Image source={front} style={styles.cardStyle} />
+                  </View>
+                  <View>
+                    <Text>The Back</Text>
+                    <Image source={meaning} style={styles.cardStyle} />
+                  </View>
+                </FlipCard>
+              </View>
             </View>
-          </View>
-        </Modal>
-        </TouchableOpacity> */}
-      {/*<View>
+          </Modal>
+        </TouchableOpacity>
+        {/*<View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
            <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
@@ -543,11 +544,13 @@ function HomeScreen({ navigation }) {
           </Modal> 
         </TouchableOpacity>
       </View>*/}
-      <NavBar />
+        <NavBar />
       </View>
     </View>
   );
 }
+
+
 
 function HomeScreenLoggedIn({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -562,51 +565,53 @@ function HomeScreenLoggedIn({ navigation }) {
     setFront(cardsAndMeaning[random][0]);
     setMeaning(cardsAndMeaning[random][1]);
   }
- 
+
   state = {
     open: true,
   };
   toggleImage = () => {
-    this.setState(state => ({ open: !state.open}));
+    this.setState(state => ({ open: !state.open }));
   }
   return (
     <View style={styles.mainContainer}>
-      <View style={{flex:1, alignItems: 'center'}}>
+      <View style={{ flex: 1, alignItems: 'center' }}>
         <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 35 }}>
           <Text></Text>
         </View>
-        <Image source={LargeTitleApp} style={{width:'100%'}}/>
-        <View style={{flexDirection:'row', width:'100%', justifyContent:'space-evenly'}}>
+        <Image source={LargeTitleApp} style={{ width: '100%' }} />
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly' }}>
           <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
             <Image source={VirtualCoffee} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Virtual')}> 
+          <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
             <Image source={TakePhoto} />
           </TouchableOpacity>
         </View>
-        <Image source={PickCard} style={{margin:8}}/>
+        <Image source={PickCard} style={{ margin: 8 }} />
         <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
-            <Image source={Cards} />
-        <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
-          <View>
-            <Text style = {styles.tapCard}>Tap card to flip</Text>
-            <Button title="Hide Card" onPress={toggleModal} />
-            <View style={{marginBottom:500}}>
-              <FlipCard
-                flipHorizontal={true}
-                flipVertical={false}>
-                <View style={styles.face}>
-                  <Image source={front} style={styles.cardStyle} />
-                </View>
-                <View style={styles.back}>
-                  <Image source={meaning} style={styles.cardStyle} />
-                </View>
-              </FlipCard>
+          <Image source={Cards} />
+          <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
+            <View>
+              <Text style={styles.tapCard}>Tap card to flip</Text>
+              <Button title="Hide Image" onPress={toggleModal} />
+              <View style={{ marginBottom: 500 }}>
+                <FlipCard
+                  flipHorizontal={true}
+                  flipVertical={false}>
+                  <View style={styles.face}>
+                    <Text>The Face</Text>
+                    <Image source={front} style={styles.cardStyle} />
+                  </View>
+                  <View>
+                    <Text>The Back</Text>
+                    <Image source={meaning} style={styles.cardStyle} />
+                  </View>
+                </FlipCard>
+              </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
         </TouchableOpacity>
-      {/*<View>
+        {/*<View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
            <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
@@ -631,24 +636,10 @@ function HomeScreenLoggedIn({ navigation }) {
           </Modal> 
         </TouchableOpacity>
       </View>*/}
-      <NavBar />
+        <NavBar />
       </View>
     </View>
   );
-  
-  // function getRandomFortuneCard() {
-  //   let random = Math.floor((Math.random() * cardsFront.length));
-  //   let fortuneFront = cardsFront[random];
-  //   console.log(fortuneFront);
-  //   let fortuneFrontReversed = cardsFrontReversed[random];
-  //   console.log(fortuneFrontReversed);
-  //   let fortuneCardsMeaning = cardsMeaning[random];
-  //   console.log(fortuneCardsMeaning);
-  //   let fortunePaths = [fortuneFront, fortuneFrontReversed, fortuneCardsMeaning];
-  //   //console.log(fortune);
-  //   return fortunePaths;
-  //   // console.log(fortunesArray[2])
-  // }
 }
 
 // Home button changed
