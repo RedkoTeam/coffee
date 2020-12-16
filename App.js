@@ -652,6 +652,7 @@ function HomeScreenLoggedIn({ navigation }) {
   );
 }
 
+// Home button changed
 function NavBar(){
   const navigation = useNavigation();
   return(
@@ -661,7 +662,7 @@ function NavBar(){
         <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
             <Image source={Favorites}/>
           </TouchableOpacity>
-        <TouchableOpacity onPress={() => checkIfLoggedIn()}>
+        <TouchableOpacity onPress={() => navigation.navigate('HomeLoggedIn')}> 
             <Image source={Home} style={{bottom:'80%'}}/>
           </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
@@ -728,6 +729,8 @@ function FavoritesScreen() {
     </View>
   )
   
+  // Copy This And Use Start
+
   // FIRESTORE
   // Can't get this to populate on the favorites page. See above comment for where I am putting it
   async function getFavorites() {
@@ -740,6 +743,7 @@ function FavoritesScreen() {
       })
       .catch(error => console.log(error))
   }
+  // Copy This And Use End
 
   // FIREBASE
   // async function getFavorites() {
@@ -1060,6 +1064,8 @@ function SignUpScreen({ navigation }) {
       </ImageBackground>
     </View>
   )
+
+  // Copy This And Use Start
   function SignUp() {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(data => {
@@ -1071,6 +1077,7 @@ function SignUpScreen({ navigation }) {
           .catch(error => console.log(error))
       })
   }
+  // Copy This And Use End
 }
 
 // TODO need to hook this up to a button after signed in
@@ -1141,11 +1148,10 @@ function Profile() {
 
 function SignInScreen() {
   const navigation = useNavigation();
-// copy and paste
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+// Copy This And Use Start
   const [error, setError] = useState("")
-
 
   function onLogin() {
       firebase.auth().signInWithEmailAndPassword(email, password)
@@ -1156,8 +1162,8 @@ function SignInScreen() {
         .catch(function (error) {
           setError("Invalid Email/Password")
         });
-        
       }
+// Copy This And Use End
 
   return (
     <View style={styles.virtualContainer}>
@@ -1217,7 +1223,6 @@ function SignInScreen() {
 
     </View>
   )
-  // copy and paste
   
 }
 
@@ -1335,6 +1340,8 @@ function Reading({}){
   //   // navigation.navigate('Favorites')
   // }
 
+
+  // Copy This And Use Start
   //FIRESTORE
   function onSaveFortune() {
     db.collection('users').doc(firebase.auth().currentUser.uid).update({
@@ -1342,6 +1349,7 @@ function Reading({}){
     })
     // navigation.navigate('Favorites')
   }
+  // Copy This And Use End
 }
 
 ////////////////////
