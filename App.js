@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState, useCallback, Componenet, useFocusEf
 import './fixtimerbug';
 import {fortunesArray} from './fortunesArray';
 
-import { Button, View, Text, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, SafeAreaView, StatusBar , Animated, Easing, InteractionManager } from 'react-native';
+import { Button, View, Text, Image, TouchableOpacity, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, StatusBar , Animated, Easing, InteractionManager, Linking, KeyboardAvoidingView } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -21,11 +21,13 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
 
-
-
+// 
 
 // FIRESTORE
 const db = firebase.firestore();
+
+// const database = firebase.database();
+// const user = firebase.auth().currentUser;
 
 // logic for checking if user is logged in for main screen
 // checkIfLoggedIn = () => {
@@ -38,7 +40,6 @@ const db = firebase.firestore();
 //   })
 // }
 
-// FIREBASE
 // function SignUp(email, password) {
 //   firebase.auth().createUserWithEmailAndPassword(email, password)
 //     .then(user => {
@@ -54,9 +55,6 @@ const db = firebase.firestore();
 //     .catch(error => console.log(error))
 // }
 
-// FIRESTORE
-
-
 ////////////////////
 // IMAGES & ICONS //
 ////////////////////
@@ -66,7 +64,9 @@ import Ellipse1 from './assets/FortuneCoffeePNGassets/HomePage/ellipse.png';
 import Home from './assets/FortuneCoffeePNGassets/HomePage/Home.png';
 import Shop from './assets/FortuneCoffeePNGassets/HomePage/Shop.png';
 import Favorites from './assets/FortuneCoffeePNGassets/HomePage/Favorites.png';
-
+import homeSelected from './assets/FortuneCoffeePNGassets/HomePage/homeSelected.png';
+import favSelected from './assets/FortuneCoffeePNGassets/HomePage/favSelected.png';
+import shopSelected from './assets/FortuneCoffeePNGassets/HomePage/shopSelected.png';
 //HOMEPAGE//
 import TakePhoto from './assets/FortuneCoffeePNGassets/HomePage/TakePhoto.png';
 import VirtualCoffee from './assets/FortuneCoffeePNGassets/HomePage/VirtualCoffee.png';
@@ -184,7 +184,8 @@ import pencil from './assets/pencil.png';
 import pageButton from './assets/pageButton.png';
 
 //random cards
-import {cardsFrontReversed, cardsAndMeaning } from './fortunesCardArray';
+import {cardsAndMeaning} from './fortunesCardArray';
+//import {cardsFrontReversed, cardsAndMeaning, cardsMeaning, cardsFront} from './fortunesCardArray';
 import dummyPath from './assets/pencil.png';
 import { Alert } from 'react-native';
 
@@ -336,7 +337,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width:'100%',
-    padding: 16,
+    margin: 16,
   },
   flexInRowsCoffee: {
     flex: 1,
@@ -381,12 +382,6 @@ const styles = StyleSheet.create({
     position:'absolute', 
     width:'100%', 
     height:'100%'
-  },
-  shopScreenTitle: {
-    position:'absolute', 
-    alignSelf:'center', 
-    right:'47%', 
-    bottom:'5%'
   },
   crystalBackground: {
     flex:1,
@@ -460,23 +455,18 @@ const styles = StyleSheet.create({
 
 // Completed and Ready for code review
 //ReadingAnimation back to PhotoReading 
-global.arr = [dummyPath, dummyPath, dummyPath];
-
 function HomeScreen({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
-
+  const [front, setFront] = useState(dummyPath);
+  const [meaning, setMeaning] = useState(dummyPath);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
-  //const [randomFortune, setRandomFortune] = useState('');
   const toggleModal2 = () => {
     setModalVisible(!isModalVisible);
     let random = Math.floor((Math.random() * cardsAndMeaning.length));
-    arr[0] = cardsAndMeaning[random][0];
-    arr[1] = cardsFrontReversed[random];
-    arr[2] = cardsAndMeaning[random][1];
-    console.log(arr[2]);
+    setFront(cardsAndMeaning[random][0]);
+    setMeaning(cardsAndMeaning[random][1]);
   }
  
   state = {
@@ -512,18 +502,16 @@ function HomeScreen({ navigation }) {
         <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
           <View>
             <Text style = {styles.tapCard}>Tap card to flip</Text>
-            <Button title="Hide modal" onPress={toggleModal} />
+            <Button title="Hide Card" onPress={toggleModal} />
             <View style={{marginBottom:500}}>
               <FlipCard
                 flipHorizontal={true}
                 flipVertical={false}>
                 <View style={styles.face}>
-                  <Text>The Face</Text>
-                  <Image source={arr[0]} style={styles.cardStyle} />
+                  <Image source={front} style={styles.cardStyle} />
                 </View>
-                <View>
-                  <Text>The Back</Text>
-                  <Image source={arr[2]} style={styles.cardStyle} />
+                <View style={styles.back}>
+                  <Image source={meaning} style={styles.cardStyle} />
                 </View>
               </FlipCard>
             </View>
@@ -563,68 +551,62 @@ function HomeScreen({ navigation }) {
 
 function HomeScreenLoggedIn({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
-
+  const [front, setFront] = useState(dummyPath);
+  const [meaning, setMeaning] = useState(dummyPath);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
-  //const [randomFortune, setRandomFortune] = useState('');
   const toggleModal2 = () => {
     setModalVisible(!isModalVisible);
     let random = Math.floor((Math.random() * cardsAndMeaning.length));
-    arr[0] = cardsAndMeaning[random][0];
-    arr[1] = cardsFrontReversed[random];
-    arr[2] = cardsAndMeaning[random][1];
-    console.log(arr[2]);
+    setFront(cardsAndMeaning[random][0]);
+    setMeaning(cardsAndMeaning[random][1]);
   }
-
+ 
   state = {
     open: true,
   };
   toggleImage = () => {
-    this.setState(state => ({ open: !state.open }));
+    this.setState(state => ({ open: !state.open}));
   }
-
   return (
     <View style={styles.mainContainer}>
-      <View style={{ flex: 1, alignItems: 'center' }}>
+      <View style={{flex:1, alignItems: 'center'}}>
         <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 35 }}>
           <Text></Text>
         </View>
-        <Image source={LargeTitleApp} style={{ width: '100%' }} />
-        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly' }}>
+        <Image source={LargeTitleApp} style={{width:'100%'}}/>
+        <View style={{flexDirection:'row', width:'100%', justifyContent:'space-evenly'}}>
           <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
             <Image source={VirtualCoffee} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Virtual')}> 
             <Image source={TakePhoto} />
           </TouchableOpacity>
         </View>
-        <Image source={PickCard} style={{ margin: 8 }} />
-        {/* <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
+        <Image source={PickCard} style={{margin:8}}/>
+        <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
             <Image source={Cards} />
         <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
           <View>
             <Text style = {styles.tapCard}>Tap card to flip</Text>
-            <Button title="Hide modal" onPress={toggleModal} />
+            <Button title="Hide Card" onPress={toggleModal} />
             <View style={{marginBottom:500}}>
               <FlipCard
                 flipHorizontal={true}
                 flipVertical={false}>
                 <View style={styles.face}>
-                  <Text>The Face</Text>
-                  <Image source={arr[0]} style={styles.cardStyle} />
+                  <Image source={front} style={styles.cardStyle} />
                 </View>
-                <View>
-                  <Text>The Back</Text>
-                  <Image source={arr[2]} style={styles.cardStyle} />
+                <View style={styles.back}>
+                  <Image source={meaning} style={styles.cardStyle} />
                 </View>
               </FlipCard>
             </View>
           </View>
         </Modal>
-        </TouchableOpacity> */}
-        {/*<View>
+        </TouchableOpacity>
+      {/*<View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
            <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
@@ -649,10 +631,24 @@ function HomeScreenLoggedIn({ navigation }) {
           </Modal> 
         </TouchableOpacity>
       </View>*/}
-        <NavBar />
+      <NavBar />
       </View>
     </View>
   );
+  
+  // function getRandomFortuneCard() {
+  //   let random = Math.floor((Math.random() * cardsFront.length));
+  //   let fortuneFront = cardsFront[random];
+  //   console.log(fortuneFront);
+  //   let fortuneFrontReversed = cardsFrontReversed[random];
+  //   console.log(fortuneFrontReversed);
+  //   let fortuneCardsMeaning = cardsMeaning[random];
+  //   console.log(fortuneCardsMeaning);
+  //   let fortunePaths = [fortuneFront, fortuneFrontReversed, fortuneCardsMeaning];
+  //   //console.log(fortune);
+  //   return fortunePaths;
+  //   // console.log(fortunesArray[2])
+  // }
 }
 
 // Home button changed
@@ -665,7 +661,7 @@ function NavBar(){
         <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
             <Image source={Favorites}/>
           </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeLoggedIn')}> 
+        <TouchableOpacity onPress={() => navigation.navigate('HomeLoggedIn')}>
             <Image source={Home} style={{bottom:'80%'}}/>
           </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
@@ -735,7 +731,6 @@ function FavoritesScreen() {
   // Copy This And Use Start
 
   // FIRESTORE
-  // Can't get this to populate on the favorites page. See above comment for where I am putting it
   async function getFavorites() {
     await db.collection('users').doc(firebase.auth().currentUser.uid)
       .get()
@@ -757,6 +752,16 @@ function FavoritesScreen() {
   //   })
   // }
 
+  // FIREBASE
+  // async function getFavorites() {
+
+  //   const userId = firebase.auth().currentUser.uid
+  //   return firebase.database().ref('users/' + userId + '/favorites').once('value').then((snapshot) => {
+  //     console.log(snapshot)
+  //     setFavoritesData(snapshot)
+  //   }) 
+  // }
+
 }
 
 function ReadMore(){
@@ -773,32 +778,38 @@ let ShopDatabase = [
   {
     name: 'OriginalCoffee',
     img: originalPhoto,
-    buyButton: originalBuyButton 
+    buyButton: originalBuyButton,
+    URL: 'https://thefortunecoffee.com/products/fortune-coffee-original'
   },
   {
     name: 'CoconutCoffee',
     img: coconutPhoto,
-    buyButton: coconutButton
+    buyButton: coconutButton,
+    URL: 'https://thefortunecoffee.com/products/fortune-coffee-coconut-flavor'
   },
   {
     name: 'StrawberryCoffee',
     img: strawberryPhoto,
-    buyButton: strawberryButton
+    buyButton: strawberryButton,
+    URL: 'https://thefortunecoffee.com/products/fortune-coffee-strawberry-flavor'
   },
   {
     name: 'HazelnutCoffee',
     img: hazelnutPhoto,
-    buyButton: hazelnutButton
+    buyButton: hazelnutButton,
+    URL: 'https://thefortunecoffee.com/products/fortune-coffee-hazelnut-flavor'
   },
   {
     name: 'CoffeeCaramel',
     img: coffeeCaramelPhoto,
-    buyButton: coffeeCaramelButton
+    buyButton: coffeeCaramelButton,
+    URL: 'https://thefortunecoffee.com/products/fortune-coffee-caramel-flavor'
   },
   {
     name: 'CoffeeChocolate',
     img: coffeeChocolatePhoto,
-    buyButton: coffeeChocolateButton
+    buyButton: coffeeChocolateButton,
+    URL: 'https://thefortunecoffee.com/products/fortune-coffee-chocolate-flavor'
   }
 ]
 
@@ -843,18 +854,19 @@ function ShopScreen() {
   return (
     <ScrollView contentContainerStyle={styles.shopContainer}>
       <Image source={ galaxy } style={styles.shopBackgroundContainer} />
-      <View style={ styles.flexInRows }>
-        <TouchableOpacity onPress={()=>navigation.popToTop()} style={styles.backButtonStyle}>
-          <Image source={backButton} />
+      <View style={{position:'absolute', top:0, flexDirection:'row', width:'100%', margin:16}}>
+        <TouchableOpacity onPress={()=>{navigation.popToTop()}}>
+          <Image source={backButton} style={styles.backButtonStyle}/>
         </TouchableOpacity>
-        <Image source={shop} style={styles.shopScreenTitle} />
+        <Image source={shop} style={{position:'absolute', alignSelf:'center', right:'43%', top: 60}} />
       </View>
+      <View style={{paddingTop:100}}></View>
       {
         ShopDatabase.map((item, index) =>{
           return(
             <View key={index} style={{padding:30}}>
               <Image source={item.img} style={styles.coffeeImageDimension} />
-              <TouchableOpacity onPress={()=>{console.log(item.name)}}>
+              <TouchableOpacity onPress={()=>{Linking.openURL(item.URL)}}>
                <Image source={item.buyButton} style={styles.coffeeBuyButton} />
               </TouchableOpacity>
             </View>
@@ -868,9 +880,13 @@ function ShopScreen() {
 }
 
 function VirtualCoffeeReadingScreen() {
+  const [boolButton, setBoolButton] = useState(false);
+  const togglePhotoReading = () => {
+    setBoolButton(!boolButton);
+  };
+
   let openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
     if (permissionResult.granted === false) {
       alert("Permission to access camera roll is required!");
       return;
@@ -882,22 +898,24 @@ function VirtualCoffeeReadingScreen() {
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
-        <View style={styles.authContainer}>
+        <View style={{position: "absolute", top: 0, flexDirection: 'row',justifyContent: 'space-between',width:'100%'}}>
           <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.backButtonStyle} >
             <Image source={backButton}/>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image source={useAVirtualCoffee} style={{marginTop:13}}/>
           </TouchableOpacity>
         </View>
       {/*<RNCamera ref={ref => {this.camera = ref;}} style={{flex: 1, width: '100%'}}>
       </RNCamera>
       */}
-      <Image source={virtualImage} />
-      <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}>
-        <Image source={submitPhoto} style={{marginTop:30}} />
+      <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
+        <Image source={useAVirtualCoffee}/>
       </TouchableOpacity>
-      <TouchableOpacity onPress={openImagePickerAsync}>
+      <Image source={virtualImage} />
+      {boolButton && <View>
+        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')} onPressOut={togglePhotoReading}>
+          <Image source={submitPhoto} style={{marginTop:30}} />
+        </TouchableOpacity>
+      </View>}
+      <TouchableOpacity onPress={openImagePickerAsync} onPressOut={togglePhotoReading}>
       <Image source={photoGallery} style={{marginTop:30}} />
       </TouchableOpacity>
     </View>
@@ -1013,14 +1031,13 @@ function SignUpScreen({ navigation }) {
   const [password, setPassword] = useState('')
 
   return (
-    <View style={styles.virtualContainer}>
+    <KeyboardAvoidingView style={styles.virtualContainer} behavior='padding'>
       <ImageBackground source={signBackground} style={styles.virtualOne}>
         <TouchableOpacity onPress={() => navigation.popToTop()} style={styles.backButtonStyle}>
           <Image source={backButton}/>
         </TouchableOpacity>
         <Image source={signTitle} style={{marginTop:'20%'}}/>
         <Image source={signUpBelowTitle} style={{marginBottom:12, marginTop:12}} />
-{/*
         <View style={{marginTop:8, marginBottom:20}}>
           <TouchableOpacity onPress={() => console.log('google pressed')} style={{marginBottom:20}}>
             <Image source={googleTitle} />
@@ -1030,7 +1047,6 @@ function SignUpScreen({ navigation }) {
           </TouchableOpacity>
         </View>
         <Image source={signEmailText} style={{marginBottom:8}}/>
-*/}
         <TextInput style={styles.textBox}
           label="Email"
           placeholder="    Email address"
@@ -1065,10 +1081,10 @@ function SignUpScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-    </View>
+    </KeyboardAvoidingView>
   )
 
-  // Copy This And Use Start
+  // FIRESTORE
   function SignUp() {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(data => {
@@ -1080,7 +1096,6 @@ function SignUpScreen({ navigation }) {
           .catch(error => console.log(error))
       })
   }
-  // Copy This And Use End
 }
 
 // TODO need to hook this up to a button after signed in
@@ -1169,13 +1184,12 @@ function SignInScreen() {
 // Copy This And Use End
 
   return (
-    <View style={styles.virtualContainer}>
+    <KeyboardAvoidingView style={styles.virtualContainer} behavior='padding'>
       <ImageBackground source={signBackground} style={styles.virtualOne}>
         <TouchableOpacity onPress={() => navigation.popToTop()} style={styles.backButtonStyle}>
           <Image source={backButton}/>
         </TouchableOpacity>
         <Image source={signTitle}  style={{marginTop:'20%', marginBottom:40}}/>
-{/*
         <View style={{marginTop:8, marginBottom:20}}>
           <TouchableOpacity onPress={() => console.log('google pressed')} style={{marginBottom:20}}>
             <Image source={googleTitle} />
@@ -1185,8 +1199,6 @@ function SignInScreen() {
           </TouchableOpacity>
         </View>
         <Image source={signEmailText} style={{marginBottom:8}}/>
-*/}
-      
         <TextInput style={styles.textBox}
           label="Email"
           placeholder="    Email address"
@@ -1212,7 +1224,6 @@ function SignInScreen() {
           <Text>{error}</Text>
         </View>
       ) : null}
-
         <TouchableOpacity onPress={() => { onLogin(email, password) } }>
           <Image source={loginButton} style={styles.buttonImage} />
         </TouchableOpacity>
@@ -1225,8 +1236,9 @@ function SignInScreen() {
         </View>
       </ImageBackground>
 
-    </View>
+    </KeyboardAvoidingView>
   )
+  
 }
 
 function ReadingAnimationScreen({navigation}){
