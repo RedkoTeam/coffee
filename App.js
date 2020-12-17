@@ -550,8 +550,6 @@ function HomeScreen({ navigation }) {
   );
 }
 
-
-
 function HomeScreenLoggedIn({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [front, setFront] = useState(dummyPath);
