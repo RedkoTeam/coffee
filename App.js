@@ -187,6 +187,7 @@ import pageButton from './assets/pageButton.png';
 import {cardsAndMeaning} from './fortunesCardArray';
 //import {cardsFrontReversed, cardsAndMeaning, cardsMeaning, cardsFront} from './fortunesCardArray';
 import dummyPath from './assets/pencil.png';
+import { Alert } from 'react-native';
 
 ////////////////////
 // Styling  //
@@ -467,17 +468,17 @@ function HomeScreen({ navigation }) {
     setFront(cardsAndMeaning[random][0]);
     setMeaning(cardsAndMeaning[random][1]);
   }
- 
+
   state = {
     open: true,
   };
   toggleImage = () => {
-    this.setState(state => ({ open: !state.open}));
+    this.setState(state => ({ open: !state.open }));
   }
   return (
     <View style={styles.mainContainer}>
-      <View style={{flex:1, alignItems: 'center'}}>
-        <View style={{flexDirection:'row', width:'100%',justifyContent:'space-between', padding: 25}}>
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 25 }}>
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
             <Image source={SignUpButton} />
           </TouchableOpacity>
@@ -485,38 +486,40 @@ function HomeScreen({ navigation }) {
             <Image source={SignInButton} />
           </TouchableOpacity>
         </View>
-        <Image source={LargeTitleApp} style={{width:'100%'}}/>
-        <View style={{flexDirection:'row', width:'100%', justifyContent:'space-evenly'}}>
+        <Image source={LargeTitleApp} style={{ width: '100%' }} />
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly' }}>
           <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
             <Image source={VirtualCoffee} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Virtual')}> 
+          <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
             <Image source={TakePhoto} />
           </TouchableOpacity>
         </View>
-        <Image source={PickCard} style={{margin:8}}/>
+        <Image source={PickCard} style={{ margin: 8 }} />
         <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
-            <Image source={Cards} />
-        <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
-          <View>
-            <Text style = {styles.tapCard}>Tap card to flip</Text>
-            <Button title="Hide Card" onPress={toggleModal} />
-            <View style={{marginBottom:500}}>
-              <FlipCard
-                flipHorizontal={true}
-                flipVertical={false}>
-                <View style={styles.face}>
-                  <Image source={front} style={styles.cardStyle} />
-                </View>
-                <View style={styles.back}>
-                  <Image source={meaning} style={styles.cardStyle} />
-                </View>
-              </FlipCard>
+          <Image source={Cards} />
+          <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
+            <View>
+              <Text style={styles.tapCard}>Tap card to flip</Text>
+              <Button title="Hide Image" onPress={toggleModal} />
+              <View style={{ marginBottom: 500 }}>
+                <FlipCard
+                  flipHorizontal={true}
+                  flipVertical={false}>
+                  <View style={styles.face}>
+                    <Text>The Face</Text>
+                    <Image source={front} style={styles.cardStyle} />
+                  </View>
+                  <View>
+                    <Text>The Back</Text>
+                    <Image source={meaning} style={styles.cardStyle} />
+                  </View>
+                </FlipCard>
+              </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
         </TouchableOpacity>
-      {/*<View>
+        {/*<View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
            <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
@@ -541,25 +544,13 @@ function HomeScreen({ navigation }) {
           </Modal> 
         </TouchableOpacity>
       </View>*/}
-      <NavBar />
+        <NavBar />
       </View>
     </View>
   );
-  
-  // function getRandomFortuneCard() {
-  //   let random = Math.floor((Math.random() * cardsFront.length));
-  //   let fortuneFront = cardsFront[random];
-  //   console.log(fortuneFront);
-  //   let fortuneFrontReversed = cardsFrontReversed[random];
-  //   console.log(fortuneFrontReversed);
-  //   let fortuneCardsMeaning = cardsMeaning[random];
-  //   console.log(fortuneCardsMeaning);
-  //   let fortunePaths = [fortuneFront, fortuneFrontReversed, fortuneCardsMeaning];
-  //   //console.log(fortune);
-  //   return fortunePaths;
-  //   // console.log(fortunesArray[2])
-  // }
 }
+
+
 
 function HomeScreenLoggedIn({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -574,51 +565,53 @@ function HomeScreenLoggedIn({ navigation }) {
     setFront(cardsAndMeaning[random][0]);
     setMeaning(cardsAndMeaning[random][1]);
   }
- 
+
   state = {
     open: true,
   };
   toggleImage = () => {
-    this.setState(state => ({ open: !state.open}));
+    this.setState(state => ({ open: !state.open }));
   }
   return (
     <View style={styles.mainContainer}>
-      <View style={{flex:1, alignItems: 'center'}}>
+      <View style={{ flex: 1, alignItems: 'center' }}>
         <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 35 }}>
           <Text></Text>
         </View>
-        <Image source={LargeTitleApp} style={{width:'100%'}}/>
-        <View style={{flexDirection:'row', width:'100%', justifyContent:'space-evenly'}}>
+        <Image source={LargeTitleApp} style={{ width: '100%' }} />
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly' }}>
           <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
             <Image source={VirtualCoffee} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Virtual')}> 
+          <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
             <Image source={TakePhoto} />
           </TouchableOpacity>
         </View>
-        <Image source={PickCard} style={{margin:8}}/>
+        <Image source={PickCard} style={{ margin: 8 }} />
         <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
-            <Image source={Cards} />
-        <Modal isVisible={isModalVisible} style = {{alignItems: "center", flex: 1}}>
-          <View>
-            <Text style = {styles.tapCard}>Tap card to flip</Text>
-            <Button title="Hide Card" onPress={toggleModal} />
-            <View style={{marginBottom:500}}>
-              <FlipCard
-                flipHorizontal={true}
-                flipVertical={false}>
-                <View style={styles.face}>
-                  <Image source={front} style={styles.cardStyle} />
-                </View>
-                <View style={styles.back}>
-                  <Image source={meaning} style={styles.cardStyle} />
-                </View>
-              </FlipCard>
+          <Image source={Cards} />
+          <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
+            <View>
+              <Text style={styles.tapCard}>Tap card to flip</Text>
+              <Button title="Hide Image" onPress={toggleModal} />
+              <View style={{ marginBottom: 500 }}>
+                <FlipCard
+                  flipHorizontal={true}
+                  flipVertical={false}>
+                  <View style={styles.face}>
+                    <Text>The Face</Text>
+                    <Image source={front} style={styles.cardStyle} />
+                  </View>
+                  <View>
+                    <Text>The Back</Text>
+                    <Image source={meaning} style={styles.cardStyle} />
+                  </View>
+                </FlipCard>
+              </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
         </TouchableOpacity>
-      {/*<View>
+        {/*<View>
         <TouchableOpacity onPress={toggleModal} style={styles.cards}>
           <Image source={Cards} />
            <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
@@ -643,26 +636,13 @@ function HomeScreenLoggedIn({ navigation }) {
           </Modal> 
         </TouchableOpacity>
       </View>*/}
-      <NavBar />
+        <NavBar />
       </View>
     </View>
   );
-  
-  // function getRandomFortuneCard() {
-  //   let random = Math.floor((Math.random() * cardsFront.length));
-  //   let fortuneFront = cardsFront[random];
-  //   console.log(fortuneFront);
-  //   let fortuneFrontReversed = cardsFrontReversed[random];
-  //   console.log(fortuneFrontReversed);
-  //   let fortuneCardsMeaning = cardsMeaning[random];
-  //   console.log(fortuneCardsMeaning);
-  //   let fortunePaths = [fortuneFront, fortuneFrontReversed, fortuneCardsMeaning];
-  //   //console.log(fortune);
-  //   return fortunePaths;
-  //   // console.log(fortunesArray[2])
-  // }
 }
 
+// Home button changed
 function NavBar(){
   const navigation = useNavigation();
   return(
@@ -738,6 +718,8 @@ function FavoritesScreen() {
       </ScrollView>
     </View>
   )
+  
+  // Copy This And Use Start
 
   // FIRESTORE
   async function getFavorites() {
@@ -750,6 +732,16 @@ function FavoritesScreen() {
       })
       .catch(error => console.log(error))
   }
+  // Copy This And Use End
+
+  // FIREBASE
+  // async function getFavorites() {
+  //   const userId = firebase.auth().currentUser.uid
+  //   return firebase.database().ref('users/' + userId + '/favorites').once('value').then((snapshot) => {
+  //     console.log(snapshot)
+  //     setFavoritesData(snapshot)
+  //   })
+  // }
 
   // FIREBASE
   // async function getFavorites() {
@@ -1070,7 +1062,7 @@ function SignUpScreen({ navigation }) {
           autoCapitalize='none'
           secureTextEntry={true}
         />
-        <TouchableOpacity onPress={() => { SignUp(email, password), navigation.navigate('HomeLoggedIn')} }>
+        <TouchableOpacity onPress={() => { SignUp(email, password), navigation.navigate('HomeLoggedIn') }}>
           <Image source={signUpButton} style={styles.buttonImage}  />
         </TouchableOpacity>
         <View style={{flexDirection:'row', marginTop:20}} >
@@ -1161,53 +1153,7 @@ function Profile() {
       </TouchableOpacity>
     </View>
   )
-
 }
-
-//   const navigation = useNavigation();
-//   return (
-//     <ImageBackground source={profile_bg} style={styles.subBackgroundImage}>
-//       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-//         <View style={styles.authContainer}>
-//           <TouchableOpacity style={styles.authButton1}>
-//             <Image source={backButton} style={{marginRight: 80}}/>
-//           </TouchableOpacity>
-//           <TouchableOpacity style={styles.authButton2}>
-//             <Image source={pageButton} />
-//           </TouchableOpacity>
-//         </View>
-//         <Text style={{marginBottom: 30}}></Text>
-//         <Image source={profileImage} />
-//         <Input placeholder="Name" >
-//         {/*<Image source={pencil} />*/}
-//         </Input>  
-//         <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>Username</Text>
-//         <Input placeholder="Username" >
-//         </Input>
-//         <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>First name</Text>
-//         <Input placeholder="First name" >
-//         </Input> 
-//         <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 300}}>Last Name</Text>
-//         <Input placeholder="Last Name" >
-//         </Input>  
-//         <Text style={{color: '#FFFFFF', fontSize: 18, marginRight: 285}}>Date of Birth</Text>
-//         <Input placeholder="Date of Birth" >
-//         </Input>  
-//         <Image source={Ellipse1} style={styles.ellipse1} />
-//         {/* <Image source={Ellipse2} style={styles.ellipse2} /> */}
-//         <TouchableOpacity onPress={() => navigation.navigate('Favorites')} style={{bottom:-175,left: -130}}>
-//           <Image source={Favorites} />
-//         </TouchableOpacity>
-//         <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{top: 60,left: -0}}>
-//           <Image source={Home} />
-//         </TouchableOpacity>
-//         <TouchableOpacity onPress={() => navigation.navigate('Shop')} style={{top: 60,right: -130}}>
-//           <Image source={Shop} />
-//         </TouchableOpacity>
-//       </View>
-//     </ImageBackground>
-//   )
-// }
 
 function SignInScreen() {
   const navigation = useNavigation();
