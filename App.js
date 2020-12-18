@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
   },
   backButtonStyle: {
     position: 'absolute', 
-    top: 10,
+    top: 30,
     left: 15
   }
 });
@@ -478,7 +478,7 @@ function HomeScreen({ navigation }) {
   return (
     <View style={styles.mainContainer}>
       <View style={{ flex: 1, alignItems: 'center' }}>
-        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 25 }}>
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 25, marginTop: 18 }}>
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
             <Image source={SignUpButton} />
           </TouchableOpacity>
@@ -652,7 +652,7 @@ function NavBar(){
         <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
             <Image source={Favorites}/>
           </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeLoggedIn')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <Image source={Home} style={{bottom:'80%'}}/>
           </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
@@ -889,8 +889,8 @@ function VirtualCoffeeReadingScreen() {
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
-        <View style={{position: "absolute", top: 0, flexDirection: 'row',justifyContent: 'space-between',width:'100%'}}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.backButtonStyle} >
+        <View style={{position: "absolute", top: 0, flexDirection: 'row',justifyContent: 'space-between',width:'100%', margin: 16}}>
+          <TouchableOpacity onPress={() => navigation.popToTop()} style={styles.backButtonStyle} >
             <Image source={backButton}/>
           </TouchableOpacity>
         </View>
@@ -1255,7 +1255,10 @@ function ReadingAnimationScreen({navigation}){
   });
   
   useEffect(startImageRotationFunction);
+  {/*
   InteractionManager.runAfterInteractions(() => navigation.navigate("VirtualFive"));
+  */}
+  InteractionManager.runAfterInteractions(() => navigation.navigate("Reading"));
 
   return(
     <View style={styles.mainContainer}>
@@ -1285,8 +1288,8 @@ function Reading({}){
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={readingBackground} style={styles.virtualOne}>
-        <View style={styles.flexInRows}>
-          <TouchableOpacity onPress={() => navigation.popToTop()}>
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 25, marginTop: 18}}>
+          <TouchableOpacity onPress={() => navigation.popToTop()} >
             <Image source={backButton} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
@@ -1382,7 +1385,9 @@ function App() {
         <Stack.Screen name="VirtualTwo" component={VirtualTwo} options={{ cardStyleInterpolator:forFade}}/>
         <Stack.Screen name="VirtualThree" component={VirtualThree} options={{ cardStyleInterpolator:forFade}}/>
         <Stack.Screen name="VirtualFour" component={VirtualFour} options={{ cardStyleInterpolator:forFade}}/>
+        {/*
         <Stack.Screen name="VirtualFive" component={VirtualFive} options={{ cardStyleInterpolator:forFade}}/>
+        */}
         <Stack.Screen name="VirtualLoading" component={VirtualLoadingScreen} />
         <Stack.Screen name="PhotoReading" component={PhotoReadingScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
