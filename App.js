@@ -501,7 +501,7 @@ function HomeScreen({ navigation }) {
           <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
             <View>
               <Text style={styles.tapCard}>Tap card to flip</Text>
-              <Button title="Hide Image" onPress={toggleModal} />
+              <Button title="Hide Card" onPress={toggleModal} />
               <View style={{ marginBottom: 500 }}>
                 <FlipCard
                   flipHorizontal={true}
