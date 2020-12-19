@@ -641,8 +641,8 @@ function HomeScreenLoggedIn({ navigation }) {
 }
 
 // Home button changed
-function NavBar(){
-  const navigation = useNavigation();
+function NavBar({ navigation }){
+  // const navigation = useNavigation();
   return(
     <View style={{flex:1, backgroundColor:'#070631', height:'30%', alignItems:'center', alignContent:'center'}}>
       <Image source={Ellipse1} style={styles.ellipse} />
@@ -677,10 +677,23 @@ function FavoritesScreen() {
   const [favoritesData, setFavoritesData] = useState([])
 
   // this hook calls getFavorites function when the page is focused. Wasn't able to get this to work. Maybe you could make it async so it arrives like you did for the random fortune before?
-    useFocusEffect(useCallback(() => {
-      getFavorites()
-      return () => console.log("screen loses focus");
-    }, []));
+    useEffect(() => {
+      db.collection('users').doc(firebase.auth().currentUser.uid)
+        .get()
+        .then(queryResult => {
+          const userData = queryResult.data();
+          // console.log(`Retrieved data: ${JSON.stringify(userData.favorites)}`)
+          const userDataParsed = userData.favorites
+          let arrayOfFavorites = [];
+          for (const key in userDataParsed) {
+            arrayOfFavorites.push(userDataParsed[key])
+          }
+        
+          setFavoritesData(arrayOfFavorites)
+          console.log(arrayOfFavorites)
+        })
+    }, []);
+
 
   return (
     <View style={{flexGrow:1, justifyContent:'space-between'}}>
@@ -695,10 +708,10 @@ function FavoritesScreen() {
         </View>
         <Image source={ galaxy } style={styles.shopBackgroundContainer} />
         {
-          favoriteDatabase.map((item, index) => {
+          favoritesData.map((item, index) => {
             // favorites data is showing up in the console.log but not populating on the screen
             // this needs to be changed from a map to something else to correctly access the fortunes. 
-            console.log(` favoritesData: ${favoritesData}`)
+            // console.log(` favoritesData: ${favoritesData}`)
             return(
               <View key={index} style={{padding:30}}>
                 <Image source={fortuneBox} />
@@ -717,8 +730,8 @@ function FavoritesScreen() {
     </View>
   )
   
-  // Copy This And Use Start
 
+// not working
   // FIRESTORE
   async function getFavorites() {
     await db.collection('users').doc(firebase.auth().currentUser.uid)
@@ -730,8 +743,14 @@ function FavoritesScreen() {
       })
       .catch(error => console.log(error))
   }
-  // Copy This And Use End
+  
 
+  // const data = documentSnapshot.docs.map(documentSnapshot => {
+  //   return documentSnapshot.data()
+  // }).then(data => {
+  //   console.log(data)
+  // })
+  
   // FIREBASE
   // async function getFavorites() {
   //   const userId = firebase.auth().currentUser.uid
@@ -739,16 +758,6 @@ function FavoritesScreen() {
   //     console.log(snapshot)
   //     setFavoritesData(snapshot)
   //   })
-  // }
-
-  // FIREBASE
-  // async function getFavorites() {
-
-  //   const userId = firebase.auth().currentUser.uid
-  //   return firebase.database().ref('users/' + userId + '/favorites').once('value').then((snapshot) => {
-  //     console.log(snapshot)
-  //     setFavoritesData(snapshot)
-  //   }) 
   // }
 
 }
@@ -804,6 +813,14 @@ let ShopDatabase = [
 
 function SubscriptionScreen() {
   const navigation = useNavigation();
+
+  firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function (idToken) {
+    // Send token to your backend via HTTPS
+    // ...
+  }).catch(function (error) {
+    // Handle error
+  });
+
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={subBackground} style={styles.virtualOne}>
@@ -1292,7 +1309,7 @@ function Reading({}){
           </TouchableOpacity>
         </View>
         <View style={styles.flexInRowsCoffee}>
-          <TouchableOpacity onPress={() => onSaveFortune()}>
+          <TouchableOpacity onPress={() => { onSaveFortune(), navigation.navigate('Favorites')}}>
               <Image source={saveButton} />
             </TouchableOpacity>
             <View>
