@@ -814,12 +814,19 @@ let ShopDatabase = [
 function SubscriptionScreen() {
   const navigation = useNavigation();
 
-  firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function (idToken) {
-    // Send token to your backend via HTTPS
-    // ...
-  }).catch(function (error) {
-    // Handle error
-  });
+  async function toCarlo() {
+    const userId = db.collection('users').doc(firebase.auth().currentUser.uid)
+    
+    await firebase.auth().currentUser
+    .getIdToken(/* forceRefresh */ true)
+    .then(function (idToken) {
+      // Send token to your backend via HTTPS
+      fetch('https://firestore.googleapis.com/v1/projects/fortune-coffeee/databases/(default)/documents/users/' + userId)
+    }).catch(function (error) {
+      // Handle error
+    });
+  }
+  
 
   return (
     <View style={styles.virtualContainer}>
