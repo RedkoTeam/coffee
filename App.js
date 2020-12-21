@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
   },
   flexInRows: {
     position:'absolute',
-    top: 0, 
+    top: 30, 
     flexDirection: 'row',
     justifyContent: 'space-between',
     width:'100%',
@@ -421,14 +421,14 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.4)",
   },
   savedFortuneTextBox2: {
-    height: "90%",
-    width: "20%",
+    height: "100%",
+    width: "25%",
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "rgba(255,255,255,0.4)",
   },
   savedFortuneTextBox3: {
-    height: "90%",
+    height: "100%",
     width: "50%",
     borderWidth: 1,
     borderRadius: 10,
@@ -506,12 +506,10 @@ function HomeScreen({ navigation }) {
                 <FlipCard
                   flipHorizontal={true}
                   flipVertical={false}>
-                  <View style={styles.face}>
-                    <Text>The Face</Text>
+                  <View>
                     <Image source={front} style={styles.cardStyle} />
                   </View>
                   <View>
-                    <Text>The Back</Text>
                     <Image source={meaning} style={styles.cardStyle} />
                   </View>
                 </FlipCard>
@@ -1095,7 +1093,7 @@ function Profile() {
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
-      <View style={ styles.flexInRows }>
+      <View style={ styles.flexInRows}>
         <TouchableOpacity onPress={()=>navigation.popToTop()}>
           <Image source={backButton} />
         </TouchableOpacity>
@@ -1125,7 +1123,7 @@ function Profile() {
         placeholderTextColor='#DCDCDC'
       />
       <Text style={{ color: '#FFFFFF', fontSize: 18, marginTop: 20, textAlign: 'left', alignSelf: 'stretch', marginLeft: 20}}>Birthday</Text>
-      <View style={styles.authContainer}>
+      <View style={{flexDirection: 'row',width:'90%', height: '7%'}}>
         <TextInput style={styles.savedFortuneTextBox2}
           label="Month"
           placeholder="      00"
@@ -1142,7 +1140,7 @@ function Profile() {
           placeholderTextColor='#DCDCDC'
         />
       </View>
-
+      <Text></Text>
       <TouchableOpacity onPress={() => console.log('log in pressed')}>
         <Image source={continueImage} />
       </TouchableOpacity>
