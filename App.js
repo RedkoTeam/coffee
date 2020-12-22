@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState, useCallback, Componenet, useFocusEf
 import './fixtimerbug';
 import {fortunesArray} from './fortunesArray';
 
-import { Button, View, Text, Image, TouchableOpacity, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, StatusBar , Animated, Easing, InteractionManager, Linking, KeyboardAvoidingView } from 'react-native';
+import { Button, View, Text, Image, TouchableOpacity, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, StatusBar , Animated, Easing, InteractionManager, Linking, KeyboardAvoidingView, Platform } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -868,22 +868,33 @@ function ShopScreen() {
   )
 }
 
+
 function VirtualCoffeeReadingScreen() {
-  const [boolButton, setBoolButton] = useState(false);
-  const togglePhotoReading = () => {
-    setBoolButton(!boolButton);
+  const [image, setImage] = useState(null);
+  useEffect(() => {
+    async () => {
+      if (Platform.OS !== 'web'){
+        const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    }
+  });
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing:true,
+      aspect: [4,3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled){
+      setImage(result.uri);
+    }
   };
 
-  let openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    console.log(pickerResult);
-  }
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
@@ -892,19 +903,17 @@ function VirtualCoffeeReadingScreen() {
             <Image source={backButton}/>
           </TouchableOpacity>
         </View>
-      {/*<RNCamera ref={ref => {this.camera = ref;}} style={{flex: 1, width: '100%'}}>
-      </RNCamera>
-      */}
+      {image && <Image source={{uri: image}} style={{marginTop:0, height: '40%', width: '80%', borderWidth:5, borderColor: '#FFF'}} />}
       <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
         <Image source={useAVirtualCoffee}/>
       </TouchableOpacity>
       <Image source={virtualImage} />
-      {boolButton && <View>
-        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')} onPressOut={togglePhotoReading}>
+      {image && <View>
+        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}>
           <Image source={submitPhoto} style={{marginTop:30}} />
         </TouchableOpacity>
       </View>}
-      <TouchableOpacity onPress={openImagePickerAsync} onPressOut={togglePhotoReading}>
+      <TouchableOpacity onPress={pickImage}>
       <Image source={photoGallery} style={{marginTop:30}} />
       </TouchableOpacity>
     </View>
