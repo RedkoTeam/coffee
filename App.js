@@ -432,14 +432,14 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.4)",
   },
   savedFortuneTextBox2: {
-    height: "90%",
-    width: "20%",
+    height: "100%",
+    width: "25%",
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "rgba(255,255,255,0.4)",
   },
   savedFortuneTextBox3: {
-    height: "90%",
+    height: "100%",
     width: "50%",
     borderWidth: 1,
     borderRadius: 10,
@@ -455,7 +455,7 @@ const styles = StyleSheet.create({
   },
   backButtonStyle: {
     position: 'absolute', 
-    top: 30,
+    top: 40,
     left: 15
   }
 });
@@ -506,6 +506,7 @@ function HomeScreen({ navigation }) {
             <Image source={TakePhoto} />
           </TouchableOpacity>
         </View>
+        <Button title="Subscription" onPress={ () => navigation.navigate('Subscription')} />
         <Image source={PickCard} style={{ margin: 8 }} />
         <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
           <Image source={Cards} />
@@ -604,17 +605,15 @@ function HomeScreenLoggedIn({ navigation }) {
           <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
             <View>
               <Text style={styles.tapCard}>Tap card to flip</Text>
-              <Button title="Hide Image" onPress={toggleModal} />
+              <Button title="Hide Card" onPress={toggleModal} />
               <View style={{ marginBottom: 500 }}>
                 <FlipCard
                   flipHorizontal={true}
                   flipVertical={false}>
                   <View style={styles.face}>
-                    <Text>The Face</Text>
                     <Image source={front} style={styles.cardStyle} />
                   </View>
                   <View>
-                    <Text>The Back</Text>
                     <Image source={meaning} style={styles.cardStyle} />
                   </View>
                 </FlipCard>
@@ -825,16 +824,12 @@ function SubscriptionScreen() {
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={subBackground} style={styles.virtualOne}>
-      
-        <View style={ styles.flexInRows }>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <TouchableOpacity onPress={()=>navigation.popToTop()} style={styles.backButtonStyle}>
             <Image source={backButton} />
           </TouchableOpacity>
-        </View>
-        <Image source={subscriptionDescription}/>
-        <ScrollView>
+          <Image source={subscriptionDescription} style ={{marginTop:100}}/>
 
-        <View style={{justifyContent:'center', alignItems:'center'}}>
           <TouchableOpacity onPress={ () => Linking.openURL('http://payment-fortune-coffee.herokuapp.com/')}>
             <Image source={sub1} />
           </TouchableOpacity>
@@ -849,7 +844,6 @@ function SubscriptionScreen() {
             <Image source={sub3} />
           </TouchableOpacity>
         </View>
-        </ScrollView>
         <NavBar/>
       </ImageBackground>
       
@@ -889,21 +883,31 @@ function ShopScreen() {
 }
 
 function VirtualCoffeeReadingScreen() {
-  const [boolButton, setBoolButton] = useState(false);
-  const togglePhotoReading = () => {
-    setBoolButton(!boolButton);
+  const [image, setImage] = useState(null);
+  useEffect(() => {
+    async () => {
+      if (Platform.OS !== 'web'){
+        const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    }
+  });
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing:true,
+      aspect: [4,3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled){
+      setImage(result.uri);
+    }
   };
 
-  let openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    console.log(pickerResult);
-  }
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
@@ -912,19 +916,17 @@ function VirtualCoffeeReadingScreen() {
             <Image source={backButton}/>
           </TouchableOpacity>
         </View>
-      {/*<RNCamera ref={ref => {this.camera = ref;}} style={{flex: 1, width: '100%'}}>
-      </RNCamera>
-      */}
+      {image && <Image source={{uri: image}} style={{marginTop:0, height: '40%', width: '80%', borderWidth:5, borderColor: '#FFF'}} />}
       <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
         <Image source={useAVirtualCoffee}/>
       </TouchableOpacity>
       <Image source={virtualImage} />
-      {boolButton && <View>
-        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')} onPressOut={togglePhotoReading}>
+      {image && <View>
+        <TouchableOpacity onPress={() => navigation.navigate('ReadingAnimation')}>
           <Image source={submitPhoto} style={{marginTop:30}} />
         </TouchableOpacity>
       </View>}
-      <TouchableOpacity onPress={openImagePickerAsync} onPressOut={togglePhotoReading}>
+      <TouchableOpacity onPress={pickImage}>
       <Image source={photoGallery} style={{marginTop:30}} />
       </TouchableOpacity>
     </View>
@@ -1113,8 +1115,8 @@ function Profile() {
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#070631' }}>
-      <View style={ styles.flexInRows }>
-        <TouchableOpacity onPress={()=>navigation.popToTop()}>
+      <View style={ styles.flexInRows}>
+        <TouchableOpacity onPress={()=>navigation.popToTop()} style = {{top: 50, marginLeft: 10}}>
           <Image source={backButton} />
         </TouchableOpacity>
       </View>
@@ -1143,7 +1145,7 @@ function Profile() {
         placeholderTextColor='#DCDCDC'
       />
       <Text style={{ color: '#FFFFFF', fontSize: 18, marginTop: 20, textAlign: 'left', alignSelf: 'stretch', marginLeft: 20}}>Birthday</Text>
-      <View style={styles.authContainer}>
+      <View style={{flexDirection: 'row',width:'90%', height: '7%'}}>
         <TextInput style={styles.savedFortuneTextBox2}
           label="Month"
           placeholder="      00"
@@ -1160,7 +1162,7 @@ function Profile() {
           placeholderTextColor='#DCDCDC'
         />
       </View>
-
+      <Text></Text>
       <TouchableOpacity onPress={() => console.log('log in pressed')}>
         <Image source={continueImage} />
       </TouchableOpacity>
