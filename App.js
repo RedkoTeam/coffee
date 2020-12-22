@@ -495,6 +495,7 @@ function HomeScreen({ navigation }) {
             <Image source={TakePhoto} />
           </TouchableOpacity>
         </View>
+        <Button title="Subscription" onPress={ () => navigation.navigate('Subscription')} />
         <Image source={PickCard} style={{ margin: 8 }} />
         <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
           <Image source={Cards} />
@@ -807,15 +808,13 @@ function SubscriptionScreen() {
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={subBackground} style={styles.virtualOne}>
-      
-        <View style={ styles.flexInRows }>
-          <TouchableOpacity onPress={()=>navigation.popToTop()} style={styles.backButtonStyle}>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <TouchableOpacity onPress={()=>navigation.popToTop()}  style={styles.backButtonStyle}>
             <Image source={backButton} />
           </TouchableOpacity>
-        </View>
-        <Image source={subscriptionDescription}/>
-        <ScrollView>
-        <View style={{justifyContent:'center', alignItems:'center'}}>
+
+          <Image source={subscriptionDescription} style ={{marginTop:100}}/>
+
           <TouchableOpacity onPress={ () => console.log('Amethyst Pressed')} >
             <Image source={sub1} />
           </TouchableOpacity>
@@ -829,7 +828,6 @@ function SubscriptionScreen() {
             <Image source={sub3} />
           </TouchableOpacity>
         </View>
-        </ScrollView>
         <NavBar/>
       </ImageBackground>
       
