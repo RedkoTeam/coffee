@@ -633,7 +633,6 @@ function HomeScreen({ navigation }) {
           {/* Pick a card  */}
         <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
           <Image source={Cards} />
-<<<<<<< HEAD
           <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
             <View>
               <Text style={styles.tapCard}>Tap card to flip</Text>
@@ -676,9 +675,6 @@ function HomeScreen({ navigation }) {
               </View>
             </View>
           </Modal> 
-=======
-          {Render_CardModule()}
->>>>>>> 1b87ded1f9e7b908852cefe4179f6448462631b9
         </TouchableOpacity>
         { /* Checker if the cards are */}
         <NavBar />
