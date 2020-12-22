@@ -4,7 +4,23 @@ import React, { useRef, useEffect, useState, useCallback, Componenet, useFocusEf
 import './fixtimerbug';
 import {fortunesArray} from './fortunesArray';
 
-import { Button, View, Text, Image, TouchableOpacity, TextInput, ImageBackground, StyleSheet, FlatList, ScrollView, StatusBar , Animated, Easing, InteractionManager, Linking, KeyboardAvoidingView } from 'react-native';
+import { Button, 
+  View, 
+  Text,
+  Image, 
+  TouchableOpacity,
+  TextInput, 
+  ImageBackground, 
+  StyleSheet, 
+  FlatList, 
+  ScrollView, 
+  StatusBar , 
+  Animated, 
+  Easing, 
+  InteractionManager, 
+  Linking, 
+  KeyboardAvoidingView,
+  } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -21,6 +37,9 @@ import * as firebase from 'firebase';
 import 'firebase/auth'
 import 'firebase/firebase-firestore'
 import { firebaseConfig } from './config';
+
+
+
 
 //checks to see if app is already initialized before running again
 if (!firebase.apps.length) {
@@ -201,6 +220,12 @@ import {cardsAndMeaning} from './fortunesCardArray';
 //import {cardsFrontReversed, cardsAndMeaning, cardsMeaning, cardsFront} from './fortunesCardArray';
 import dummyPath from './assets/pencil.png';
 import { Alert } from 'react-native';
+
+
+// Card utils
+import CheckLoginToken from './util/CheckLoginToken'
+import RegularCardCounter from './util/cardCounters/RegularCardCounter'
+
 
 ////////////////////
 // Styling  //
@@ -462,6 +487,8 @@ const styles = StyleSheet.create({
   }
 });
 
+
+ 
 ////////////////////
 // Screen Layouts //
 ////////////////////
@@ -475,6 +502,54 @@ function HomeScreen({ navigation }) {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+  /// Modal Viewer based on date. 
+  const [userCanViewCard, setUserCanViewCard] = useState(false);
+
+  // UseEffect for checking the card before each trigger
+  // Rather than putting it inside the function, we put it on the useeffect for checking
+  useEffect(()=>{
+    let mounted = true;
+
+    // If mounted . Check the state then storage.
+    if(mounted){
+      if(isModalVisible === true){
+        console.log("Modal is visible")
+        // Check the counter based on async storage, not fire ..
+        RegularCardCounter().then((result)=>{
+          console.log("User can view card : " , result)
+
+          // CHANGE THIS TO FALSE AND TRUE IF YOU WAANT TO CHECK.
+          // TODO : DATE FILTER AND CHECKING
+          setUserCanViewCard(false)
+        });
+      }
+    }
+    return () =>{
+      mounted = false;
+    }
+  },[isModalVisible])
+  // This use Effect is only called when the navigation lands here, This will reduce the amount of times
+  // it will run on this page.
+  useEffect(()=>{
+    let mounted = true;
+    if(mounted)
+    {
+      // Checks the login upon opening App
+    CheckLoginToken().then(async (result)=>{
+        console.log("User TYPE  : " , result)
+        // Navigate the user's based off of results
+        // TODO, log the user in via firestore
+        if(result === "User"){
+          navigation.navigate("HomeLoggedIn")
+        }
+      });
+    }
+    return ()=>{
+      mounted = false;
+    }
+  },[navigation])
+
   const toggleModal2 = () => {
     setModalVisible(!isModalVisible);
     let random = Math.floor((Math.random() * cardsAndMeaning.length));
@@ -488,6 +563,50 @@ function HomeScreen({ navigation }) {
   toggleImage = () => {
     this.setState(state => ({ open: !state.open }));
   }
+
+  const Render_CardModule = () =>{
+
+    // TODO, give the real estamate time.
+    const counter = 2;
+
+    return userCanViewCard ? (
+      <> 
+    {/* Show module if user can view*/}
+          <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
+            <View>
+              <Text style={styles.tapCard}>Tap card to flip</Text>
+              <Button title="Hide " onPress={toggleModal} />
+              <View style={{ marginBottom: 500 }}>
+                <FlipCard
+                  flipHorizontal={true}
+                  flipVertical={false}>
+                  <View style={styles.face}>
+                    {/* <Text>The Face</Text> */}
+                    <Image source={front} style={styles.cardStyle} />
+                  </View>
+                  <View>
+                    {/* <Text>The Back</Text> */}
+                    <Image source={meaning} style={styles.cardStyle} />
+                  </View>
+                </FlipCard>
+              </View>
+            </View>
+          </Modal>
+      </>
+    ) : <>
+    {/* What to show iff the user is over the max setting.*/}
+    <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
+        <View>
+          <Text style={styles.tapCard}>You already checked! Please check agian in {counter} hours.</Text>
+          <Button title="Hide " onPress={toggleModal} />
+          <View style={{ marginBottom: 500 }}>
+          </View>
+        </View>
+      </Modal>
+    </>;
+  }
+ 
+
   return (
     <View style={styles.mainContainer}>
       <View style={{ flex: 1, alignItems: 'center' }}>
@@ -502,15 +621,19 @@ function HomeScreen({ navigation }) {
         <Image source={LargeTitleApp} style={{ width: '100%' }} />
         <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly' }}>
           <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
+          {/* Virtual Coffe Reading */}
             <Image source={VirtualCoffee} />
           </TouchableOpacity>
+          {/* Take a photo for reading */}
           <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
             <Image source={TakePhoto} />
           </TouchableOpacity>
         </View>
         <Image source={PickCard} style={{ margin: 8 }} />
+          {/* Pick a card  */}
         <TouchableOpacity onPress={toggleModal2} style={styles.cards}>
           <Image source={Cards} />
+<<<<<<< HEAD
           <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
             <View>
               <Text style={styles.tapCard}>Tap card to flip</Text>
@@ -553,15 +676,16 @@ function HomeScreen({ navigation }) {
               </View>
             </View>
           </Modal> 
+=======
+          {Render_CardModule()}
+>>>>>>> 1b87ded1f9e7b908852cefe4179f6448462631b9
         </TouchableOpacity>
-      </View>*/}
+        { /* Checker if the cards are */}
         <NavBar />
       </View>
     </View>
   );
 }
-
-
 
 function HomeScreenLoggedIn({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -583,6 +707,8 @@ function HomeScreenLoggedIn({ navigation }) {
   toggleImage = () => {
     this.setState(state => ({ open: !state.open }));
   }
+
+
   return (
     <View style={styles.mainContainer}>
       <View style={{ flex: 1, alignItems: 'center' }}>
@@ -610,11 +736,11 @@ function HomeScreenLoggedIn({ navigation }) {
                   flipHorizontal={true}
                   flipVertical={false}>
                   <View style={styles.face}>
-                    <Text>The Face</Text>
+                    {/* <Text>The Face</Text> */}
                     <Image source={front} style={styles.cardStyle} />
                   </View>
                   <View>
-                    <Text>The Back</Text>
+                    {/* <Text>The Back</Text> */}
                     <Image source={meaning} style={styles.cardStyle} />
                   </View>
                 </FlipCard>
@@ -814,9 +940,6 @@ let ShopDatabase = [
     URL: 'https://thefortunecoffee.com/products/fortune-coffee-chocolate-flavor'
   }
 ]
-
-
-
 
 
 
