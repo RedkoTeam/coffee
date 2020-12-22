@@ -8,6 +8,8 @@ import { Button, View, Text, Image, TouchableOpacity, TextInput, ImageBackground
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import ViewPager from '@react-native-community/viewpager';
+
 
 /*import { WebView } from 'react-native';
 import InAppBrowser from 'react-native-inappbrowser-reborn';*/
@@ -512,17 +514,15 @@ function HomeScreen({ navigation }) {
           <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
             <View>
               <Text style={styles.tapCard}>Tap card to flip</Text>
-              <Button title="Hide " onPress={toggleModal} />
+              <Button title="Hide Card" onPress={toggleModal} />
               <View style={{ marginBottom: 500 }}>
                 <FlipCard
                   flipHorizontal={true}
                   flipVertical={false}>
-                  <View style={styles.face}>
-                    <Text>The Face</Text>
+                  <View>
                     <Image source={front} style={styles.cardStyle} />
                   </View>
                   <View>
-                    <Text>The Back</Text>
                     <Image source={meaning} style={styles.cardStyle} />
                   </View>
                 </FlipCard>
@@ -1299,35 +1299,43 @@ function ReadingAnimationScreen({navigation}){
 //  ONBOARDING
 function Onboarding({}){
   const navigation = useNavigation();
+  const pagerRef = useRef(null);
+  const handlePageChange = pageNumber => {
+                                            pagerRef.current.setPage(pageNumber);
+                                          };
   return (
-    <View style={styles.virtualContainer}>
-      <ImageBackground source={OnboardingBg1} style={styles.virtualOne}>
-        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 25, marginTop: 18}}>
-        </View>
-        <View style={{flexDirection: 'row',  width: '100%', justifyContent: 'center',marginTop: 600}}>
-           <TouchableOpacity onPress={() => navigation.navigate('Onboarding2')}>
-                <Image source={Next} />
-              </TouchableOpacity>
-           </View>
-         </ImageBackground>
-    </View>
+    <ViewPager style={styles.virtualContainer} initialPage={0} ref={pagerRef}>
+      <View key="1">
+        <ImageBackground source={OnboardingBg} style={styles.virtualOne}>
+          <View style={{justifyContent:'flex-end', paddingBottom: 20, height:'100%'}}>
+            <TouchableOpacity onPress={() => handlePageChange(1)} >
+              <Image source={Next} />
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+      </View>
+      <View key="2">
+        <ImageBackground source={OnboardingBg1} style={styles.virtualOne}>
+          <View style={{justifyContent:'flex-end', paddingBottom: 20, height:'100%'}}>
+            <TouchableOpacity onPress={() => handlePageChange(2)} >
+              <Image source={Next} />
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+      </View>
+      <View key="3">
+        <ImageBackground source={OnboardingBg2} style={styles.virtualOne}>
+          <View style={{justifyContent:'flex-end', paddingBottom: 20, height:'100%'}}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')} >
+              <Image source={Next} />
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+      </View>
+    </ViewPager>
   )}
 
-  function Onboarding2({}){
-    const navigation = useNavigation();
-    return (
-      <View style={styles.virtualContainer}>
-        <ImageBackground source={OnboardingBg1} style={styles.virtualOne}>
-          <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: 25, marginTop: 18}}>
-          </View>
-          <View style={{flexDirection: 'row',  width: '100%', justifyContent: 'center',marginTop: 600}}>
-           <TouchableOpacity onPress={() => navigation.navigate('Onboarding3')}>
-                <Image source={Next} />
-              </TouchableOpacity>
-           </View>
-           </ImageBackground>
-      </View>
-    )}
+
 
     function Onboarding3({}){
       const navigation = useNavigation();
@@ -1447,6 +1455,7 @@ function App() {
           headerShown: false
         }}
       >
+        <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="HomeLoggedIn" component={HomeScreenLoggedIn} />
         <Stack.Screen name="Favorites" component={FavoritesScreen} />
@@ -1469,9 +1478,6 @@ function App() {
         <Stack.Screen name="Subscription" component={SubscriptionScreen} />
         <Stack.Screen name="Fortune" component={FortuneModal} />
         <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Onboarding" component={Onboarding}/> 
-        <Stack.Screen name="Onboarding2" component={Onboarding2} />
-        <Stack.Screen name="Onboarding3" component={Onboarding3} />
       </Stack.Navigator>
     </NavigationContainer>
   );
