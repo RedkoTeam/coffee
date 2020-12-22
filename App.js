@@ -51,35 +51,6 @@ if (!firebase.apps.length) {
 // FIRESTORE
 const db = firebase.firestore();
 
-// const database = firebase.database();
-// const user = firebase.auth().currentUser;
-
-// logic for checking if user is logged in for main screen
-// checkIfLoggedIn = () => {
-//   firebase.auth().onAuthStateChanged(user => {
-//     if (user) {
-//       this.props.navigation.navigate('HomeLoggedIn');
-//     } else {
-//       this.props.navigation.navigate('Home')
-//     }
-//   })
-// }
-
-// function SignUp(email, password) {
-//   firebase.auth().createUserWithEmailAndPassword(email, password)
-//     .then(user => {
-//       const userId = firebase.auth().currentUser.uid
-//       // add time stamp 
-//       return firebase.database().ref('users/' + userId).set({
-//         email: email,
-//         subscriptionLevel: 0,
-//         // increment based on timestamp 
-//         totalGems: 0
-//       })
-//     })
-//     .catch(error => console.log(error))
-// }
-
 ////////////////////
 // IMAGES & ICONS //
 ////////////////////
@@ -811,11 +782,23 @@ function FavoritesScreen() {
   const navigation = useNavigation();
   const [favoritesData, setFavoritesData] = useState([])
 
-  // this hook calls getFavorites function when the page is focused. Wasn't able to get this to work. Maybe you could make it async so it arrives like you did for the random fortune before?
-    useFocusEffect(useCallback(() => {
-      getFavorites()
-      return () => console.log("screen loses focus");
-    }, []));
+  // still not working... need help
+     useEffect(() => {
+      db.collection('users').doc(firebase.auth().currentUser.uid)
+        .get()
+        .then(queryResult => {
+          const userData = queryResult.data();
+          // console.log(`Retrieved data: ${JSON.stringify(userData.favorites)}`)
+          const userDataParsed = userData.favorites
+          let arrayOfFavorites = [];
+          for (const key in userDataParsed) {
+            arrayOfFavorites.push(userDataParsed[key])
+          }
+        
+          setFavoritesData(arrayOfFavorites)
+          console.log(arrayOfFavorites)
+        })
+    }, []);
 
   return (
     <View style={{flexGrow:1, justifyContent:'space-between'}}>
@@ -851,10 +834,8 @@ function FavoritesScreen() {
       </ScrollView>
     </View>
   )
-  
-  // Copy This And Use Start
 
-  // FIRESTORE
+  // FIRESTORE not populating when mapped above. 
   async function getFavorites() {
     await db.collection('users').doc(firebase.auth().currentUser.uid)
       .get()
@@ -865,27 +846,6 @@ function FavoritesScreen() {
       })
       .catch(error => console.log(error))
   }
-  // Copy This And Use End
-
-  // FIREBASE
-  // async function getFavorites() {
-  //   const userId = firebase.auth().currentUser.uid
-  //   return firebase.database().ref('users/' + userId + '/favorites').once('value').then((snapshot) => {
-  //     console.log(snapshot)
-  //     setFavoritesData(snapshot)
-  //   })
-  // }
-
-  // FIREBASE
-  // async function getFavorites() {
-
-  //   const userId = firebase.auth().currentUser.uid
-  //   return firebase.database().ref('users/' + userId + '/favorites').once('value').then((snapshot) => {
-  //     console.log(snapshot)
-  //     setFavoritesData(snapshot)
-  //   }) 
-  // }
-
 }
 
 function ReadMore(){
@@ -941,6 +901,21 @@ let ShopDatabase = [
 
 function SubscriptionScreen() {
   const navigation = useNavigation();
+
+  // work with carlo on getting this working
+  async function toCarlo() {
+      const userId = db.collection('users').doc(firebase.auth().currentUser.uid)
+
+      await firebase.auth().currentUser
+      .getIdToken(/* forceRefresh */ true)
+      .then(function (idToken) {
+        // Send token to your backend via HTTPS
+        fetch('https://firestore.googleapis.com/v1/projects/fortune-coffeee/databases/(default)/documents/users/' + userId)
+      }).catch(function (error) {
+        // Handle error
+      });
+    }
+
   return (
     <View style={styles.virtualContainer}>
       <ImageBackground source={subBackground} style={styles.virtualOne}>
@@ -1296,7 +1271,6 @@ function SignInScreen() {
   const navigation = useNavigation();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-// Copy This And Use Start
   const [error, setError] = useState("")
 
   function onLogin() {
@@ -1309,7 +1283,6 @@ function SignInScreen() {
           setError("Invalid Email/Password")
         });
       }
-// Copy This And Use End
 
   return (
     <KeyboardAvoidingView style={styles.virtualContainer} behavior='padding'>
@@ -1537,18 +1510,6 @@ function Reading({}){
     return fortune;
   }
 
-  // FIREBASE
-  // the structure is pretty bad this way as well. Not sure how to get it to populate like a simple array.
-  // function onSaveFortune() {
-  //   const userId = firebase.auth().currentUser.uid
-  //   firebase.database().ref('users/' + userId + '/favorites').push({
-  //     randomFortune
-  //   })
-  //   // navigation.navigate('Favorites')
-  // }
-
-
-  // Copy This And Use Start
   //FIRESTORE
   function onSaveFortune() {
     db.collection('users').doc(firebase.auth().currentUser.uid).update({
@@ -1556,7 +1517,6 @@ function Reading({}){
     })
     // navigation.navigate('Favorites')
   }
-  // Copy This And Use End
 }
 
 ////////////////////
