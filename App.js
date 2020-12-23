@@ -196,6 +196,10 @@ import { Alert } from 'react-native';
 // Card utils
 import CheckLoginToken from './util/CheckLoginToken'
 import RegularCardCounter from './util/cardCounters/RegularCardCounter'
+import FortuneCardCounter from './util/cardCounters/FortuneCardCounter'
+
+// Protypes
+import prototype from './util/prototypes/ProtoTypes'
 
 
 ////////////////////
@@ -458,8 +462,6 @@ const styles = StyleSheet.create({
   }
 });
 
-
- 
 ////////////////////
 // Screen Layouts //
 ////////////////////
@@ -468,14 +470,23 @@ const styles = StyleSheet.create({
 //ReadingAnimation back to PhotoReading 
 function HomeScreen({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isFortuneModalVisible, setFortuneModalVisible] = useState(false);
   const [front, setFront] = useState(dummyPath);
   const [meaning, setMeaning] = useState(dummyPath);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
+  // Fortune Modal
+
+  const toggleFortuneModal = () =>{
+    setFortuneModalVisible(!isFortuneModalVisible)
+  }
+
+
   /// Modal Viewer based on date. 
   const [userCanViewCard, setUserCanViewCard] = useState(false);
+  const [cardCheckTimeRemaining, setCardCheckTimeRemaining] = useState("00:00:00")
 
   // UseEffect for checking the card before each trigger
   // Rather than putting it inside the function, we put it on the useeffect for checking
@@ -488,11 +499,13 @@ function HomeScreen({ navigation }) {
         console.log("Modal is visible")
         // Check the counter based on async storage, not fire ..
         RegularCardCounter().then((result)=>{
+          if(mounted){
           console.log("User can view card : " , result)
-
-          // CHANGE THIS TO FALSE AND TRUE IF YOU WAANT TO CHECK.
-          // TODO : DATE FILTER AND CHECKING
-          setUserCanViewCard(false)
+          setUserCanViewCard(result.userCanView)
+          console.log("Time Remaining in seconds : ", result.timeRemaining)
+          // update time remaining onto modal, must pass seconds ! .toHHMMSS = custom prototype
+            setCardCheckTimeRemaining(result.timeRemaining.toString().toHHMMSS());
+          }
         });
       }
     }
@@ -500,6 +513,7 @@ function HomeScreen({ navigation }) {
       mounted = false;
     }
   },[isModalVisible])
+
   // This use Effect is only called when the navigation lands here, This will reduce the amount of times
   // it will run on this page.
   useEffect(()=>{
@@ -538,8 +552,9 @@ function HomeScreen({ navigation }) {
   const Render_CardModule = () =>{
 
     // TODO, give the real estamate time.
-    const counter = 2;
+    // Result Returns, an object, i sent back the calculatorions. 
 
+    // Just needs to show the time in 00:00 format. It's back in seconds. 
     return userCanViewCard ? (
       <> 
     {/* Show module if user can view*/}
@@ -568,7 +583,7 @@ function HomeScreen({ navigation }) {
     {/* What to show iff the user is over the max setting.*/}
     <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
         <View>
-          <Text style={styles.tapCard}>You already checked! Please check agian in {counter} hours.</Text>
+          <Text style={styles.tapCard}>Already checked!{cardCheckTimeRemaining} remaining</Text>
           <Button title="Hide " onPress={toggleModal} />
           <View style={{ marginBottom: 500 }}>
           </View>
@@ -576,7 +591,69 @@ function HomeScreen({ navigation }) {
       </Modal>
     </>;
   }
- 
+
+  const CheckFortuneCountCoffeeReading = () =>{
+     // navigation.navigate('VirtualOne')
+     FortuneCardCounter().then((result)=>{
+      console.log("THe user can go to next screen : ", result)
+      if(result){
+      // Continue to Virtual Coffee Reading.
+        navigation.navigate('VirtualOne')
+      }else{
+        // dont navigate
+       console.log("User, maxed out the time, not navigating")
+       toggleFortuneModal();
+
+      }
+     });
+
+  }
+  
+  const CheckFortuneCountPhoto = () =>{
+    // navigation.navigate('VirtualOne')
+    FortuneCardCounter().then((result)=>{
+     console.log("THe user can go to next screen : ", result)
+     if(result){
+      // Continue to photo navigation page.
+       navigation.navigate('Virtual')
+     }else{
+       // dont navigate
+       console.log("User, maxed out the time, not navigating")
+       toggleFortuneModal();
+     }
+    });
+
+ }
+
+  const RenderTheFortuneButtons = () =>{
+    return (
+      <> 
+       <Modal isVisible={isFortuneModalVisible} style={{ alignItems: "center", flex: 1 }}>
+        <View>
+          <Text style={styles.tapCard}>Sorry, you ran out of weekly fortune. Check next week!</Text>
+          <Button title="Hide " onPress={toggleFortuneModal} />
+          <View style={{ marginBottom: 500 }}>
+          </View>
+        </View>
+      </Modal>
+
+       <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly' }}>
+          <TouchableOpacity onPress={() => {
+             CheckFortuneCountCoffeeReading()
+            }}>
+          {/* Virtual Coffe Reading */}
+            <Image source={VirtualCoffee} />
+          </TouchableOpacity>
+          {/* Take a photo for reading */}
+          <TouchableOpacity onPress={() => {
+            CheckFortuneCountPhoto()
+          }}>
+            <Image source={TakePhoto} />
+          </TouchableOpacity>
+        </View>
+      </>
+    )
+  }
 
   return (
     <View style={styles.mainContainer}>
@@ -590,16 +667,7 @@ function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
         <Image source={LargeTitleApp} style={{ width: '100%' }} />
-        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly' }}>
-          <TouchableOpacity onPress={() => navigation.navigate('VirtualOne')}>
-          {/* Virtual Coffe Reading */}
-            <Image source={VirtualCoffee} />
-          </TouchableOpacity>
-          {/* Take a photo for reading */}
-          <TouchableOpacity onPress={() => navigation.navigate('Virtual')}>
-            <Image source={TakePhoto} />
-          </TouchableOpacity>
-        </View>
+        {RenderTheFortuneButtons()}
         {/* <Button title="Subscription" onPress={ () => navigation.navigate('Subscription')} /> */}
         <Image source={PickCard} style={{ margin: 8 }} />
           {/* Pick a card  */}
@@ -607,48 +675,12 @@ function HomeScreen({ navigation }) {
           <Image source={Cards} />
           <Modal isVisible={isModalVisible} style={{ alignItems: "center", flex: 1 }}>
             <View>
-              <Text style={styles.tapCard}>Tap card to flip</Text>
-              <Button title="Hide Card" onPress={toggleModal} />
               <View style={{ marginBottom: 500 }}>
-                <FlipCard
-                  flipHorizontal={true}
-                  flipVertical={false}>
-                  <View>
-                    <Image source={front} style={styles.cardStyle} />
-                  </View>
-                  <View>
-                    <Image source={meaning} style={styles.cardStyle} />
-                  </View>
-                </FlipCard>
+                {Render_CardModule()}
               </View>
             </View>
           </Modal>
         </TouchableOpacity>
-        {/*<View>
-        <TouchableOpacity onPress={toggleModal} style={styles.cards}>
-          <Image source={Cards} />
-           <Modal isVisible={isModalVisible} style = {{alignItems: "center"}}>
-            <View>
-              <Text style = {styles.tapCard}>Tap card to flip</Text>
-              <Button title="Hide modal" onPress={toggleModal} />
-              <View style={{marginBottom:500}}>
-                <FlipCard
-                  flipHorizontal={true}
-                  flipVertical={false}>
-                  <View style={styles.face}>
-                    <Text>The Face</Text>
-                    <Image source={arr[0]} style={styles.cardStyle} />
-                  </View>
-                  <View>
-                    <Text>The Back</Text>
-                    <Image source={arr[2]} style={styles.cardStyle} />
-                  </View>
-                </FlipCard>
-              </View>
-            </View>
-          </Modal> 
-        </TouchableOpacity>
-        { /* Checker if the cards are */}
         <NavBar />
       </View>
     </View>
