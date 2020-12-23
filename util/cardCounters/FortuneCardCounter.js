@@ -26,12 +26,30 @@ export default FortuneCardCounter = async () =>{
         let newFortuenCardCount = await GetItemInStorage("FORTUNE_READING_COUNT");
         console.log("Reset new count : ", fortuneCardCount)
 
+        // Pull the count, remove one and return true
+        console.log("Deleting from current count")
+        let newFortuneCount = (parseInt(newFortuenCardCount.toString())) - 1;
+        await SaveItemInStorage("FORTUNE_READING_COUNT", newFortuneCount.toString())
+        let currentFortuneCount = await GetItemInStorage("FORTUNE_READING_COUNT")
+        console.log("Remaining Tries: ", currentFortuneCount)
+        return true;
+
       }else{
 
         console.log("Current count of FortuneCardCount: ", fortuneCardCount)
+        // If there is no count create one
+        await SaveItemInStorage("FORTUNE_READING_COUNT", "5");
+        let newFortuneCardCount = await GetItemInStorage("FORTUNE_READING_COUNT");
+        console.log("Reset new count : ", newFortuneCardCount)
 
+        // Pull the count, remove one and return true
+        console.log("Deleting from current count")
+        let newFortuneCount = (parseInt(fortuneCardCount.toString())) - 1;
+        await SaveItemInStorage("FORTUNE_READING_COUNT", newFortuneCount.toString())
+        let currentFortuneCount = await GetItemInStorage("FORTUNE_READING_COUNT")
+        console.log("Remaining Tries: ", currentFortuneCount)
+        return true;
       }
-
 
     }
     // If the date exist
